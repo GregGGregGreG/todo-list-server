@@ -11,15 +11,22 @@
     <packaging>war</packaging>
 
     <properties>
+        <java.version>1.8</java.version>
+
         <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
         <maven.war.plugin.version>2.4</maven.war.plugin.version>
-        <java.version>1.8</java.version>
+
         <junit.version>4.11</junit.version>
-        <tomcat.version>8.0.12</tomcat.version>
+
+        <tomcat7.maven.plugin.version>2.2</tomcat7.maven.plugin.version>
+        <jetty.maven.plugin>9.1.3.v20140225</jetty.maven.plugin>
+
         <org.apache.cxf.version>2.2.3</org.apache.cxf.version>
         <jstl.version>1.2</jstl.version>
         <servlet.version>3.1.0</servlet.version>
+
         <slf4j.version>1.7.7</slf4j.version>
+
         <io.spring.platform.version>1.1.2.RELEASE</io.spring.platform.version>
     </properties>
 
@@ -36,6 +43,21 @@
     </dependencyManagement>
 
     <dependencies>
+        <!--SPRING-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
         <!--LOGGER-->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -56,21 +78,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--SPRING-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
-
+        <!--TEST-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -88,6 +96,16 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.maven.plugin}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat7.maven.plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
