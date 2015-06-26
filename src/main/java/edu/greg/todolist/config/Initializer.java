@@ -14,18 +14,23 @@ import javax.servlet.ServletRegistration;
  */
 public class Initializer implements WebApplicationInitializer {
 
-    private static final String  DISPATCHER_SERVLET_NAME = "dispatcher";
+    private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
+        // Create the root appcontext
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(WebAppConfig.class);
+
+        // Manage the lifecycle of the root appcontext
         servletContext.addListener(new ContextLoaderListener(ctx));
+        servletContext.setInitParameter("defaultHtmlEscape", "true");
 
         ctx.setServletContext(servletContext);
 
         ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER_SERVLET_NAME, new DispatcherServlet(ctx));
-        servlet.addMapping("/");
+        servlet.addMapping("*.html");
         servlet.setLoadOnStartup(1);
     }
 }
