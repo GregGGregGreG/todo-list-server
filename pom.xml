@@ -11,8 +11,6 @@
     <packaging>war</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
-
         <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
         <maven.war.plugin.version>2.4</maven.war.plugin.version>
 
@@ -28,6 +26,7 @@
         <slf4j.version>1.7.7</slf4j.version>
 
         <io.spring.platform.version>1.1.2.RELEASE</io.spring.platform.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencyManagement>
@@ -111,8 +110,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
