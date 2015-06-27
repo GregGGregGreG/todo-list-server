@@ -32,5 +32,4 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         tilesConfigurer.setCheckRefresh(true);
         return tilesConfigurer;
     }
-
 }

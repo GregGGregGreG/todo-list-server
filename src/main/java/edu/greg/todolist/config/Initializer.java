@@ -12,7 +12,7 @@ import javax.servlet.ServletRegistration;
 /**
  * Created by greg on 26.06.15.
  */
-public class Initializer implements WebApplicationInitializer {
+public class Initializer implements WebApplicationInitializer  {
 
     private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
 
@@ -33,4 +33,6 @@ public class Initializer implements WebApplicationInitializer {
         servlet.addMapping("*.html");
         servlet.setLoadOnStartup(1);
     }
+
+
 }

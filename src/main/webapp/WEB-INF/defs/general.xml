@@ -11,6 +11,9 @@
         <put-attribute name="title" value="Todo-List"/>
         <put-attribute name="body" value="/WEB-INF/jsp/index.jsp"/>
     </definition>
-
+    <definition name="error" extends="common">
+        <put-attribute name="title" value="404"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/error.jsp"/>
+    </definition>
 
 </tiles-definitions>
