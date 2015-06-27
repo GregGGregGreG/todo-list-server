@@ -39,7 +39,9 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="../navbar-fixed-top/">Login</a></li>
+                    <li class="${current == 'login'?'active':''}">
+                        <a href="<spring:url value="/login.html" />">Login</a>
+                    </li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
