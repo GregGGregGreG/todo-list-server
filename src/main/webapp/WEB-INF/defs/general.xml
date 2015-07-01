@@ -20,9 +20,15 @@
     </definition>
 
     <definition name="login" extends="common">
-        <put-attribute name="title" value="Registration user"/>
+        <put-attribute name="title" value="Login user"/>
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp"/>
         <put-attribute name="current" value="login"/>
+    </definition>
+
+    <definition name="registration" extends="common">
+        <put-attribute name="title" value="Register user"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/user-registration.jsp"/>
+        <put-attribute name="current" value="registration"/>
     </definition>
 
 </tiles-definitions>

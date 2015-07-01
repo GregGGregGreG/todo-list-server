@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@taglib prefix="tilesx" uri="http://tiles.apache.org/tags-tiles-extras" %>
+<%@ taglib prefix="tilesx" uri="http://tiles.apache.org/tags-tiles-extras" %>
 <!DOCTYPE html>
 <head>
     <script type="text/javascript"
@@ -39,6 +39,9 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="${current == 'registration'?'active':''}">
+                        <a href="<spring:url value="/registration.html" />">Registration</a>
+                    </li>
                     <li class="${current == 'login'?'active':''}">
                         <a href="<spring:url value="/login.html" />">Login</a>
                     </li>

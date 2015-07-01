@@ -16,12 +16,14 @@ public class Initializer implements WebApplicationInitializer  {
 
     private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
 
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
         // Create the root appcontext
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(WebAppConfig.class);
+        ctx.register(DataBaseConfig.class);
 
         // Manage the lifecycle of the root appcontext
         servletContext.addListener(new ContextLoaderListener(ctx));

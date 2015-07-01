@@ -1,0 +1,29 @@
+package edu.greg.todolist.todo.persistence.entity;
+
+import lombok.Data;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Created by greg on 27.06.15.
+ */
+@Entity
+@Data
+public class User extends AbstractEntity {
+
+    private String name;
+
+    private String email;
+
+    private String password;
+
+    @ManyToMany
+    @JoinTable
+    private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Task> tasks;
+
+}
