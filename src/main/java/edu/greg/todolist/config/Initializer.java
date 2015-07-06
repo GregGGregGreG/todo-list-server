@@ -1,10 +1,12 @@
 package edu.greg.todolist.config;
 
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -34,7 +36,9 @@ public class Initializer implements WebApplicationInitializer  {
         ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER_SERVLET_NAME, new DispatcherServlet(ctx));
         servlet.addMapping("*.html");
         servlet.setLoadOnStartup(1);
+
+        FilterRegistration.Dynamic filter = servletContext.addFilter("openEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class);
+        filter.setInitParameter("singleSession", "true");
+        filter.addMappingForServletNames(null, true, "dispatcher");
     }
-
-
 }

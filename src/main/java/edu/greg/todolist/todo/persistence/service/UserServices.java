@@ -5,12 +5,14 @@ import edu.greg.todolist.todo.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by greg on 01.07.15.
  */
 @Service
+@Transactional
 public class UserServices {
 
     @Autowired
