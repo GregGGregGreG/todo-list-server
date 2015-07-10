@@ -2,11 +2,9 @@ package edu.greg.todolist.todo.persistence.entity;
 
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +13,6 @@ import java.util.Set;
 @Entity
 @Data
 @ToString(exclude = {"roles", "tasks"})
-@Proxy(lazy=false)
 public class User extends AbstractEntity {
 
     private String name;
@@ -28,7 +25,7 @@ public class User extends AbstractEntity {
     @JoinTable
     private Set<Role> roles;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Task> tasks;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Task> tasks;
 
 }

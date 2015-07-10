@@ -1,5 +1,5 @@
 <%@include file="../layout/taglib.jsp" %>
-<div class="tab-content ">
+<div class="tab-content">
     <div class="row">
         <div class="col-md-3">
             <a href="#" class="thumbnail">
@@ -26,7 +26,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade bs-example-modal-sm" id="destroyTaskModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -42,7 +41,6 @@
         </div>
     </div>
 </div>
-
 <script id="inputGroupTemplate" type="text/x-jquery-tmpl">
     <div class='form-group input-group'>
         <textarea id='${'${'}inputId}' class='form-control' placeholder='What do you have in mind this time?'rows='1'/></textarea>
@@ -54,20 +52,20 @@
 
 </script>
 <script id="taskTemplate" type="text/x-jquery-tmpl">
-    <li class='col-md-12 list-group-item '>
-        <div id='${'${'}taskId}'>{{html str}}</div>
+    <li id='${'${'}liId}' class='col-md-12 list-group-item '>
+        <div id='${'${'}taskId}'>{{html description}}</div>
         <textarea id='${'${'}textAreaEditTaskId}' rows='1'></textarea>
         <input id='${'${'}btnDoneTaskId}' type='checkbox'/>
         <button id='${'${'}btnUpdateTaskId}' class='btn btn-default'><span class='glyphicon glyphicon-edit'></span>
         </button>
          <span id='${'${'}btnRemoveTaskId}' class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='Delete task'></span>
-        <span id='${'${'}dateAddingTaskId}'>${'${'}date}</span>
+        <span id='${'${'}dateAddingTaskId}'>${'${'}publishedDate}</span>
     </li>
 
 </script>
 <script id="taskDoneTemplate" type="text/x-jquery-tmpl">
-    <li class='col-md-12 list-group-item' style='color: #999999'>
-        <div id='${'${'}taskId}' class='task-done'>{{html str}}</div>
+    <li id='${'${'}liId}'  class='col-md-12 list-group-item' style='color: #999999'>
+        <div id='${'${'}taskId}' class='task-done'>{{html description}}</div>
         <input id='${'${'}btnDoneTaskId}'  type='checkbox' checked/>
         <span id='${'${'}btnRemoveTaskId}' class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='Delete task'></span>
     </li>

@@ -2,7 +2,9 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="tilesx" uri="http://tiles.apache.org/tags-tiles-extras" %>
+<tilesx:useAttribute name="current"/>
 <!DOCTYPE html>
+<html>
 <head>
     <%--<script type="text/javascript"--%>
     <%--src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
@@ -15,7 +17,6 @@
     <%--<script type="text/javascript"--%>
     <%--src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>--%>
     <title><tiles:getAsString name="title"/></title>
-
     <link href="../../static/css/app.css" rel="stylesheet">
     <link href="../../static/css/them.css" rel="stylesheet">
     <script src="../../static/node_modules/jquery/dist/jquery.js"></script>
@@ -24,10 +25,8 @@
     <script src="../../static/node_modules/autosize/dest/autosize.min.js"></script>
     <script src="../../static/node_modules/jquery.tmpl.js/jquery.tmpl.js"></script>
     <script src="../../static/js/jquery.todo-list.js"></script>
-    <%--<script src="/static/js/main.js"></script>--%>
 </head>
 <body>
-<tilesx:useAttribute name="current"/>
 <header>
 <div class="container">
     <!-- Static navbar -->

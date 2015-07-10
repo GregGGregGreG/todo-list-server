@@ -14,9 +14,13 @@ import javax.servlet.ServletRegistration;
 /**
  * Created by greg on 26.06.15.
  */
-public class Initializer implements WebApplicationInitializer  {
+public class Initializer implements WebApplicationInitializer {
 
     private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
+    private static final String DISPATCHER_SERVLET_MAPPING_HTML = "*.html";
+    private static final String DISPATCHER_SERVLET_MAPPING_HTM = "*.htm";
+    private static final String DISPATCHER_SERVLET_MAPPING_JSON = "*.json";
+    private static final String DISPATCHER_SERVLET_MAPPING_XML = "*.xml";
 
 
     @Override
@@ -34,7 +38,11 @@ public class Initializer implements WebApplicationInitializer  {
         ctx.setServletContext(servletContext);
 
         ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER_SERVLET_NAME, new DispatcherServlet(ctx));
-        servlet.addMapping("*.html");
+
+        servlet.addMapping(DISPATCHER_SERVLET_MAPPING_HTML,
+                DISPATCHER_SERVLET_MAPPING_HTM,
+                DISPATCHER_SERVLET_MAPPING_JSON,
+                DISPATCHER_SERVLET_MAPPING_XML);
         servlet.setLoadOnStartup(1);
 
         FilterRegistration.Dynamic filter = servletContext.addFilter("openEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class);

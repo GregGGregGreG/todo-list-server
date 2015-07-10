@@ -2,7 +2,6 @@ package edu.greg.todolist.config;
 
 
 import org.hibernate.ejb.HibernatePersistence;
-import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -16,7 +15,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -71,11 +69,11 @@ public class DataBaseConfig {
     }
 
     //default username : sa, password : ''
-    @PostConstruct
-    public void getDbManager() {
-        DatabaseManagerSwing.main(
-                new String[]{"--url", environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL), "--user", "sa", "--password", ""});
-    }
+//    @PostConstruct
+//    public void getDbManager() {
+//        DatabaseManagerSwing.main(
+//                new String[]{"--url", environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL), "--user", "sa", "--password", ""});
+//    }
 
     @Bean
     public JpaTransactionManager transactionManager() throws ClassNotFoundException {
