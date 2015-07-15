@@ -13,11 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +25,13 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    protected static final String ACCOUNT_VIEW = "account";
+
+
     @Autowired
     private UserServices userService;
 
-    @Autowired
+    @Resource
     private TaskServices taskServices;
 
 //    @ModelAttribute("user")
@@ -40,12 +40,10 @@ public class UserController {
 //    }
 
     @RequestMapping("/account")
-    public ModelAndView account(Model model,HttpServletRequest request,HttpServletResponse response) throws TaskNotFoundException {
-//        if (true) throw new TaskNotFoundException();
-//        model.addAttribute("user", userService.findOne("GreG"));
-//        log.debug("Rendering account page.");
-//        return "account";
-        throw new TaskNotFoundException();
+    public String account(Model model) {
+        log.debug("Rendering account page.");
+        model.addAttribute("user", userService.findOne("GreG"));
+        return ACCOUNT_VIEW;
     }
 
     @RequestMapping(value = "/api/todo", method = RequestMethod.GET)
@@ -61,35 +59,37 @@ public class UserController {
 
     @RequestMapping(value = "/api/todo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public TaskDto add(@Valid @RequestBody TaskDto dto) {
+    public TaskDto add(@RequestBody TaskDto dto) {
         log.debug("Adding a new to-do entry with information: {}", dto);
 
-        Task added = taskServices.save(dto, "GreG");
+        Task added = taskServices.add(dto, "GreG");
 
         log.debug("Added a to-do entry with information: {}", added);
 
         return createTaskDto(added);
     }
 
+    @RequestMapping(value = "/api/todo/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public TaskDto update(@RequestBody TaskDto dto, @PathVariable("id") Long todoId) throws TaskNotFoundException {
+        log.debug("Updating a model entry with information: {}", dto);
+
+//        validate(OBJECT_NAME_TODO, dto);
+
+        Task updated = taskServices.update(dto);
+        log.debug("Updated the information of a model to: {}", updated);
+
+        return createTaskDto(updated);
+    }
+
     @RequestMapping(value = "/api/todo/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public TaskDto deleteById(@PathVariable Integer id) throws TaskNotFoundException {
-        log.debug("Deleting a task entry with id: {}", id);
+        log.debug("Deleting a model entry with id: {}", id);
         Task deleted = taskServices.deleteById(id);
-        log.debug("Deleted task : {}", deleted);
+        log.debug("Deleted model : {}", deleted);
         return createTaskDto(deleted);
     }
-
-
-//    private UserDto createUserDto(User user) {
-//        UserDto userDto = new UserDto();
-//
-//        userDto.setName(user.getName());
-//        userDto.setEmail(user.getEmail());
-//        userDto.setTaskDtoList(createTaskListDtoFromUser(user));
-//
-//        return userDto;
-//    }
 
     private List<TaskDto> createTaskListDtoFromUser(User user) {
         List<Task> taskList = user.getTasks();
@@ -102,13 +102,13 @@ public class UserController {
         return taskDtoList;
     }
 
-    private TaskDto createTaskDto(Task task) {
-        TaskDto taskDto = new TaskDto();
+    private TaskDto createTaskDto(Task model) {
+        TaskDto dto = new TaskDto();
 
-        taskDto.setId(task.getId());
-        taskDto.setDescription(task.getDescription());
-        taskDto.setPublishedDate(task.getPublishedDate());
+        dto.setId(model.getId());
+        dto.setDescription(model.getDescription());
+        dto.setPublishedDate(model.getPublishedDate());
 
-        return taskDto;
+        return dto;
     }
 }

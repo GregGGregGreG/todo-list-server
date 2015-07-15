@@ -15,6 +15,7 @@
     <script src="../../static/node_modules/autosize/dest/autosize.min.js"></script>
     <script src="../../static/node_modules/jquery.tmpl.js/jquery.tmpl.js"></script>
     <script src="../../static/js/jquery.todo-list.js"></script>
+    <script src="../../static/node_modules/bootstrap.message/bootstrap.message.js"></script>
 </head>
 <body>
 <header>

@@ -82,11 +82,11 @@ public class TestRepository {
         user.setRoles(roles);
         userServices.save(user);
 
-//        User greg = userServices.findOne("GreG");
+//        User greg = userServices.findById("GreG");
 
 
 
-//        assertEquals(user.getName(), userServices.findOne("GreG").getName());
+//        assertEquals(user.getName(), userServices.findById("GreG").getName());
 
     }
 }

@@ -243,6 +243,8 @@
          */
         function update() {
             var state = this.getCurrentStateTask();
+
+
             util.switchValueTask(state.$editTask, state.$task);
             state.$btnUpdateTask.prop('disabled', true);
         }
@@ -258,19 +260,11 @@
 
             var thisObj = this;
             var $id = $(event.target).closest('li').attr("id");
-            console.log($id);
             $('#' + this.config.modalWindowDestroyTaskId).modal('show').on('click',
                 '#' + this.config.modalWindowDestroyButtonDestroyId, function (e) {
                     /////////////////////////////////////*****************
 
-                    thisObj.deleteTask(1555);
-
-
-
-                    //$li.slideToggle(300, function () {
-                    //    $(this).remove();
-                    //    thisObj.showMessage();
-                    //});
+                    thisObj.deleteTask(10000);
 
                     $('#' + thisObj.config.modalWindowDestroyTaskId).off('click',
                         '#' + thisObj.config.modalWindowDestroyButtonDestroyId);
@@ -445,24 +439,36 @@
             });
         }
 
+
+
         //Ajax request
         function deleteTask(id) {
             var thisObj = this;
             $.ajax({
                 type: 'DELETE',
                 url: "http://localhost:8080/api/todo/" + id + ".html",
+                dataType: 'json',
                 success: function (task) {
                     console.log('Delete task: ' + ' description| ' + task.description +
                         '| publishedDate | ' + task.publishedDate +
                         '| id ' + task.id);
 
                     var $li = thisObj.$todoList.find("#" + task.id);
-                    $li.remove();
-                    thisObj.showMessage();
+
+                    $li.slideToggle(300, function () {
+                        $(this).remove();
+                        thisObj.showMessage();
+                    });
                 },
                 error: function (data) {
                     console.log(data);
-                    console.log("Error delete task!")
+                    var message = $("<div id='stick_menu'>")
+                        .message({
+                            type: "error",
+                            message: data.responseJSON.detail
+                        });
+                    $('main').prepend(message);
+                    console.log(JSON.stringify(data.responseJSON.errors));
                 }
             });
         }

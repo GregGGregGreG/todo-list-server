@@ -1,31 +1,33 @@
-package edu.greg.todolist.todo.persistence.exception;
+package edu.greg.todolist.todo.persistence.exception.heandler;
 
 import cz.jirutka.spring.exhandler.handlers.ErrorMessageRestExceptionHandler;
 import cz.jirutka.spring.exhandler.messages.ErrorMessage;
 import cz.jirutka.spring.exhandler.messages.ValidationErrorMessage;
+import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
-
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 /**
  * Created by greg on 12.07.15.
  */
-public class IllegalArgumentExceptionHandler  extends ErrorMessageRestExceptionHandler<IllegalArgumentException> {
+public class TaskNotFoundExceptionHandler extends ErrorMessageRestExceptionHandler<TaskNotFoundException> {
 
-    public IllegalArgumentExceptionHandler() {
-        super(UNPROCESSABLE_ENTITY);
+    public TaskNotFoundExceptionHandler() {
+        super(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Override
-    public ValidationErrorMessage createBody(IllegalArgumentException ex, HttpServletRequest req) {
+    public ErrorMessage createBody(TaskNotFoundException ex, HttpServletRequest req) {
 
         ErrorMessage tmpl = super.createBody(ex, req);
-        tmpl.setTitle(ex.getMessage());
+        tmpl.setTitle("Delete Task");
+
         ValidationErrorMessage msg = new ValidationErrorMessage(tmpl);
 
         msg.addError(ex.getMessage());
 
         return msg;
     }
+
 }

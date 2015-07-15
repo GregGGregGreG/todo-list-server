@@ -9,7 +9,6 @@
     <link href="../../static/css/app.css" rel="stylesheet">
     <style>
         body {
-            /*background-color: #0d5574;*/
             color: white;
         }
 
@@ -57,10 +56,6 @@
 
         #hex {
             color: white; font: 64px/64px Lato; height: 64px;
-            /*Vertical centering*/
-            /*position: relative; top: 50%; margin-top: -32px;*/
-            /*Horizontal centering*/
-            /*text-align: center;*/
         }
     </style>
 </head>

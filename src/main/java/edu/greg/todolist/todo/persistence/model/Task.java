@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Data
-public class Task extends AbstractEntity{
+public class Task extends AbstractEntity {
 
     @Lob
     @Type(type = "org.hibernate.type.StringClobType")
@@ -33,6 +33,10 @@ public class Task extends AbstractEntity{
     @PrePersist
     public void prePersist() {
         publishedDate = new Date();
+    }
+
+    public void update(String description) {
+        this.description = description;
     }
 
     public static class Builder {

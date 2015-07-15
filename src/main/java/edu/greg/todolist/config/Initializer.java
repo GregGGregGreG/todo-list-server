@@ -30,6 +30,7 @@ public class Initializer implements WebApplicationInitializer  {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(WebAppConfig.class);
         ctx.register(DataBaseConfig.class);
+        ctx.register(RestHandlerExceptioResolverConfig.class);
 
         // Manage the lifecycle of the root appcontext
         servletContext.addListener(new ContextLoaderListener(ctx));

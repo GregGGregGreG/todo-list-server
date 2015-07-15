@@ -81,5 +81,7 @@
             modalWindowDestroyButtonDestroyId: 'delete'
         });
     });
+
+
 </script>
 
