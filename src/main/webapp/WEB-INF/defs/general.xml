@@ -19,6 +19,11 @@
         <put-attribute name="current" value="index"/>
     </definition>
 
+    <definition name="404" template="/WEB-INF/jsp/404.jsp">
+        <put-attribute name="title" value="Page not found"/>
+        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
+    </definition>
+
     <definition name="login" extends="common">
         <put-attribute name="title" value="Login user"/>
         <put-attribute name="body" value="/WEB-INF/jsp/login.jsp"/>

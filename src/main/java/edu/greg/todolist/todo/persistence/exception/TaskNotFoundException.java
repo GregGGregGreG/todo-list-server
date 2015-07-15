@@ -3,5 +3,13 @@ package edu.greg.todolist.todo.persistence.exception;
 /**
  * Created by greg on 10.07.15.
  */
-public class TaskNotFoundException {
+public class TaskNotFoundException extends Exception {
+
+    public TaskNotFoundException(String message) {
+        super(message);
+    }
+
+    public TaskNotFoundException() {
+        super();
+    }
 }

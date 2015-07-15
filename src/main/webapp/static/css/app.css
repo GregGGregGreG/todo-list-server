@@ -55,3 +55,10 @@
     height: 12px;
     width: 12px;
 }
+
+.input-line {
+    background: url('../images/input-line.png') no-repeat 50% 0;
+    padding-bottom: 10px;
+    width: 600px;
+    margin: 10px auto;
+}

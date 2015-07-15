@@ -1,4 +1,4 @@
-package edu.greg.todolist.todo.persistence.entity;
+package edu.greg.todolist.todo.persistence.model;
 
 import lombok.Data;
 import org.hibernate.annotations.Type;

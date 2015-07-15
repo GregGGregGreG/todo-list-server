@@ -1,6 +1,6 @@
 package edu.greg.todolist.todo.persistence.repository;
 
-import edu.greg.todolist.todo.persistence.entity.Task;
+import edu.greg.todolist.todo.persistence.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

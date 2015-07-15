@@ -1,7 +1,7 @@
 package edu.greg.todolist.service;
 
-import edu.greg.todolist.todo.persistence.entity.Role;
-import edu.greg.todolist.todo.persistence.entity.User;
+import edu.greg.todolist.todo.persistence.model.Role;
+import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.RoleServices;
 import edu.greg.todolist.todo.persistence.service.UserServices;
 import org.junit.Test;

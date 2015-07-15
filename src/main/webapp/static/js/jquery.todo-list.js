@@ -263,7 +263,7 @@
                 '#' + this.config.modalWindowDestroyButtonDestroyId, function (e) {
                     /////////////////////////////////////*****************
 
-                    thisObj.deleteTask($id);
+                    thisObj.deleteTask(1555);
 
 
 
@@ -460,7 +460,8 @@
                     $li.remove();
                     thisObj.showMessage();
                 },
-                error: function () {
+                error: function (data) {
+                    console.log(data);
                     console.log("Error delete task!")
                 }
             });

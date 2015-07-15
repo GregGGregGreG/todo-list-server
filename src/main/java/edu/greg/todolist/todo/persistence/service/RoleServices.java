@@ -1,6 +1,6 @@
 package edu.greg.todolist.todo.persistence.service;
 
-import edu.greg.todolist.todo.persistence.entity.Role;
+import edu.greg.todolist.todo.persistence.model.Role;
 import edu.greg.todolist.todo.persistence.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

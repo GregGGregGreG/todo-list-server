@@ -1,8 +1,8 @@
 package edu.greg.todolist.todo.persistence.service;
 
-import edu.greg.todolist.todo.persistence.entity.Role;
-import edu.greg.todolist.todo.persistence.entity.Task;
-import edu.greg.todolist.todo.persistence.entity.User;
+import edu.greg.todolist.todo.persistence.model.Role;
+import edu.greg.todolist.todo.persistence.model.Task;
+import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.repository.RoleRepository;
 import edu.greg.todolist.todo.persistence.repository.TaskRepository;
 import edu.greg.todolist.todo.persistence.repository.UserRepository;

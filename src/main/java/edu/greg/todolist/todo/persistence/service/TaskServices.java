@@ -1,15 +1,16 @@
 package edu.greg.todolist.todo.persistence.service;
 
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
-import edu.greg.todolist.todo.persistence.entity.Task;
+import edu.greg.todolist.todo.persistence.model.Task;
+import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.repository.TaskRepository;
 import edu.greg.todolist.todo.persistence.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 /**
  * Created by greg on 07.07.15.
@@ -33,7 +34,8 @@ public class TaskServices {
       return taskRepository.save(task);
     }
 
-    public Task deleteById(Integer id) {
+    @Transactional(rollbackFor = {TaskNotFoundException.class})
+    public Task deleteById(Integer id) throws TaskNotFoundException {
         LOGGER.debug("Deleting a task entry with id: {}", id);
         Task deleted = taskRepository.findOne(id);
         LOGGER.debug("Deleting task entry: {}", deleted);
