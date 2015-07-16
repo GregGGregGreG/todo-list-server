@@ -4,7 +4,6 @@ package edu.greg.todolist.todo.controller;
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
-import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.TaskServices;
 import edu.greg.todolist.todo.persistence.service.UserServices;
 import lombok.extern.slf4j.Slf4j;
@@ -49,12 +48,15 @@ public class UserController {
     @RequestMapping(value = "/api/todo", method = RequestMethod.GET)
     @ResponseBody
     public List<TaskDto> findById() {
-        log.debug("Finding to-do entry with id: {}");
+        log.debug("Finding task list entry with user id: {}");
 
-        User user = userService.findOne("GreG");
-        List<TaskDto> taskDtoList = createTaskListDtoFromUser(user);
+        List<Task> models = taskServices.findAllFromUser(1);
 
-        return taskDtoList;
+
+//        User user = userService.findOne("GreG");
+//        List<TaskDto> taskDtoList = createTaskListDtoFromUser(user);
+
+        return createDtoTaskList(models);
     }
 
     @RequestMapping(value = "/api/todo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -66,12 +68,12 @@ public class UserController {
 
         log.debug("Added a to-do entry with information: {}", added);
 
-        return createTaskDto(added);
+        return createDtoTask(added);
     }
 
-    @RequestMapping(value = "/api/todo/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/todo", method = RequestMethod.PUT)
     @ResponseBody
-    public TaskDto update(@RequestBody TaskDto dto, @PathVariable("id") Long todoId) throws TaskNotFoundException {
+    public TaskDto update(@RequestBody TaskDto dto) throws TaskNotFoundException {
         log.debug("Updating a model entry with information: {}", dto);
 
 //        validate(OBJECT_NAME_TODO, dto);
@@ -79,7 +81,7 @@ public class UserController {
         Task updated = taskServices.update(dto);
         log.debug("Updated the information of a model to: {}", updated);
 
-        return createTaskDto(updated);
+        return createDtoTask(updated);
     }
 
     @RequestMapping(value = "/api/todo/{id}", method = RequestMethod.DELETE)
@@ -88,26 +90,26 @@ public class UserController {
         log.debug("Deleting a model entry with id: {}", id);
         Task deleted = taskServices.deleteById(id);
         log.debug("Deleted model : {}", deleted);
-        return createTaskDto(deleted);
+        return createDtoTask(deleted);
     }
 
-    private List<TaskDto> createTaskListDtoFromUser(User user) {
-        List<Task> taskList = user.getTasks();
-        List<TaskDto> taskDtoList = new ArrayList<>();
+    private List<TaskDto> createDtoTaskList(List<Task> models) {
+        List<TaskDto> dtos = new ArrayList<>();
 
-        for (Task task : taskList) {
-            taskDtoList.add(createTaskDto(task));
+        for (Task task : models) {
+            dtos.add(createDtoTask(task));
         }
 
-        return taskDtoList;
+        return dtos;
     }
 
-    private TaskDto createTaskDto(Task model) {
+    private TaskDto createDtoTask(Task model) {
         TaskDto dto = new TaskDto();
 
         dto.setId(model.getId());
-        dto.setDescription(model.getDescription());
+        dto.setText(model.getText());
         dto.setPublishedDate(model.getPublishedDate());
+        dto.setIsExecuted(model.getIsExecuted());
 
         return dto;
     }

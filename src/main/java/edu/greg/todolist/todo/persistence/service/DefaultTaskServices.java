@@ -3,10 +3,13 @@ package edu.greg.todolist.todo.persistence.service;
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
+import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.repository.TaskRepository;
 import edu.greg.todolist.todo.persistence.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +31,7 @@ public class DefaultTaskServices implements TaskServices {
 
     @Override
     public Task add(TaskDto taskDto, String userName) {
-        Task model = Task.getBuilder(taskDto.getDescription())
+        Task model = Task.getBuilder(taskDto.getText())
                 .user(userRepository.findByName(userName))
                 .build();
 
@@ -48,12 +51,16 @@ public class DefaultTaskServices implements TaskServices {
 
     @Override
     public List<Task> findAllFromUser(Integer userId) {
-        return null;
+        User user = userRepository.findOne(userId);
+
+        List<Task> models = taskRepository.findByUser(user, new PageRequest(0, 10, Sort.Direction.ASC, "publishedDate"));
+
+        return models;
     }
 
     @Transactional(readOnly = true, rollbackFor = {TaskNotFoundException.class})
     @Override
-    public Task findById(Integer id) throws TaskNotFoundException{
+    public Task findById(Integer id) throws TaskNotFoundException {
         log.debug("Finding a task entry with id: {}", id);
 
         Task found = taskRepository.findOne(id);
@@ -68,16 +75,22 @@ public class DefaultTaskServices implements TaskServices {
 
     @Transactional(rollbackFor = {TaskNotFoundException.class})
     @Override
-    public Task update(TaskDto updated) {
+    public Task update(TaskDto updated) throws TaskNotFoundException {
         log.debug("Updating task with information: {}", updated);
 
         Task model = findById(updated.getId());
         log.debug("Found a task entry: {}", model);
 
-        model.update(updated.getDescription());
+        if (updated.getText() != null) {
+            log.debug("Updating text task with information: {}", updated.getText());
+            model.update(updated.getText());
+        }
+
+        if(updated.getIsExecuted() != null){
+            log.debug("Updating executed task with information: {}", updated.getIsExecuted());
+            model.setIsExecuted(updated.getIsExecuted());
+        }
 
         return model;
-
-
     }
 }

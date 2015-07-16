@@ -25,8 +25,8 @@
              * @param str
              * @returns {string}
              */
-            function formatText(str) {
-                return str
+            function formatText(text) {
+                return text
                     .trim()
                     .replace(removeFirstSpace, '')
                     .replace(removeDuplicateSpace, ' ')
@@ -85,8 +85,8 @@
             "<h3 id='${messageUserId}'>You Todo - list is empty! Please add task.</h3>" +
             "<ul id='${todoListId}'></ul>",
 
-            taskTemplate: "<li>" +
-            "<div id='${taskId}'>{{html description}}</div>" +
+            taskTemplate: "<li id='${liId}'>" +
+            "<div id='${taskId}'>{{html text}}</div>" +
             "<textarea id='${textAreaEditTaskId}' ></textarea>" +
             "<input id='${btnDoneTaskId}'  type='checkbox'/>" +
             "<button id='${btnUpdateTaskId}'>" + "<span class='glyphicon glyphicon-edit'></span>" + "</button>" +
@@ -94,8 +94,8 @@
             "<span id='${dateAddingTaskId}'>${publishedDate}</span>" +
             "</li>",
 
-            taskDoneTemplate: "<li class='${liTodoClass}'>" +
-            "<div id='${taskId}' >{{html description}}</div>" +
+            taskDoneTemplate: "<li id='${liId}' class='${liTodoClass}'>" +
+            "<div id='${taskId}' >{{html text}}</div>" +
             "<input id='${btnDoneTaskId}' type='checkbox' checked/>" +
             "<span id='${btnRemoveTaskId}'></sp>" +
             "</li>"
@@ -142,8 +142,9 @@
 
         TodoList.prototype.getAllTasks = getAllTasks;
         TodoList.prototype.saveTask = saveTask;
+        TodoList.prototype.updateTask = updateTask;
+        TodoList.prototype.doneTask = doneTask;
         TodoList.prototype.deleteTask = deleteTask;
-
 
         /**
          * Create input group: input and button for adding task, empty task-list.
@@ -183,19 +184,17 @@
          * @param str
          */
         function add(str) {
-            var description = ($.type(str) === 'string') ? str : this.$input.val();
+            var text = ($.type(str) === 'string') ? str : this.$input.val();
 
             var task = {
-                description: description
+                text: text
             };
 
             this.saveTask(task);
         }
 
         function addNewTask(task) {
-            console.log('Add new task: ' + ' description| ' + task.description +
-                '| publishedDate | ' + task.publishedDate +
-                '| id ' + task.id);
+            console.log(JSON.stringify(task));
             this.createTaskHtml(task).prependTo(this.$todoList);
             $('[data-toggle="tooltip"]').tooltip({delay: {"show": 500, "hide": 100}, container: 'body'});
             autosize($('#' + this.config.textAreaEditTaskId));
@@ -209,9 +208,29 @@
          */
         function done() {
             var state = this.getCurrentStateTask();
-            var str = state.$task.text();
-            state.$li.remove();
-            state.$btnDoneTask.is(":checked") ? this.addDoneTask(str) : this.addNewTaskFromDoneTask(str);
+
+
+
+
+            var dto = {
+                id: state.$li.attr('id'),
+                isExecuted: true
+            };
+
+            if(state.$btnDoneTask.is(":checked")){
+                this.doneTask(dto,state)
+            }else{
+                this.deleteTask(state.$li.attr('id'));
+                this.add(state.$task.text());
+            }
+
+
+            //var text = state.$task.text();
+
+
+            //state.$li.remove();
+
+            //state.$btnDoneTask.is(":checked") ? this.addDoneTask(text) : this.addNewTaskFromDoneTask(text);
         }
 
         /**
@@ -219,8 +238,8 @@
          *
          * @param str
          */
-        function addDoneTask(str) {
-            this.createDoneTaskHtml(str).appendTo(this.$todoList);
+        function addDoneTask(text, id) {
+            this.createDoneTaskHtml(text, id).appendTo(this.$todoList);
             $('[data-toggle="tooltip"]').tooltip({delay: {"show": 500, "hide": 100}, container: 'body'});
 
             this.$input.focus();
@@ -244,8 +263,14 @@
         function update() {
             var state = this.getCurrentStateTask();
 
+            var dto = {
+                id: state.$li.attr('id'),
+                text: state.$editTask.val()
+            };
 
-            util.switchValueTask(state.$editTask, state.$task);
+            this.updateTask(dto, state);
+
+            //util.switchValueTask(state.$editTask, state.$task);
             state.$btnUpdateTask.prop('disabled', true);
         }
 
@@ -254,6 +279,7 @@
          * Remove select task with slide toogle from todo-list.
          * Show message from user if is empty todo-list
          * Destroy task.
+         * Hide modal window
          */
         function destroy() {
             $('[data-toggle="tooltip"]').tooltip('hide');
@@ -264,7 +290,7 @@
                 '#' + this.config.modalWindowDestroyButtonDestroyId, function (e) {
                     /////////////////////////////////////*****************
 
-                    thisObj.deleteTask(10000);
+                    thisObj.deleteTask($id);
 
                     $('#' + thisObj.config.modalWindowDestroyTaskId).off('click',
                         '#' + thisObj.config.modalWindowDestroyButtonDestroyId);
@@ -324,7 +350,7 @@
          * @returns  {html element li}
          */
         function createTaskHtml(task) {
-            this.config.description = util.formatText(task.description);
+            this.config.text = util.formatText(task.text);
             this.config.publishedDate = task.publishedDate;
             this.config.liId = task.id;
             $.template("taskTemplate", this.config.taskTemplate);
@@ -336,8 +362,9 @@
          * @param str
          * @returns {html element li}
          */
-        function createDoneTaskHtml(description) {
-            this.config.description = util.formatText(description);
+        function createDoneTaskHtml(text, id) {
+            this.config.text = util.formatText(text);
+            this.config.liId = id;
             $.template("taskDoneTemplate", this.config.taskDoneTemplate);
             return $.tmpl("taskDoneTemplate", this.config);
         }
@@ -394,15 +421,22 @@
             return this.$todoList.children().length === 0;
         }
 
-        //Ajax request
+        //Ajax request get all tasks
         function getAllTasks() {
             var thisObj = this;
             $.ajax({
                 type: 'GET',
                 url: "http://localhost:8080/api/todo.html",
                 success: function (taskList) {
+                    console.log(taskList);
                     $.each(taskList, function (i, task) {
-                        thisObj.addNewTask(task);
+
+                        if (!task.isExecuted) {
+                            thisObj.addNewTask(task);
+                        } else {
+                            thisObj.addDoneTask(task.text, task.id);
+                        }
+
                     });
                     thisObj.showMessage();
                 },
@@ -412,7 +446,7 @@
             })
         }
 
-        //Ajax request
+        //Ajax request add new task
         function saveTask(task) {
             var thisObj = this;
             $.ajax({
@@ -439,9 +473,66 @@
             });
         }
 
+        //Ajax request update task by id
+        function updateTask(dto, state) {
+            console.log('updateDto request: ' + JSON.stringify(dto));
+
+            var thisObj = this;
+            $.ajax({
+                type: 'PUT',
+                url: "http://localhost:8080/api/todo.html",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mimeType: 'application/json',
+                dataType: "json",
+                data: JSON.stringify(dto),
+                success: function (update) {
+
+                    console.log('updateDto response:' + JSON.stringify(update));
+
+                    state.$editTask.val(update.text);
+
+                    util.switchValueTask(state.$editTask, state.$task);
+                },
+                error: function () {
+                    console.log("Error update task!")
+                }
+            });
+        }
+
+        function doneTask(dto, state) {
+            console.log('doneDto request: ' + JSON.stringify(dto));
+
+            var thisObj = this;
+            $.ajax({
+                type: 'PUT',
+                url: "http://localhost:8080/api/todo.html",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mimeType: 'application/json',
+                dataType: "json",
+                data: JSON.stringify(dto),
+                success: function (done) {
+
+                    console.log('doneDto response:' + JSON.stringify(done));
+
+                    thisObj.addDoneTask(done.text,done.id);
+
+                    state.$li.remove();
+                    //state.$editTask.val(update.text);
+                    //
+                    //util.switchValueTask(state.$editTask, state.$task);
+                },
+                error: function () {
+                    console.log("Error done task!")
+                }
+            });
+        }
 
 
-        //Ajax request
+        //Ajax request delete task by id
         function deleteTask(id) {
             var thisObj = this;
             $.ajax({
@@ -449,30 +540,28 @@
                 url: "http://localhost:8080/api/todo/" + id + ".html",
                 dataType: 'json',
                 success: function (task) {
-                    console.log('Delete task: ' + ' description| ' + task.description +
-                        '| publishedDate | ' + task.publishedDate +
-                        '| id ' + task.id);
+                    console.log(JSON.stringify(task));
 
                     var $li = thisObj.$todoList.find("#" + task.id);
 
-                    $li.slideToggle(300, function () {
+                    $li.slideToggle(0, function () {
                         $(this).remove();
                         thisObj.showMessage();
                     });
                 },
                 error: function (data) {
-                    console.log(data);
+
                     var message = $("<div id='stick_menu'>")
                         .message({
                             type: "error",
                             message: data.responseJSON.detail
                         });
                     $('main').prepend(message);
+
                     console.log(JSON.stringify(data.responseJSON.errors));
                 }
             });
         }
-
 
         $.fn.todoList = function (optioons) {
             var element = this.first();

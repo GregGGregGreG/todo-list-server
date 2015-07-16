@@ -53,7 +53,7 @@
 </script>
 <script id="taskTemplate" type="text/x-jquery-tmpl">
     <li id='${'${'}liId}' class='col-md-12 list-group-item '>
-        <div id='${'${'}taskId}'>{{html description}}</div>
+        <div id='${'${'}taskId}'>{{html text}}</div>
         <textarea id='${'${'}textAreaEditTaskId}' rows='1'></textarea>
         <input id='${'${'}btnDoneTaskId}' type='checkbox'/>
         <button id='${'${'}btnUpdateTaskId}' class='btn btn-default'><span class='glyphicon glyphicon-edit'></span>
@@ -65,7 +65,7 @@
 </script>
 <script id="taskDoneTemplate" type="text/x-jquery-tmpl">
     <li id='${'${'}liId}'  class='col-md-12 list-group-item' style='color: #999999'>
-        <div id='${'${'}taskId}' class='task-done'>{{html description}}</div>
+        <div id='${'${'}taskId}' class='task-done'>{{html text}}</div>
         <input id='${'${'}btnDoneTaskId}'  type='checkbox' checked/>
         <span id='${'${'}btnRemoveTaskId}' class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='Delete task'></span>
     </li>
@@ -81,7 +81,5 @@
             modalWindowDestroyButtonDestroyId: 'delete'
         });
     });
-
-
 </script>
 

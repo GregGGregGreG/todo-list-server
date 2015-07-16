@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by greg on 01.07.15.
@@ -50,13 +52,14 @@ public class InitDbServices {
 
         Task taskOne = new Task();
         taskOne.setPublishedDate(new Date());
-        taskOne.setDescription("One");
+        taskOne.setText("One");
+        taskOne.setIsExecuted(true);
         taskOne.setUser(user);
         taskRepository.save(taskOne);
 
         Task taskTwo = new Task();
         taskTwo.setPublishedDate(new Date());
-        taskTwo.setDescription("Two");
+        taskTwo.setText("Two");
         taskTwo.setUser(user);
         taskRepository.save(taskTwo);
 

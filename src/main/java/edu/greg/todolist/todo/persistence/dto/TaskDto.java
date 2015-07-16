@@ -17,7 +17,8 @@ import java.util.Date;
 public class TaskDto {
 
     private Integer id;
-    private String description;
+    private String text;
     private Date publishedDate;
+    private Boolean isExecuted;
 
 }

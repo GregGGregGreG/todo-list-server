@@ -10,24 +10,29 @@ import java.util.Date;
 /**
  * Created by greg on 30.06.15.
  */
-@Entity
 @Data
+@Entity
 public class Task extends AbstractEntity {
+
+    public static final int MAX_LENGTH_TEXT = Integer.MAX_VALUE;
 
     @Lob
     @Type(type = "org.hibernate.type.StringClobType")
-    @Column(length = Integer.MAX_VALUE)
-    private String description;
+    @Column(length = MAX_LENGTH_TEXT)
+    private String text;
 
     @Column(name = "published_date")
     private Date publishedDate;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean isExecuted = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Builder getBuilder(String title) {
-        return new Builder(title);
+    public static Builder getBuilder(String text) {
+        return new Builder(text);
     }
 
     @PrePersist
@@ -35,17 +40,25 @@ public class Task extends AbstractEntity {
         publishedDate = new Date();
     }
 
-    public void update(String description) {
-        this.description = description;
+    public void update(String text) {
+        this.text = text;
+    }
+
+    public void perform() {
+        this.isExecuted = true;
+    }
+
+    public void unperformed() {
+        this.isExecuted = false;
     }
 
     public static class Builder {
 
         private Task built;
 
-        public Builder(String description) {
+        public Builder(String text) {
             built = new Task();
-            built.description = description;
+            built.text = text;
         }
 
         public Task build() {

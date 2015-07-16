@@ -38,6 +38,7 @@ public interface TaskServices {
     Task deleteById(Integer id) throws TaskNotFoundException;
 
     /**
+     * Find all task from user
      * @param userId The id of the creator entry.
      * @return Returns a list of task entries.
      */

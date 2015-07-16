@@ -10,8 +10,8 @@ import java.util.Set;
 /**
  * Created by greg on 27.06.15.
  */
-@Entity
 @Data
+@Entity
 @ToString(exclude = {"roles", "tasks"})
 public class User extends AbstractEntity {
 
