@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,7 +49,7 @@ public class DefaultTaskServices implements TaskServices {
         taskRepository.delete(deleted);
         return deleted;
     }
-
+    //Find all task from user and sort publishedDate
     @Override
     public List<Task> findAllFromUser(Integer userId) {
         User user = userRepository.findOne(userId);
@@ -89,6 +90,7 @@ public class DefaultTaskServices implements TaskServices {
         if(updated.getIsExecuted() != null){
             log.debug("Updating executed task with information: {}", updated.getIsExecuted());
             model.setIsExecuted(updated.getIsExecuted());
+            model.setPublishedDate(new Date());
         }
 
         return model;
