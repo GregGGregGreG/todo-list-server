@@ -41,17 +41,17 @@
         </div>
     </div>
 </div>
-<script id="inputGroupTemplate" type="text/x-jquery-tmpl">
+<script id="templateInputGroup" type="text/x-jquery-tmpl">
     <div class='form-group input-group'>
         <textarea id='${'${'}inputId}' class='form-control' placeholder='What do you have in mind this time?'rows='1'/></textarea>
         <button id='${'${'}btnAddId}' class='btn btn-success btn-sm '><strong>ADD</strong></button>
     </div>
-    <h3 id='${'${'}messageUserId}' class='text-center desc'>You Todo - list is empty! Please add task.<br>
+    <h3 id='${'${'}messageUserId}' class='text-center desc' style="display: none;">You Todo - list is empty! Please add task.<br>
     <small>Enter a new task, and then click Add or <strong class='text-primary'>Ctrl+Enter</strong></small></h3>
     <ul id='${'${'}todoListId}' class='${'${'}todoListClass}'></ul>
 
 </script>
-<script id="taskTemplate" type="text/x-jquery-tmpl">
+<script id="templateTask" type="text/x-jquery-tmpl">
     <li id='${'${'}liId}' class='col-md-12 list-group-item '>
         <div id='${'${'}taskId}'>{{html text}}</div>
         <textarea id='${'${'}textAreaEditTaskId}' rows='1'></textarea>
@@ -63,7 +63,7 @@
     </li>
 
 </script>
-<script id="taskDoneTemplate" type="text/x-jquery-tmpl">
+<script id="templateCompletedTasks" type="text/x-jquery-tmpl">
     <li id='${'${'}liId}'  class='col-md-12 list-group-item' style='color: #999999'>
         <div id='${'${'}taskId}' class='task-done'>{{html text}}</div>
         <input id='${'${'}btnDoneTaskId}'  type='checkbox' checked/>
@@ -74,9 +74,9 @@
 <script>
     $(function () {
         $('#todo-list').todoList({
-            inputGroupTemplate: inputGroupTemplate,
-            taskTemplate: taskTemplate,
-            taskDoneTemplate: taskDoneTemplate,
+            templateInputGroup: templateInputGroup,
+            templateTask: templateTask,
+            templateCompletedTasks: templateCompletedTasks,
             modalWindowDestroyTaskId: 'destroyTaskModal',
             modalWindowDestroyButtonDestroyId: 'delete'
         });

@@ -1,10 +1,6 @@
 (function ($) {
     var oneRowHeightTextArea = 34;
     var ENTER_KEY = 13;
-    var monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
     var removeFirstSpace = /^[ \t]*/gm;
     var removeDuplicateSpace = /[ \t]{2,}/gm;
     var removeBlankRows = /^\n{3,}/gm;
@@ -13,7 +9,6 @@
     function TodoListUtilService() {
         return {
             formatText: formatText,
-            getDate: getDate,
             switchValueTask: switchValueTask
         };
         /**
@@ -22,7 +17,7 @@
          * Remove duplicate space.
          * And replace <br>\n to \n
          *
-         * @param str
+         * @param text
          * @returns {string}
          */
         function formatText(text) {
@@ -32,21 +27,6 @@
                 .replace(removeDuplicateSpace, ' ')
                 .replace(removeBlankRows, '\n')
                 .replace(/\n/gm, "<br />\n");
-        }
-
-        /**
-         * Create date creating task
-         * in format:
-         * 18 May 2015 | 15:00:59
-         * @param date
-         * @returns {string}
-         */
-        function getDate(date) {
-            return date.getDate() + ' ' +
-                monthNames[date.getMonth()] + ' ' +
-                    //date.getMonth() + ' ' +
-                date.getFullYear() + ' | ' +
-                date.toLocaleTimeString();
         }
 
         function switchValueTask(from, to) {
@@ -64,7 +44,7 @@
         }
     }
 
-    var defaults = {
+    var DEFAULTS = {
         liId: '',
         inputId: 'input',
         btnAddId: 'btn-add',
@@ -79,13 +59,13 @@
         modalWindowDestroyTaskId: '',
         modalWindowDestroyButtonDestroyId: '',
 
-        inputGroupTemplate: "<div >" +
+        templateInputGroup: "<div >" +
         "<textarea id='${inputId}'></textarea>" +
         "<button id='${btnAddId}'>Add</button></div>" +
-        "<h3 id='${messageUserId}'>You Todo - list is empty! Please add task.</h3>" +
+        "<h3 id='${messageUserId}' style='display: none;'>You Todo - list is empty! Please add task.</h3>" +
         "<ul id='${todoListId}'></ul>",
 
-        taskTemplate: "<li id='${liId}'>" +
+        templateTask: "<li id='${liId}'>" +
         "<div id='${taskId}'>{{html text}}</div>" +
         "<textarea id='${textAreaEditTaskId}' ></textarea>" +
         "<input id='${btnDoneTaskId}'  type='checkbox'/>" +
@@ -94,7 +74,7 @@
         "<span id='${dateAddingTaskId}'>${publishedDate}</span>" +
         "</li>",
 
-        taskDoneTemplate: "<li id='${liId}' class='${liTodoClass}'>" +
+        templateCompletedTasks: "<li id='${liId}' class='${liTodoClass}'>" +
         "<div id='${taskId}' >{{html text}}</div>" +
         "<input id='${btnDoneTaskId}' type='checkbox' checked/>" +
         "<span id='${btnRemoveTaskId}'></sp>" +
@@ -102,52 +82,42 @@
     };
 
     function TodoList(element, options) {
-        this.config = $.extend({}, defaults, options);
+        this.config = $.extend({}, DEFAULTS, options);
         this.element = element;
         this.init();
         this.bindEvents();
     }
 
-    //Init paramet todolist
     TodoList.prototype.init = init;
-    //Set events on the buttons
     TodoList.prototype.bindEvents = bindEvents;
-    //Create template for new task
-    TodoList.prototype.createTaskHtml = createTaskHtml;
-    //Create template from checkTask task
-    TodoList.prototype.createDoneTaskHtml = createDoneTaskHtml;
-    //
+
     TodoList.prototype.inputKeyUp = inputKeyUp;
     TodoList.prototype.updateKeyUp = updateKeyUp;
 
-    //TodoList.prototype.add = add;
-    //Add new task in todolist
     TodoList.prototype.add = add;
-    TodoList.prototype.addNewTask = addNewTask;
-
     TodoList.prototype.checkTask = checkTask;
-    TodoList.prototype.performTask = performTask;
-    TodoList.prototype.unPerformTask = unPerformTask;
-
-
     TodoList.prototype.update = update;
-
     TodoList.prototype.destroy = destroy;
 
     TodoList.prototype.toggle = toggle;
+
+    TodoList.prototype.addTaskList = addTaskList;
+    TodoList.prototype.addNewTask = addNewTask;
+    TodoList.prototype.performTask = performTask;
+    TodoList.prototype.unPerformTask = unPerformTask;
+    TodoList.prototype.updateTask = updateTask;
+    TodoList.prototype.destroyTask = destroyTask;
+
+    TodoList.prototype.getTemplateTask = getTemplateTask;
+    TodoList.prototype.getTemplateCompletedTask = getTemplateCompletedTask;
 
     TodoList.prototype.getTodoList = getTodoList;
     TodoList.prototype.getInput = getInput;
     TodoList.prototype.getBtnAdd = getBtnAdd;
     TodoList.prototype.getMessageUser = getMessageUser;
-
     TodoList.prototype.showMessage = showMessage;
     TodoList.prototype.todoIsEmpty = todoIsEmpty;
     TodoList.prototype.getCurrentStateTask = getCurrentStateTask;
-
-    TodoList.prototype.getAllTasks = getAllTasks;
-    TodoList.prototype.updateTask = updateTask;
-    TodoList.prototype.deleteTask = deleteTask;
 
     TodoList.prototype.newTodoResource = newTodoResource;
 
@@ -155,29 +125,23 @@
      * Create input group: input and button for adding task, empty task-list.
      */
     function init() {
-        $.template("inputTemplate", this.config.inputGroupTemplate);
-        $.tmpl("inputTemplate", this.config).appendTo(this.element);
-
-        this.getMessageUser().hide();
-        //Block add new task button
+        $.template("inputGroup", this.config.templateInputGroup);
+        $.tmpl("inputGroup", this.config).appendTo(this.element);
+        //Disabled add button
         this.getBtnAdd().prop('disabled', true);
-        //Set focus input field
-        this.getInput().focus();
         //Set aotosize input field
         autosize(this.getInput());
-        //request for filling tasks
+        //Create request for filling tasks
         var query = {
             type: 'GET',
-            success: this.getAllTasks.bind(this)
+            success: this.addTaskList.bind(this)
         };
-        //Send new request
+        //Send new request and Set focus input field
         this.newTodoResource(query);
-        // Hide message from user is todolist not empty.
-        this.showMessage();
     }
 
     /**
-     * Events for click buttons: Add task, Destroy task, Update task, Done task and hover for task.
+     * Events for click buttons: Add task, Destroy task, Update task, Done task and hover for task and input.
      */
     function bindEvents() {
         this.getBtnAdd().on('click', this.add.bind(this));
@@ -196,102 +160,30 @@
      */
     function add(str) {
         var text = ($.type(str) === 'string') ? str : this.getInput().val();
-
-        var task = {
-            text: text
-        };
-
+        var dto = {text: text};
         var query = {
             type: 'POST',
-            data: task,
+            data: dto,
             success: this.addNewTask.bind(this)
         };
-
-        this.newTodoResource(query);
-    }
-
-    function addNewTask(task) {
-        console.log(JSON.stringify(task));
-        this.createTaskHtml(task).prependTo(this.getTodoList());
-
-        $('[data-toggle="tooltip"]').tooltip({delay: {"show": 500, "hide": 100}, container: 'body'});
-
-        autosize($('#' + this.config.textAreaEditTaskId));
-
-        this.getInput().val('');
-        this.getInput().css('height', oneRowHeightTextArea);
-        this.getBtnAdd().prop('disabled', true);
-        this.showMessage();
-    }
-
-    /**
-     * The task gets checkTask. It becomes the end of the list. Remove buttons
-     * editing and creation date
-     *
-     * Set task checkTask.
-     */
-    function checkTask() {
-        var state = this.getCurrentStateTask();
-
-        var dto = {
-            id: state.$li.attr('id')
-        };
-
-        dto.isExecuted = state.$btnDoneTask.is(":checked");
-
-        var query = {
-            type: 'PUT',
-            data: dto
-        };
-
-        query.success = dto.isExecuted ?
-            this.performTask.bind(this)
-            : this.unPerformTask.bind(this);
-
         this.newTodoResource(query);
     }
 
     /**
-     * Set checkTask select task and by adding it to the todo-list end.
-     *
-     * @param {task dto}
-     */
-    function performTask(task) {
-
-        this.getTodoList().find("#" + task.id).remove();
-
-        this.createDoneTaskHtml(task).appendTo(this.getTodoList());
-
-        this.getInput().focus();
-    }
-
-    function unPerformTask(task) {
-
-        this.getTodoList().find("#" + task.id).remove();
-
-        this.createTaskHtml(task).prependTo(this.getTodoList());
-
-        autosize($('#' + this.config.textAreaEditTaskId));
-
-        this.getInput().focus();
-    }
-
-    /**
-     *
      * Update text task
      */
     function update() {
         var state = this.getCurrentStateTask();
-
         var dto = {
             id: state.$li.attr('id'),
             text: state.$editTask.val()
         };
-
-        this.updateTask(dto, state);
-
-        //util.switchValueTask(state.$editTask, state.$task);
-        state.$btnUpdateTask.prop('disabled', true);
+        var query = {
+            type: 'PUT',
+            data: dto,
+            success: this.updateTask.bind(this, state)
+        };
+        this.newTodoResource(query);
     }
 
     /**
@@ -302,18 +194,17 @@
      * Hide modal window
      */
     function destroy() {
-        var thisObj = this;
+        var vm = this;
         var modalWindow = '#' + this.config.modalWindowDestroyTaskId;
         var buttonDelete = '#' + this.config.modalWindowDestroyButtonDestroyId;
-
+        //Get current task id
         var $id = $(event.target).closest('li').attr("id");
-
+        //Create query object
         var query = {
             type: 'DELETE',
             url: "http://localhost:8080/api/todo/" + $id + ".html",
-            success: this.deleteTask.bind(this)
+            success: this.destroyTask.bind(this)
         };
-
         //Show modal window
         $(modalWindow)
             .modal('show')
@@ -322,31 +213,57 @@
                 modal.find(buttonDelete).focus();
             })
             .one('click', buttonDelete, function () {
-                thisObj.newTodoResource(query);
+                vm.newTodoResource(query);
             });
     }
 
     /**
-     * Event for text area set task when editing.
-     * If you hover over the text of the content is copied to the task tekst area and becomes editable
+     * Check status task.
+     * This function get current state task and send request server.
+     * If task is perform set task unPerform.
+     * If task unPerform set task perform.
+     */
+    function checkTask() {
+        //Get current state task
+        var state = this.getCurrentStateTask();
+        //Create dto task
+        var dto = {
+            id: state.$li.attr('id')
+        };
+        //Get status task
+        dto.isExecuted = state.$btnDoneTask.is(":checked");
+        //Create query object
+        var query = {
+            type: 'PUT',
+            data: dto
+        };
+        //Select handler task
+        query.success = dto.isExecuted ?
+            this.performTask.bind(this)
+            : this.unPerformTask.bind(this);
+        //Send request from server
+        this.newTodoResource(query);
+    }
+
+    /**
+     * Event for textarea element current task when editing.
+     * Do not save empty task
+     * Create new task if user push ctr+enter.
      */
     function updateKeyUp(e) {
         var state = this.getCurrentStateTask();
 
         var currentText = state.$task.text();
-        var inputText = state.$editTask.val().trim();
-        // disabled update button
+        var updateText = state.$editTask.val().trim();
+        //Disabled button update
         state.$btnUpdateTask.prop('disabled', true);
-
-        if (inputText === '') {
-            state.$btnUpdateTask.prop('disabled', true);
-            return;
-        }
-
-        if (currentText != inputText) {
+        //Do not save empty task
+        if (updateText === '') return;
+        //Update text is valid
+        if (currentText != updateText) {
             state.$btnUpdateTask.prop('disabled', false);
         }
-
+        //Create new task if user push ctr+enter.
         if (e.ctrlKey && e.keyCode === ENTER_KEY) {
             this.update();
         }
@@ -354,7 +271,7 @@
 
     /**
      * Event for input text field.
-     * Create new task if user click ctr+enter.
+     * Create new task if user push ctr+enter.
      * @param e
      */
     function inputKeyUp(e) {
@@ -362,24 +279,130 @@
             this.getBtnAdd().prop('disabled', true);
         } else if (e.ctrlKey && e.keyCode === ENTER_KEY) {
             this.add($(event.target).val());
-            this.getBtnAdd().prop('disabled', true);
         } else {
             this.getBtnAdd().prop('disabled', false);
         }
     }
 
     /**
+     * If you hover over the text of the content is copied to the task tekst area and becomes editable.
+     * If task unperform show button done, update, remove. Don not active button update.
+     * If task perform shown button done and remove.
+     * @param event
+     */
+    function toggle(event) {
+        var state = this.getCurrentStateTask();
+        var eventType = event.type;
+
+        if (state.$btnDoneTask.is(":checked")) {
+            //Show button remove and done
+            state.$btnRemoveTask.toggle(eventType === 'mouseenter');
+            state.$btnDoneTask.toggle(eventType === 'mouseenter');
+        } else {
+            util.switchValueTask(state.$task, state.$editTask);
+            //Show textarea element
+            state.$editTask.toggle(eventType === 'mouseenter');
+            //Hide div element
+            state.$task.toggle(eventType === 'mouseleave');
+            //Disabled update button
+            state.$btnUpdateTask.prop('disabled', true);
+            //Show button done, update, remove
+            state.$btnDoneTask.toggle(eventType === 'mouseenter');
+            state.$btnUpdateTask.toggle(eventType === 'mouseenter');
+            state.$btnRemoveTask.toggle(eventType === 'mouseenter');
+        }
+    }
+
+    function addTaskList(taskList) {
+        var vm = this;
+        $.each(taskList, function (i, task) {
+            if (task.isExecuted) {
+                vm.getTemplateCompletedTask(task).appendTo(vm.getTodoList());
+            } else {
+                vm.getTemplateTask(task).prependTo(vm.getTodoList());
+                autosize($('#' + vm.config.textAreaEditTaskId));
+            }
+        });
+        this.showMessage();
+    }
+
+    /**
+     * Adding new task in todo-list
+     * @param task
+     */
+    function addNewTask(task) {
+        //Adding task in todo-list
+        this.getTemplateTask(task).prependTo(this.getTodoList());
+        //Set autosize text area edit task
+        autosize($('#' + this.config.textAreaEditTaskId));
+        this.getInput()
+            //Set empty input field
+            .val('')
+            //Set default height input field
+            .css('height', oneRowHeightTextArea);
+        //Disabled button add
+        this.getBtnAdd().prop('disabled', true);
+        //Show message from user
+        this.showMessage();
+    }
+
+    /**
+     * Destroy task
+     * @param task
+     */
+    function destroyTask(task) {
+        var vm = this;
+        var $li = this.getTodoList().find("#" + task.id);
+
+        $li.slideToggle(300, function () {
+            $(this).remove();
+            vm.showMessage();
+        })
+    }
+
+    function updateTask(state, task) {
+        state.$editTask.val(task.text);
+
+        util.switchValueTask(state.$editTask, state.$task);
+
+        state.$btnUpdateTask.prop('disabled', true);
+    }
+
+    /**
+     * Set perform task and by adding it to the todo-list end.
+     * @param {task dto}
+     */
+    function performTask(task) {
+
+        this.getTodoList().find("#" + task.id).remove();
+
+        this.getTemplateCompletedTask(task).appendTo(this.getTodoList());
+
+        this.getInput().focus();
+    }
+
+    function unPerformTask(task) {
+
+        this.getTodoList().find("#" + task.id).remove();
+
+        this.getTemplateTask(task).prependTo(this.getTodoList());
+
+        autosize($('#' + this.config.textAreaEditTaskId));
+
+        this.getInput().focus();
+    }
+
+    /**
      * Create li with task , button checkTask, update ,and destroy.
-     * Adding for date creating.
      * @param str
      * @returns  {html element li}
      */
-    function createTaskHtml(task) {
+    function getTemplateTask(task) {
         this.config.text = util.formatText(task.text);
         this.config.publishedDate = task.publishedDate;
         this.config.liId = task.id;
-        $.template("taskTemplate", this.config.taskTemplate);
-        return $.tmpl("taskTemplate", this.config);
+        $.template("task", this.config.templateTask);
+        return $.tmpl("task", this.config);
     }
 
     /**
@@ -387,36 +410,15 @@
      * @param str
      * @returns {html element li}
      */
-    function createDoneTaskHtml(task) {
+    function getTemplateCompletedTask(task) {
         this.config.text = util.formatText(task.text);
         this.config.liId = task.id;
-        $.template("taskDoneTemplate", this.config.taskDoneTemplate);
-        return $.tmpl("taskDoneTemplate", this.config);
-    }
-
-    function toggle(event) {
-        var state = this.getCurrentStateTask();
-        var eventType = event.type;
-
-        if (state.$btnDoneTask.is(":checked")) {
-            state.$btnRemoveTask.toggle(eventType === 'mouseenter');
-            state.$btnDoneTask.toggle(eventType === 'mouseenter');
-        } else {
-            util.switchValueTask(state.$task, state.$editTask);
-
-            state.$editTask.toggle(eventType === 'mouseenter');
-            state.$task.toggle(eventType === 'mouseleave');
-
-            state.$btnUpdateTask.prop('disabled', true);
-
-            state.$btnRemoveTask.toggle(eventType === 'mouseenter');
-            state.$btnDoneTask.toggle(eventType === 'mouseenter');
-            state.$btnUpdateTask.toggle(eventType === 'mouseenter');
-        }
+        $.template("completedTasks", this.config.templateCompletedTasks);
+        return $.tmpl("completedTasks", this.config);
     }
 
     /**
-     * Find todolist list object and return jquery element
+     * Find todolist object list object and return jquery element
      * @returns {*|HTMLElement}
      */
     function getTodoList() {
@@ -424,7 +426,7 @@
     }
 
     /**
-     * Find input objet and return jquery element
+     * Find input object and return jquery element
      * @returns {*|HTMLElement}
      */
     function getInput() {
@@ -432,7 +434,7 @@
     }
 
     /**
-     * Find btnAdd  and return jquery element
+     * Find btnAdd object and return jquery element
      * @returns {*|HTMLElement}
      */
     function getBtnAdd() {
@@ -465,6 +467,8 @@
 
     /**
      * Show message for users about that todo-list is Empty!
+     * Set focus input field
+     * If todo list is empty show message from user
      */
     function showMessage() {
         this.getInput().focus();
@@ -479,67 +483,10 @@
         return this.getTodoList().children().length === 0;
     }
 
-    function getAllTasks(taskList) {
-        var thisObj = this;
-        console.log(taskList);
-        $.each(taskList, function (i, task) {
-
-            if (!task.isExecuted) {
-                thisObj.createTaskHtml(task).prependTo(thisObj.getTodoList());
-
-                autosize($('#' + thisObj.config.textAreaEditTaskId));
-            } else {
-                thisObj.createDoneTaskHtml(task).appendTo(thisObj.getTodoList());
-            }
-        });
-        this.showMessage();
-    }
-
-    //Ajax request update task by id
-    function updateTask(dto, state) {
-        console.log('updateDto request: ' + JSON.stringify(dto));
-
-        var thisObj = this;
-        $.ajax({
-            type: 'PUT',
-            url: "http://localhost:8080/api/todo.html",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            dataType: "json",
-            data: JSON.stringify(dto),
-            success: function (update) {
-
-                console.log('updateDto response:' + JSON.stringify(update));
-
-                state.$editTask.val(update.text);
-
-                util.switchValueTask(state.$editTask, state.$task);
-            },
-            error: function () {
-                console.log("Error update task!")
-            }
-        });
-    }
-
-    function deleteTask(task) {
-
-        var vm = this;
-        var $li = this.getTodoList().find("#" + task.id);
-
-        $li.slideToggle(300, function () {
-            $(this).remove();
-            console.log('inside', vm.getTodoList().find("#" + task.id), vm.getTodoList())
-            //vm.showMessage();
-        }).promise().done(function () {
-            console.log('promise' + vm.todoIsEmpty(), vm.getTodoList().find("#" + task.id), vm.getTodoList())
-        });
-        //
-        //console.log('outside' + this.todoIsEmpty(), this.getTodoList().find("#" + task.id), this.getTodoList());
-        //this.showMessage();
-    }
-
-    // New ajax request from api
+    /**
+     * Handler ajax request
+     * @param options
+     */
     function newTodoResource(options) {
         $.ajax({
             type: options.type,

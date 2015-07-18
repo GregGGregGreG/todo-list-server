@@ -9,14 +9,14 @@
     <title><tiles:getAsString name="title"/></title>
     <link href="../../static/css/app.css" rel="stylesheet">
     <link href="../../static/css/them.css" rel="stylesheet">
-    <%--<script src="../../static/node_modules/jquery/dist/jquery.js"></script>--%>
-    <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" ></script>
+    <script src="../../static/node_modules/jquery/dist/jquery.js"></script>
     <link href="../../static/node_modules/bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
     <script src="../../static/node_modules/bootstrap-3.3.4-dist/js/bootstrap.js"></script>
     <script src="../../static/node_modules/autosize/dest/autosize.min.js"></script>
     <script src="../../static/node_modules/jquery.tmpl.js/jquery.tmpl.js"></script>
     <script src="../../static/js/jquery.todo-list.js"></script>
     <script src="../../static/node_modules/bootstrap.message/bootstrap.message.js"></script>
+
 </head>
 <body>
 <header>

@@ -3,9 +3,9 @@
  */
 $(function () {
     $('#todo-list').todoList({
-        inputGroupTemplate: inputGroupTemplate,
-        taskTemplate: taskTemplate,
-        taskDoneTemplate:taskDoneTemplate,
+        templateInputGroup: inputGroupTemplate,
+        templateTask: taskTemplate,
+        templateCompletedTasks:taskDoneTemplate,
         modalWindowDestroyTaskId:'destroyTaskModal',
         modalWindowDestroyButtonDestroyId:'delete'
     });
