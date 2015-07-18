@@ -106,7 +106,6 @@
         this.element = element;
         this.init();
         this.bindEvents();
-        this.showMessage();
     }
 
     //Init paramet todolist
@@ -137,6 +136,11 @@
 
     TodoList.prototype.toggle = toggle;
 
+    TodoList.prototype.getTodoList = getTodoList;
+    TodoList.prototype.getInput = getInput;
+    TodoList.prototype.getBtnAdd = getBtnAdd;
+    TodoList.prototype.getMessageUser = getMessageUser;
+
     TodoList.prototype.showMessage = showMessage;
     TodoList.prototype.todoIsEmpty = todoIsEmpty;
     TodoList.prototype.getCurrentStateTask = getCurrentStateTask;
@@ -151,33 +155,34 @@
      * Create input group: input and button for adding task, empty task-list.
      */
     function init() {
-
         $.template("inputTemplate", this.config.inputGroupTemplate);
         $.tmpl("inputTemplate", this.config).appendTo(this.element);
 
-        this.$messageUser = $('#' + this.config.messageUserId).hide();
-
-        //Set focus input
-        this.$input = $('#' + this.config.inputId).focus();
+        this.getMessageUser().hide();
+        //Block add new task button
+        this.getBtnAdd().prop('disabled', true);
+        //Set focus input field
+        this.getInput().focus();
         //Set aotosize input field
-        autosize($('#' + this.config.inputId));
-
-        this.$btnAdd = $('#' + this.config.btnAddId).prop('disabled', true);
-        this.$todoList = $('#' + this.config.todoListId);
-        this.newTodoResource({
+        autosize(this.getInput());
+        //request for filling tasks
+        var query = {
             type: 'GET',
             success: this.getAllTasks.bind(this)
-        })
+        };
+        //Send new request
+        this.newTodoResource(query);
+        // Hide message from user is todolist not empty.
+        this.showMessage();
     }
-
 
     /**
      * Events for click buttons: Add task, Destroy task, Update task, Done task and hover for task.
      */
     function bindEvents() {
-        this.$btnAdd.on('click', this.add.bind(this));
-        this.$input.keyup(this.inputKeyUp.bind(this));
-        this.$todoList
+        this.getBtnAdd().on('click', this.add.bind(this));
+        this.getInput().keyup(this.inputKeyUp.bind(this));
+        this.getTodoList()
             .delegate('#' + this.config.textAreaEditTaskId, 'keyup', this.updateKeyUp.bind(this))
             .delegate('#' + this.config.btnDoneTaskId, 'click', this.checkTask.bind(this))
             .delegate('#' + this.config.btnUpdateTaskId, 'click', this.update.bind(this))
@@ -190,7 +195,7 @@
      * @param str
      */
     function add(str) {
-        var text = ($.type(str) === 'string') ? str : this.$input.val();
+        var text = ($.type(str) === 'string') ? str : this.getInput().val();
 
         var task = {
             text: text
@@ -207,15 +212,15 @@
 
     function addNewTask(task) {
         console.log(JSON.stringify(task));
-        this.createTaskHtml(task).prependTo(this.$todoList);
+        this.createTaskHtml(task).prependTo(this.getTodoList());
 
         $('[data-toggle="tooltip"]').tooltip({delay: {"show": 500, "hide": 100}, container: 'body'});
 
         autosize($('#' + this.config.textAreaEditTaskId));
 
-        this.$input.val('');
-        this.$input.css('height', oneRowHeightTextArea);
-        this.$btnAdd.prop('disabled', true);
+        this.getInput().val('');
+        this.getInput().css('height', oneRowHeightTextArea);
+        this.getBtnAdd().prop('disabled', true);
         this.showMessage();
     }
 
@@ -249,26 +254,26 @@
     /**
      * Set checkTask select task and by adding it to the todo-list end.
      *
-     * @param str
+     * @param {task dto}
      */
     function performTask(task) {
 
-        this.$todoList.find("#" + task.id).remove();
+        this.getTodoList().find("#" + task.id).remove();
 
-        this.createDoneTaskHtml(task).appendTo(this.$todoList);
+        this.createDoneTaskHtml(task).appendTo(this.getTodoList());
 
-        this.$input.focus();
+        this.getInput().focus();
     }
 
     function unPerformTask(task) {
 
-        this.$todoList.find("#" + task.id).remove();
+        this.getTodoList().find("#" + task.id).remove();
 
-        this.createTaskHtml(task).prependTo(this.$todoList);
+        this.createTaskHtml(task).prependTo(this.getTodoList());
 
         autosize($('#' + this.config.textAreaEditTaskId));
 
-        this.$input.focus();
+        this.getInput().focus();
     }
 
     /**
@@ -354,12 +359,12 @@
      */
     function inputKeyUp(e) {
         if (!$(event.target).val().trim()) {
-            this.$btnAdd.prop('disabled', true);
+            this.getBtnAdd().prop('disabled', true);
         } else if (e.ctrlKey && e.keyCode === ENTER_KEY) {
             this.add($(event.target).val());
-            this.$btnAdd.prop('disabled', true);
+            this.getBtnAdd().prop('disabled', true);
         } else {
-            this.$btnAdd.prop('disabled', false);
+            this.getBtnAdd().prop('disabled', false);
         }
     }
 
@@ -411,8 +416,41 @@
     }
 
     /**
+     * Find todolist list object and return jquery element
+     * @returns {*|HTMLElement}
+     */
+    function getTodoList() {
+        return $('#' + this.config.todoListId);
+    }
+
+    /**
+     * Find input objet and return jquery element
+     * @returns {*|HTMLElement}
+     */
+    function getInput() {
+        return $('#' + this.config.inputId);
+    }
+
+    /**
+     * Find btnAdd  and return jquery element
+     * @returns {*|HTMLElement}
+     */
+    function getBtnAdd() {
+        return $('#' + this.config.btnAddId);
+    }
+
+    /**
+     * Find message from user and return jquery element
+     * @returns {*|HTMLElement}
+     */
+    function getMessageUser() {
+        return $('#' + this.config.messageUserId);
+    }
+
+    /**
      * Get current state task.
-     * Find current task,edit task,btn update,remove,checkTask.
+     * Find current state task, editTask, btn: update, remove, checkTask.
+     * @returns {*|HTMLCollection}
      */
     function getCurrentStateTask() {
         return {
@@ -429,8 +467,8 @@
      * Show message for users about that todo-list is Empty!
      */
     function showMessage() {
-        this.$input.focus();
-        this.todoIsEmpty() ? this.$messageUser.slideDown(600) : this.$messageUser.hide();
+        this.getInput().focus();
+        this.todoIsEmpty() ? this.getMessageUser().slideDown(600) : this.getMessageUser().hide();
     }
 
     /**
@@ -438,7 +476,7 @@
      * @returns {boolean}
      */
     function todoIsEmpty() {
-        return this.$todoList.children().length === 0;
+        return this.getTodoList().children().length === 0;
     }
 
     function getAllTasks(taskList) {
@@ -447,11 +485,11 @@
         $.each(taskList, function (i, task) {
 
             if (!task.isExecuted) {
-                thisObj.createTaskHtml(task).prependTo(thisObj.$todoList);
+                thisObj.createTaskHtml(task).prependTo(thisObj.getTodoList());
 
                 autosize($('#' + thisObj.config.textAreaEditTaskId));
             } else {
-                thisObj.createDoneTaskHtml(task).appendTo(thisObj.$todoList);
+                thisObj.createDoneTaskHtml(task).appendTo(thisObj.getTodoList());
             }
         });
         this.showMessage();
@@ -484,23 +522,21 @@
         });
     }
 
-
     function deleteTask(task) {
-        var thisObj = this;
 
-        console.log(JSON.stringify(task));
+        var vm = this;
+        var $li = this.getTodoList().find("#" + task.id);
 
-        //var $li = this.$todoList.find("#" + task.id);
-
-        this.$todoList.find("#" + task.id)
-            .slideToggle(300, function () {
-                $(this).remove();
-                thisObj.showMessage();
-            });
-
-
+        $li.slideToggle(300, function () {
+            $(this).remove();
+            console.log('inside', vm.getTodoList().find("#" + task.id), vm.getTodoList())
+            //vm.showMessage();
+        }).promise().done(function () {
+            console.log('promise' + vm.todoIsEmpty(), vm.getTodoList().find("#" + task.id), vm.getTodoList())
+        });
+        //
+        //console.log('outside' + this.todoIsEmpty(), this.getTodoList().find("#" + task.id), this.getTodoList());
         //this.showMessage();
-
     }
 
     // New ajax request from api
