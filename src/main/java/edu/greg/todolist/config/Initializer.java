@@ -22,7 +22,6 @@ public class Initializer implements WebApplicationInitializer  {
     private static final String DISPATCHER_SERVLET_MAPPING_JSON = "*.json";
     private static final String DISPATCHER_SERVLET_MAPPING_XML = "*.xml";
 
-
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
@@ -30,7 +29,7 @@ public class Initializer implements WebApplicationInitializer  {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(WebAppConfig.class);
         ctx.register(DataBaseConfig.class);
-        ctx.register(RestHandlerExceptioResolverConfig.class);
+        ctx.register(RestHandlerExceptionResolverConfig.class);
 
         // Manage the lifecycle of the root appcontext
         servletContext.addListener(new ContextLoaderListener(ctx));
@@ -50,6 +49,4 @@ public class Initializer implements WebApplicationInitializer  {
         filter.setInitParameter("singleSession", "true");
         filter.addMappingForServletNames(null, true, "dispatcher");
     }
-
-
 }

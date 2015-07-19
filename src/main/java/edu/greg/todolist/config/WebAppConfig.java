@@ -1,9 +1,11 @@
 package edu.greg.todolist.config;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -24,7 +26,6 @@ import java.util.Locale;
 /**
  * Created by greg on 26.06.15.
  */
-@Slf4j
 @Configuration
 @EnableWebMvc
 @ComponentScan(value = "edu.greg.todolist.todo")
@@ -32,6 +33,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     private static final String TILES_DEFINITION = "/WEB-INF/defs/general.xml";
     private static final String MESSAGE_CONVERTS_DATE_FORMAT = "d MMMM yyyy | HH:mm:ss";
+    private static final String MESSAGE_SOURCE_BASE_NAME = "i18n/messages";
 
     @Bean
     public UrlBasedViewResolver viewResolver() {
@@ -72,6 +74,21 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         builder.indentOutput(true).dateFormat(new SimpleDateFormat(MESSAGE_CONVERTS_DATE_FORMAT, Locale.ENGLISH));
         converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
         converters.add(new MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+
+        messageSource.setBasename(MESSAGE_SOURCE_BASE_NAME);
+        messageSource.setUseCodeAsDefaultMessage(true);
+
+        return messageSource;
+    }
+
+    @Bean
+    public PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
 }

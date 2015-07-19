@@ -20,7 +20,9 @@ import java.util.List;
  * Created by greg on 15.07.15.
  */
 @Configuration
-public class RestHandlerExceptioResolverConfig extends WebMvcConfigurerAdapter {
+public class RestHandlerExceptionResolverConfig extends WebMvcConfigurerAdapter {
+
+    private static final String MESSAGE_SOURCE_BASE_NAME = "/i18n/restExceptionHandlerMessages";
 
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
@@ -49,7 +51,7 @@ public class RestHandlerExceptioResolverConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MessageSource httpErrorMessageSource() {
         ReloadableResourceBundleMessageSource m = new ReloadableResourceBundleMessageSource();
-        m.setBasename("classpath:/messages");
+        m.setBasename("classpath:" + MESSAGE_SOURCE_BASE_NAME);
         m.setDefaultEncoding("UTF-8");
         return m;
     }

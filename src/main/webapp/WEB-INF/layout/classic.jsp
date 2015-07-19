@@ -32,23 +32,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<spring:url value="/" />">Todo-List</a>
+                <a class="navbar-brand" href="<spring:url value="/" />"><spring:message code="spring.todo.list.title"/></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="${current == 'index'?'active':''}">
-                        <a href="<spring:url value="/" />">Home</a>
+                        <a href="<spring:url value="/" />"><spring:message code="label.navigation.home.link"/></a>
                     </li>
                     <li class="${current == 'account'?'active':''}">
-                        <a href="<spring:url value="/account.html" />">Account</a>
+                        <a href="<spring:url value="/account.html" />"><spring:message code="label.navigation.account.link"/></a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="${current == 'registration'?'active':''}">
-                        <a href="<spring:url value="/registration.html" />">Registration</a>
+                        <a href="<spring:url value="/registration.html" />"><spring:message code="label.navigation.registration.link"/></a>
                     </li>
                     <li class="${current == 'login'?'active':''}">
-                        <a href="<spring:url value="/login.html" />">Login</a>
+                        <a href="<spring:url value="/login.html" />"><spring:message code="label.navigation.signed.in.as.text"/></a>
                     </li>
                 </ul>
             </div>
