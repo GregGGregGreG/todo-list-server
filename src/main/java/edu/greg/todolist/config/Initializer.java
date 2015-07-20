@@ -14,7 +14,7 @@ import javax.servlet.ServletRegistration;
 /**
  * Created by greg on 26.06.15.
  */
-public class Initializer implements WebApplicationInitializer  {
+public class Initializer implements WebApplicationInitializer {
 
     private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
     private static final String DISPATCHER_SERVLET_MAPPING_HTML = "*.html";

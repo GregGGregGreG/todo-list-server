@@ -1,10 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../layout/taglib.jsp" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><tiles:getAsString name="title"/></title>
+    <c:set var="titleKey">
+        <tiles:insertAttribute name="title" ignore="true"/>
+    </c:set>
+    <title><spring:message code="${titleKey}"/></title>
     <link href="../../static/node_modules/bootstrap-3.3.4-dist/css/bootstrap.css" rel="stylesheet">
     <link href="../../static/css/app.css" rel="stylesheet">
     <style>
@@ -65,8 +67,8 @@
         <div id="hex"></div>
         <a href="<spring:url value="/" />">
             <h1 class="error">404 <br>Page <br>Not Found</h1>
-
-            <p>The page you requested was not found.</p>
+            <p><c:out value="${errorUrl}"/></p>
+            <p><spring:message code="label.404.error.page.text"/> </p>
         </a>
     </div>
 </main>

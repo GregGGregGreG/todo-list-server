@@ -7,7 +7,7 @@
     </c:if>
 
     <div class="form-group">
-        <label for="name" class="col-sm-2 control-label">Name:</label>
+        <label for="name" class="col-sm-2 control-label"><spring:message code="label.user.name"/></label>
 
         <div class="col-sm-10">
             <form:input path="name" cssClass="form-control"/>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="email" class="col-sm-2 control-label">Email:</label>
+        <label for="email" class="col-sm-2 control-label"><spring:message code="label.user.email"/></label>
 
         <div class="col-sm-10">
             <form:input path="email" cssClass="form-control"/>
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="password" class="col-sm-2 control-label">Password:</label>
+        <label for="password" class="col-sm-2 control-label"><spring:message code="label.user.password"/></label>
 
         <div class="col-sm-10">
             <form:password path="password" cssClass="form-control"/>
@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="password_again" class="col-sm-2 control-label">Password again:</label>
+        <label for="password_again" class="col-sm-2 control-label"><spring:message code="label.user.passwordVerification"/></label>
 
         <div class="col-sm-10">
             <input type="password" name="password_again" id="password_again" class="form-control">
@@ -39,7 +39,10 @@
     </div>
     <div class="form-group">
         <div class="col-sm-2">
-            <input type="submit" value="Save" class="btn btn-lg btn-primary"/>
+            <input type="submit"
+                   value=
+                       '<spring:message code="label.user.registration.submit.button"/>'
+                           class="btn btn-lg btn-primary" />
         </div>
     </div>
 </form:form>

@@ -1,5 +1,6 @@
 package edu.greg.todolist.todo.controller;
 
+import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    protected static final String HOME_VIEW = "index";
+    protected static final String INDEX_VIEW = "index";
 
     @RequestMapping(value = {"/index"})
     public String index() {
         log.debug("Rendering home page.");
-        return HOME_VIEW;
+        return INDEX_VIEW;
     }
 
+    @RequestMapping(value = {"/test"})
+    public String test() throws Exception{
+        throw new TaskNotFoundException();
+    }
 }

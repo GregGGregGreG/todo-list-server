@@ -8,37 +8,37 @@
     </definition>
 
     <definition name="index" extends="common">
-        <put-attribute name="title" value="Todo-List"/>
+        <put-attribute name="title" value="label.home.page.title"/>
         <put-attribute name="body" value="/WEB-INF/jsp/index.jsp"/>
         <put-attribute name="current" value="index"/>
     </definition>
 
-    <definition name="error" extends="common">
-        <put-attribute name="title" value="404"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/error.jsp"/>
-        <put-attribute name="current" value="index"/>
-    </definition>
-
-    <definition name="404" template="/WEB-INF/jsp/404.jsp">
-        <put-attribute name="title" value="Page not found"/>
-        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
-    </definition>
-
     <definition name="login" extends="common">
-        <put-attribute name="title" value="Login user"/>
-        <put-attribute name="body" value="/WEB-INF/jsp/login.jsp"/>
+        <put-attribute name="title" value="label.user.login.page.title"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/user-login.jsp"/>
         <put-attribute name="current" value="login"/>
     </definition>
 
     <definition name="registration" extends="common">
-        <put-attribute name="title" value="Register user"/>
+        <put-attribute name="title" value="label.user.registration.page.title"/>
         <put-attribute name="body" value="/WEB-INF/jsp/user-registration.jsp"/>
         <put-attribute name="current" value="registration"/>
     </definition>
     <definition name="account" extends="common">
-        <put-attribute name="title" value="User account"/>
+        <put-attribute name="title" value="label.user.account.page.title"/>
         <put-attribute name="body" value="/WEB-INF/jsp/user-account.jsp"/>
         <put-attribute name="current" value="account"/>
+    </definition>
+
+    <definition name="error" extends="common">
+        <put-attribute name="title" value="label.default.error.page.title"/>
+        <put-attribute name="body" value="/WEB-INF/jsp/error.jsp"/>
+        <put-attribute name="current" value="index"/>
+    </definition>
+
+    <definition name="p404" template="/WEB-INF/jsp/p404.jsp">
+        <put-attribute name="title" value="label.404.error.page.title"/>
+        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
     </definition>
 
 </tiles-definitions>

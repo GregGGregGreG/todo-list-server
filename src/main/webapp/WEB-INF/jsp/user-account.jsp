@@ -32,22 +32,22 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-body">
-                <h5 class="modal-title" id="myModalLabel">Are you sure you want to delete this task?</h5>
+                <h5 class="modal-title" id="myModalLabel"><spring:message code="label.todo.destroyTaskModal.title"/></h5>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="delete">Delete</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><spring:message code="label.todo.destroyTaskModal.buttonClose.title"/></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="delete"><spring:message code="label.todo.destroyTaskModal.buttonDelete.title"/></button>
             </div>
         </div>
     </div>
 </div>
 <script id="templateInputGroup" type="text/x-jquery-tmpl">
     <div class='form-group input-group'>
-        <textarea id='${'${'}inputId}' class='form-control' placeholder='What do you have in mind this time?'rows='1'/></textarea>
-        <button id='${'${'}btnAddId}' class='btn btn-success btn-sm '><strong>ADD</strong></button>
+        <textarea id='${'${'}inputId}' class='form-control' placeholder='<spring:message code="label.todo.input.placeholder"/>'rows='1'/></textarea>
+        <button id='${'${'}btnAddId}' class='btn btn-success btn-sm '><strong><spring:message code="label.todo.buttonAdd"/></strong></button>
     </div>
-    <h3 id='${'${'}messageUserId}' class='text-center desc' style="display: none;">You Todo - list is empty! Please add task.<br>
-    <small>Enter a new task, and then click Add or <strong class='text-primary'>Ctrl+Enter</strong></small></h3>
+    <h3 id='${'${'}messageUserId}' class='text-center desc' style="display: none;"><spring:message code="label.todo.messageFromUser"/><br>
+    <small><spring:message code="label.todo.messageFromUser.action"/> <strong class='text-primary'><spring:message code="label.todo.messageFromUser.hotkey"/></strong></small></h3>
     <ul id='${'${'}todoListId}' class='${'${'}todoListClass}'></ul>
 
 </script>

@@ -8,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -36,7 +35,6 @@ public class RestHandlerExceptionResolverConfig extends WebMvcConfigurerAdapter 
         return RestHandlerExceptionResolver.builder()
                 .messageSource(httpErrorMessageSource())
                 .defaultContentType(MediaType.APPLICATION_JSON)
-                .addErrorMessageHandler(Exception.class, HttpStatus.INTERNAL_SERVER_ERROR)
                 .addHandler(TaskNotFoundException.class, new TaskNotFoundExceptionHandler())
                 .build();
     }
