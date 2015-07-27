@@ -14,21 +14,21 @@ import java.util.Date;
 @Entity
 public class Task extends AbstractEntity {
 
-    public static final int MAX_LENGTH_TEXT = Integer.MAX_VALUE;
+    public static final int TAXT_MAX_LENGTH_TEXT = Integer.MAX_VALUE;
 
     @Lob
     @Type(type = "org.hibernate.type.StringClobType")
-    @Column(length = MAX_LENGTH_TEXT)
+    @Column(nullable = false, length = TAXT_MAX_LENGTH_TEXT)
     private String text;
 
-    @Column(name = "published_date")
+    @Column(name = "published_date", nullable = false)
     private Date publishedDate;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean isExecuted = false;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public static Builder getBuilder(String text) {
@@ -42,14 +42,6 @@ public class Task extends AbstractEntity {
 
     public void update(String text) {
         this.text = text;
-    }
-
-    public void perform() {
-        this.isExecuted = true;
-    }
-
-    public void unperformed() {
-        this.isExecuted = false;
     }
 
     public static class Builder {

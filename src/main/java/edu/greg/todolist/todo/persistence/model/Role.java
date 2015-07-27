@@ -3,6 +3,7 @@ package edu.greg.todolist.todo.persistence.model;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @ToString(exclude = "users")
 public class Role extends AbstractEntity {
 
+    @Column(nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "roles")

@@ -1,15 +1,19 @@
 package edu.greg.todolist.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,6 +38,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     private static final String TILES_DEFINITION = "/WEB-INF/defs/general.xml";
     private static final String MESSAGE_CONVERTS_DATE_FORMAT = "d MMMM yyyy | HH:mm:ss";
     private static final String MESSAGE_SOURCE_BASE_NAME = "i18n/messages";
+    private static final String VALIDATION_MESSAGE_SOURCE_BASE_NAME = "i18n/ValidationMessages";
 
     @Bean
     public UrlBasedViewResolver viewResolver() {
@@ -75,14 +81,45 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         converters.add(new MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
     }
 
+
+    //
+//    @Override
+//    public Validator getValidator() {
+//        return validator();
+//    }
+//
+//    @Bean(name="messageSourceAccessor")
+//    public MessageSourceAccessor messageSourceAccessor() {
+//        return new MessageSourceAccessor(messageSource());
+//    }
     @Bean
     public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        List<String> fileList = new ArrayList<>();
+        fileList.add("classpath:" + MESSAGE_SOURCE_BASE_NAME);
+        fileList.add("classpath:" + VALIDATION_MESSAGE_SOURCE_BASE_NAME);
 
-        messageSource.setBasename(MESSAGE_SOURCE_BASE_NAME);
-        messageSource.setUseCodeAsDefaultMessage(true);
+        String[] files = fileList.toArray(new String[fileList.size()]);
+
+        messageSource.setBasenames(files);
+        messageSource.setCacheSeconds(1);
 
         return messageSource;
     }
 
+    @Bean
+    public LocalValidatorFactoryBean getValidator() {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(messageSource());
+        validator.setParameterNameDiscoverer(new LocalVariableTableParameterNameDiscoverer());
+       return validator;
+    }
+
+    @Bean
+    @Autowired
+    MethodValidationPostProcessor getValidationPostProcessor(LocalValidatorFactoryBean validator) {
+        MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+        processor.setValidator(validator);
+        return processor;
+    }
 }

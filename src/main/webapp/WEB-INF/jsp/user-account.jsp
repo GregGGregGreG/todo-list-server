@@ -18,12 +18,6 @@
         <div class="col-md-7">
             <div id="todo-list"></div>
         </div>
-        <div class="col-md-2 text-right">
-            <div class="list-group affix">
-                <a href="#" class="list-group-item">My tasks</a>
-                <a href="#" class="list-group-item">Scheduled Tasks</a>
-            </div>
-        </div>
     </div>
 </div>
 <div class="modal fade bs-example-modal-sm" id="destroyTaskModal" tabindex="-1" role="dialog"

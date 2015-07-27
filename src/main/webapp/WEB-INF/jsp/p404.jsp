@@ -57,7 +57,9 @@
         }
 
         #hex {
-            color: white; font: 64px/64px Lato; height: 64px;
+            color: white;
+            font: 64px/64px Lato;
+            height: 64px;
         }
     </style>
 </head>
@@ -67,8 +69,10 @@
         <div id="hex"></div>
         <a href="<spring:url value="/" />">
             <h1 class="error">404 <br>Page <br>Not Found</h1>
-            <p><c:out value="${errorUrl}"/></p>
-            <p><spring:message code="label.404.error.page.text"/> </p>
+
+            <p><strong><c:out value="${errorUrl}"/></strong></p>
+
+            <p><spring:message code="label.404.error.page.text"/></p>
         </a>
     </div>
 </main>
@@ -86,11 +90,11 @@
         s = d.getSeconds();
 
         //add zero to the left of the numbers if they are single digits
-        if(h <= 9) h = '0'+h;
-        if(m <= 9) m = '0'+m;
-        if(s <= 9) s = '0'+s;
+        if (h <= 9) h = '0' + h;
+        if (m <= 9) m = '0' + m;
+        if (s <= 9) s = '0' + s;
 
-        color = "#"+h+m+s;
+        color = "#" + h + m + s;
         //set background color
         document.body.style.background = color;
         //set time

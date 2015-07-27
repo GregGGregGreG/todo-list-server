@@ -4,6 +4,7 @@ package edu.greg.todolist.todo.controller;
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
+import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.TaskServices;
 import edu.greg.todolist.todo.persistence.service.UserServices;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +34,10 @@ public class UserController {
     @Resource
     private TaskServices taskServices;
 
-//    @ModelAttribute("user")
-//    public User constructBlog() {
-//        return new User();
-//    }
+    @ModelAttribute("user")
+    public User constructBlog() {
+        return new User();
+    }
 
     @RequestMapping("/account")
     public String account(Model model) {
@@ -62,11 +63,11 @@ public class UserController {
     @RequestMapping(value = "/api/todo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public TaskDto add(@RequestBody TaskDto dto) {
-        log.debug("Adding a new to-do entry with information: {}", dto);
+        log.debug("Adding a new user entry with information: {}", dto);
 
         Task added = taskServices.add(dto, "GreG");
 
-        log.debug("Added a to-do entry with information: {}", added);
+        log.debug("Added a to-do user with information: {}", added);
 
         return createDtoTask(added);
     }
