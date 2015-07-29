@@ -20,7 +20,7 @@
     </definition>
 
     <definition name="join" extends="common">
-        <put-attribute name="title" value="label.user.registration.page.title"/>
+        <put-attribute name="title" value="label.user.join.page.title"/>
         <put-attribute name="body" value="/WEB-INF/jsp/join.jsp"/>
         <put-attribute name="current" value="join"/>
     </definition>

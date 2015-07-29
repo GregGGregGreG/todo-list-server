@@ -55,7 +55,7 @@
     <input type="password"
            name='j_password'
            class="form-control"
-           placeholder=' <spring:message code="label.user.name"/>'
+           placeholder=' <spring:message code="label.user.password"/>'
            required>
     <button class="btn btn-lg btn-primary btn-block" type="submit">
         <spring:message code="label.user.login.submit.button"/>

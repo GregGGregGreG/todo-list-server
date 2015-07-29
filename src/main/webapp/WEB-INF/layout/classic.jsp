@@ -1,7 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="../layout/taglib.jsp" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tilesx" uri="http://tiles.apache.org/tags-tiles-extras" %>
 <tilesx:useAttribute name="current"/>
 <!DOCTYPE html>
@@ -20,7 +18,9 @@
     <script src="../../static/node_modules/jquery.tmpl.js/jquery.tmpl.js"></script>
     <script src="../../static/js/jquery.todo-list.js"></script>
     <script src="../../static/node_modules/bootstrap.message/bootstrap.message.js"></script>
-</head>
+    <%--<script src="../../static/node_modules/jquery-validation-1.14.0/additional-methods.js"></script>--%>
+    <script src="../../static/node_modules/jquery-validation-1.14.0/jquery.validate.js"></script>
+  </head>
 <body>
 <header>
     <div class="container">
