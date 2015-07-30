@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import java.util.Set;
  */
 @Data
 @Entity
+@Table(name = "app_user")
 @ToString(exclude = {"roles", "tasks"})
 public class User extends AbstractEntity {
 
@@ -30,6 +32,8 @@ public class User extends AbstractEntity {
     private String email;
     @Column(nullable = false, length = MAX_LENGTH_PASSWORD)
     private String password;
+    @Column(name = "created_date", nullable = false)
+    private Date createdDate;
 
     @ManyToMany
     @JoinTable
@@ -38,8 +42,15 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Task> tasks;
 
+    private Boolean enabled;
+
     public static Builder getBuilder(String name) {
         return new Builder(name);
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdDate = new Date();
     }
 
     public static class Builder {
@@ -62,6 +73,15 @@ public class User extends AbstractEntity {
 
         public Builder password(String password) {
             built.password = password;
+            return this;
+        }
+
+        public Builder roles(Set<Role> roles) {
+            built.roles = roles;
+            return this;
+        }
+        public Builder enabled(Boolean enabled) {
+            built.enabled = enabled;
             return this;
         }
     }

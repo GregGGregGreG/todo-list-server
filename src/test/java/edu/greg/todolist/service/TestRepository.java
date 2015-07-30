@@ -32,7 +32,7 @@ public class TestRepository {
 //        user.setEmail("1@mail.ru");
 //        userServices.add(user);
 //
-//        assertEquals(userServices.findOne("GreG").getName(), "GreG");
+//        assertEquals(userServices.findByName("GreG").getName(), "GreG");
 //
 //    }
 //
@@ -55,7 +55,7 @@ public class TestRepository {
 //        roleAdmin.setName("ADMIN");
 //        roleServices.save(roleAdmin);
 //
-//        assertEquals(roleServices.findOne("ADMIN").getName(), "ADMIN");
+//        assertEquals(roleServices.findByName("ADMIN").getName(), "ADMIN");
 //    }
 //
 //    @Test
@@ -72,11 +72,11 @@ public class TestRepository {
 //        user.setRoles(roles);
 //        userServices.add(user);
 
-//        User greg = userServices.findById("GreG");
+//        User greg = userServices.findAllTaskByEmail("GreG");
 
 
 
-//        assertEquals(user.getName(), userServices.findById("GreG").getName());
+//        assertEquals(user.getName(), userServices.findAllTaskByEmail("GreG").getName());
 
 //    }
 }

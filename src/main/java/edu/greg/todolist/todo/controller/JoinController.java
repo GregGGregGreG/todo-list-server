@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class JoinController {
     }
 
     @RequestMapping("/join")
-    public String showRegister() {
+    public String showRegister(Principal principal) {
         log.debug("Rendering registration page.");
         return JOIN_VIEW;
     }

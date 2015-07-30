@@ -15,10 +15,10 @@ public interface TaskServices {
      * Adds a new task entry.
      *
      * @param added  The information of the added task entry.
-     * @param userName The information of the user.
+     * @param email The information of the email user.
      * @return The added task entry.
      */
-    Task add(TaskDto added, String userName);
+    Task add(TaskDto added, String email);
 
     /**
      * Updates the information of a task entry.
@@ -39,10 +39,10 @@ public interface TaskServices {
 
     /**
      * Find all task from user
-     * @param userId The id of the creator entry.
+     * @param email The email of the creator entry.
      * @return Returns a list of task entries.
      */
-    List<Task> findAllFromUser(Integer userId);
+    List<Task> findAllByUserEmail(String email);
 
     /**
      * Finds a task entry.

@@ -14,6 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -41,7 +42,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     private static final String VALIDATION_MESSAGE_SOURCE_BASE_NAME = "i18n/ValidationMessages";
 
     @Bean
-    public UrlBasedViewResolver viewResolver() {
+    public ViewResolver viewResolver() {
         UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
         viewResolver.setViewClass(TilesView.class);
         return viewResolver;
@@ -49,10 +50,10 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public TilesConfigurer tilesConfigurer() {
-        TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions(TILES_DEFINITION);
-        tilesConfigurer.setCheckRefresh(true);
-        return tilesConfigurer;
+        TilesConfigurer configurer = new TilesConfigurer();
+        configurer.setDefinitions(TILES_DEFINITION);
+        configurer.setCheckRefresh(true);
+        return configurer;
     }
 
 
@@ -81,17 +82,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         converters.add(new MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
     }
 
-
-    //
-//    @Override
-//    public Validator getValidator() {
-//        return validator();
-//    }
-//
-//    @Bean(name="messageSourceAccessor")
-//    public MessageSourceAccessor messageSourceAccessor() {
-//        return new MessageSourceAccessor(messageSource());
-//    }
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -122,4 +112,5 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         processor.setValidator(validator);
         return processor;
     }
+
 }

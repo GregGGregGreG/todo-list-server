@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Length.List;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.Date;
+
 
 /**
  * Created by greg on 06.07.15.
@@ -29,5 +31,7 @@ public class UserDto {
 
     @Length(min = User.MIN_LENGTH_PASSWORD, message = "{UserDto.error.password.size.min}")
     private String password;
+
+    private Date createdDate;
 
 }

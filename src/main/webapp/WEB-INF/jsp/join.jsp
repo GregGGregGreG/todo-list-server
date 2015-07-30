@@ -1,5 +1,4 @@
 <%@ include file="../layout/taglib.jsp" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <form:form commandName="dto" cssClass="form-group registraionForm col-sm-6">
     <!-- setup-form-container -->
     <h4 class="form-group">
@@ -59,6 +58,9 @@
             <spring:message code="label.user.join.submit.button"/>
         </button>
     </div>
+    <input type="hidden"
+           name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
     <!-- /.setup-form-container -->
 </form:form>
 <script type="text/javascript">

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    protected static final String INDEX_VIEW = "index";
+    protected static final String ACCOUNT_VIEW = "account";
 
     @RequestMapping(value = {"/"})
     public String index() {
-        log.debug("Rendering home page.");
-        return INDEX_VIEW;
+        log.debug("Home page redirect to login page.");
+        return ACCOUNT_VIEW;
     }
 }

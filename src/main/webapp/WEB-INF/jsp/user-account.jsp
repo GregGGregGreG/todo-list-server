@@ -9,11 +9,13 @@
 
             <h4>Email: ${user.email}</h4>
 
-            <c:forEach items="${user.roles}" var="role">
-                <h3>Role: ${role.name}</h3>
+            <h4>Created date: ${user.createdDate}</h4>
 
-                <h3>Id: ${role.id}</h3>
-            </c:forEach>
+            <%--<c:forEach items="${user.roles}" var="role">--%>
+                <%--<h3>Role: ${role.name}</h3>--%>
+
+                <%--<h3>Id: ${role.id}</h3>--%>
+            <%--</c:forEach>--%>
         </div>
         <div class="col-md-7">
             <div id="todo-list"></div>

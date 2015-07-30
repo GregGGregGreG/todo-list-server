@@ -7,6 +7,7 @@ import edu.greg.todolist.todo.persistence.repository.RoleRepository;
 import edu.greg.todolist.todo.persistence.repository.TaskRepository;
 import edu.greg.todolist.todo.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -35,12 +36,14 @@ public class InitDbServices {
     @PostConstruct
     public void init() {
         User user = new User();
-        user.setName("GreG");
+        user.setName("greg");
         user.setEmail("1@mail.ru");
-        user.setPassword("123456");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+        user.setPassword(encoder.encode("123456"));
+        user.setEnabled(true);
 
         Role roleTest = new Role();
-        roleTest.setName("ADMIN");
+        roleTest.setName("ROLE_USER");
         roleRepository.save(roleTest);
 
         Set<Role> roles = new HashSet<>();
@@ -64,6 +67,4 @@ public class InitDbServices {
         taskRepository.save(taskTwo);
 
     }
-
-
 }

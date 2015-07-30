@@ -31,9 +31,9 @@ public class DefaultTaskServices implements TaskServices {
     private UserRepository userRepository;
 
     @Override
-    public Task add(TaskDto taskDto, String userName) {
+    public Task add(TaskDto taskDto, String email) {
         Task model = Task.getBuilder(taskDto.getText())
-                .user(userRepository.findByName(userName))
+                .user(userRepository.findByEmail(email))
                 .build();
 
         return taskRepository.save(model);
@@ -51,8 +51,8 @@ public class DefaultTaskServices implements TaskServices {
     }
     //Find all task from user and sort publishedDate
     @Override
-    public List<Task> findAllFromUser(Integer userId) {
-        User user = userRepository.findOne(userId);
+    public List<Task> findAllByUserEmail(String email) {
+        User user = userRepository.findByEmail(email);
 
         List<Task> models = taskRepository.findByUser(user, new PageRequest(0, 10, Sort.Direction.ASC, "publishedDate"));
 

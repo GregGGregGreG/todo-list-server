@@ -202,7 +202,7 @@
         //Create query object
         var query = {
             type: 'DELETE',
-            url: "http://localhost:8080/api/todo/" + $id + ".html",
+            url: "http://localhost:8080/api/todo/" + $id,
             success: this.destroyTask.bind(this)
         };
         //Show modal window
@@ -488,9 +488,10 @@
      * @param options
      */
     function newTodoResource(options) {
+
         $.ajax({
             type: options.type,
-            url: options.url || "http://localhost:8080/api/todo.html",
+            url: options.url || "http://localhost:8080/api/todo",
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -501,11 +502,9 @@
                 var message = $("<div>")
                     .message({
                         type: "error",
-                        message: jqXHR.responseJSON.detail
+                        message: jqXHR.statusText
                     });
                 $('main').prepend(message);
-
-                console.log(jqXHR.responseText);
             }
         });
     }

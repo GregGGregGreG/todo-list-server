@@ -27,6 +27,7 @@ public class Initializer implements WebApplicationInitializer {
         ctx.register(WebAppConfig.class);
         ctx.register(DataBaseConfig.class);
         ctx.register(RestHandlerExceptionResolverConfig.class);
+        ctx.register(WebSecurityConfig.class);
 
         // Manage the lifecycle of the root appcontext
         servletContext.addListener(new ContextLoaderListener(ctx));
