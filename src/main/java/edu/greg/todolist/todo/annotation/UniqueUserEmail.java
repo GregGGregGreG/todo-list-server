@@ -13,8 +13,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = {UniqueEmailValidator.class})
-public @interface UniqueEmail {
+@Constraint(validatedBy = {UniqueUserEmailValidator.class})
+public @interface UniqueUserEmail {
     String message();
 
     Class<?>[] groups() default {};

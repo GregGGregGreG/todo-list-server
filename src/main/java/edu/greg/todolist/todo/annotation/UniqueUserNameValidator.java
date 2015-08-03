@@ -9,17 +9,18 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Created by greg on 03.08.15.
  */
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueUserNameValidator implements ConstraintValidator<UniqueUserName, String> {
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
-    public void initialize(UniqueEmail constraintAnnotation) {
+    public void initialize(UniqueUserName constraintAnnotation) {
 
     }
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
-        return userRepository == null || userRepository.findByEmail(email) == null;
+    public boolean isValid(String name, ConstraintValidatorContext context) {
+        return userRepository == null || userRepository.findByName(name) == null;
     }
 }

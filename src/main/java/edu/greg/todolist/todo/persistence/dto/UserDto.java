@@ -1,7 +1,8 @@
 package edu.greg.todolist.todo.persistence.dto;
 
 
-import edu.greg.todolist.todo.annotation.UniqueEmail;
+import edu.greg.todolist.todo.annotation.UniqueUserEmail;
+import edu.greg.todolist.todo.annotation.UniqueUserName;
 import edu.greg.todolist.todo.persistence.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +25,12 @@ public class UserDto {
             @Length(min = User.MIN_LENGTH_NAME, message = "{UserDto.error.name.size.min}"),
             @Length(max = User.MAX_LENGTH_NAME, message = "{UserDto.error.name.size.max}")
     })
+    @UniqueUserName(message = "{UserDto.error.name.size.unique}")
     private String name;
 
     @NotEmpty(message = "{UserDto.error.email}")
     @Email(message = "{UserDto.error.email}")
-    @UniqueEmail(message = "{UserDto.error.email.unique}")
+    @UniqueUserEmail(message = "{UserDto.error.email.unique}")
     private String email;
 
     @Length(min = User.MIN_LENGTH_PASSWORD, message = "{UserDto.error.password.size.min}")
