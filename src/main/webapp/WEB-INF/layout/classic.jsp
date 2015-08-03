@@ -31,6 +31,7 @@
             });
         });
     </script>
+
 </head>
 <body>
 <header>
@@ -88,7 +89,7 @@
 <main class="container">
     <tiles:insertAttribute name="body"/>
 </main>
-<footer class="container">
+<footer class="footer">
     <tiles:insertAttribute name="footer"/>
 </footer>
 </body>

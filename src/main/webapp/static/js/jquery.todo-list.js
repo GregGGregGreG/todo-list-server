@@ -445,7 +445,7 @@
      * Find message from user and return jquery element
      * @returns {*|HTMLElement}
      */
-    function getMessageUser() {
+    function    getMessageUser() {
         return $('#' + this.config.messageUserId);
     }
 
@@ -502,7 +502,9 @@
                 var message = $("<div>")
                     .message({
                         type: "error",
-                        message: jqXHR.statusText
+                        message: jqXHR.responseJSON == undefined
+                            ? 'Error Server '
+                            : jqXHR.responseJSON.detail
                     });
                 $('main').prepend(message);
             }

@@ -5,6 +5,10 @@
         <strong>Create your personal account</strong>
     </h4>
 
+    <c:if test="${param.success eq true}">
+        <div class="alert alert-success"><spring:message code="label.user.join.page.text.success"/></div>
+    </c:if>
+
     <spring:hasBindErrors name="dto">
         <div class="alert alert-danger"><spring:message code="label.user.join.page.text.error"/></div>
     </spring:hasBindErrors>
