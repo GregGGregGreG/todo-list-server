@@ -68,7 +68,7 @@
     <div class="container text-center">
         <div id="hex"></div>
         <a href="<spring:url value="/" />">
-            <h1 class="error">404 <br>Page <br>Not Found</h1>
+            <h1 class="error">404 <br>File <br>Not Found</h1>
 
             <p><strong><c:out value="${errorUrl}"/></strong></p>
 
