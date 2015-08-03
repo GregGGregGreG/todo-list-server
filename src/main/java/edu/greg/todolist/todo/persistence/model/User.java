@@ -26,9 +26,9 @@ public class User extends AbstractEntity {
     public static final int MIN_LENGTH_EMAIL = 1;
     public static final int MAX_LENGTH_EMAIL = 1000;
 
-    @Column(nullable = false, length = MAX_LENGTH_NAME)
+    @Column(nullable = false, unique = true, length = MAX_LENGTH_NAME)
     private String name;
-    @Column(nullable = false, length = MAX_LENGTH_EMAIL)
+    @Column(nullable = false, unique = true, length = MAX_LENGTH_EMAIL)
     private String email;
     @Column(nullable = false, length = MAX_LENGTH_PASSWORD)
     private String password;
@@ -80,6 +80,7 @@ public class User extends AbstractEntity {
             built.roles = roles;
             return this;
         }
+
         public Builder enabled(Boolean enabled) {
             built.enabled = enabled;
             return this;
