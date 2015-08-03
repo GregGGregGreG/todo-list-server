@@ -14,6 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -102,7 +103,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(messageSource());
         validator.setParameterNameDiscoverer(new LocalVariableTableParameterNameDiscoverer());
-       return validator;
+        return validator;
     }
 
     @Bean
@@ -113,4 +114,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         return processor;
     }
 
+    //Handler enum view
+    @Override
+    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
+        returnValueHandlers.add(
+                new TodoViewEnumModelAndViewResolver()
+        );
+    }
 }

@@ -3,6 +3,10 @@ package edu.greg.todolist.todo.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import static edu.greg.todolist.todo.util.TodoView.ACCOUNT;
+import static edu.greg.todolist.todo.util.TodoView.redirectTo;
 
 /**
  * Created by greg on 26.06.15.
@@ -11,11 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    protected static final String ACCOUNT_VIEW = "account";
-
     @RequestMapping(value = {"/"})
-    public String index() {
-        log.debug("Home page redirect to login page.");
-        return ACCOUNT_VIEW;
+    public ModelAndView index() {
+        log.debug("Home page redirect to account page.");
+        return new ModelAndView(redirectTo(ACCOUNT));
     }
 }

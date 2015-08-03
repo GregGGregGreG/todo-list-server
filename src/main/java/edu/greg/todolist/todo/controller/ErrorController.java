@@ -1,5 +1,6 @@
 package edu.greg.todolist.todo.controller;
 
+import edu.greg.todolist.todo.util.TodoView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
 
+import static edu.greg.todolist.todo.util.TodoView.*;
+
 /**
  * Created by greg on 27.06.15.
  */
@@ -16,11 +19,8 @@ import java.text.MessageFormat;
 @Controller
 public class ErrorController {
 
-    protected static final String ERROR_VIEW = "p404";
-    public static final String DEFAULT_ERROR_VIEW = "error";
-
     @RequestMapping(value = "/error/404", method = RequestMethod.GET)
-    public String show404Page(HttpServletRequest req, Model model) {
+    public TodoView show404Page(HttpServletRequest req, Model model) {
         log.debug("Rendering 404 page");
         String requestUri = (String) req.getAttribute("javax.servlet.error.request_uri");
         if (requestUri == null) {
@@ -28,11 +28,11 @@ public class ErrorController {
         }
 
         model.addAttribute("errorUrl", requestUri);
-        return ERROR_VIEW;
+        return P404;
     }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)
-    public String showError(HttpServletRequest req, Model model) {
+    public TodoView showError(HttpServletRequest req, Model model) {
         log.debug("Rendering error page");
 
         final Integer statusCode = (Integer) req.getAttribute("javax.servlet.error.status_code");
@@ -45,6 +45,6 @@ public class ErrorController {
                 statusCode, requestUri);
 
         model.addAttribute("errorMessage", message);
-        return DEFAULT_ERROR_VIEW;
+        return DEFAULT_ERROR;
     }
 }
