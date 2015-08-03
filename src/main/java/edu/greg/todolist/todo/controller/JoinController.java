@@ -5,6 +5,8 @@ import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.UserServices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -27,6 +29,8 @@ import static edu.greg.todolist.todo.util.TodoView.*;
 @Slf4j
 @Controller
 public class JoinController {
+    private static final String NAME_FIELD = "name";
+    private static final String EMAIL_FIELD = "email";
 
     @Autowired
     private UserServices userServices;
@@ -48,8 +52,8 @@ public class JoinController {
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)
     public ModelAndView doRegister(@Valid @ModelAttribute("dto") UserDto dto,
-                               BindingResult result,
-                               ModelMap model) {
+                                   BindingResult result,
+                                   ModelMap model) {
         log.debug("Adding a new user entry with information: {}", dto);
         if (result.hasErrors()) {
             log.debug("Handle errors user entry: {}", result.hasErrors());
@@ -64,20 +68,31 @@ public class JoinController {
 
     @RequestMapping(value = "/signup_check/username", method = RequestMethod.POST)
     @ResponseBody
-    public String signUpCheckUserName(@Valid @ModelAttribute("dto") UserDto dto,
-                                      BindingResult result) {
+    public ResponseEntity<String> signUpCheckUserName(@Valid @ModelAttribute("dto") UserDto dto,
+                                                      BindingResult result) {
+        log.debug("Handle errors user entry: {}", result.hasErrors());
+        return getFieldError(result, NAME_FIELD);
+    }
+
+    @RequestMapping(value = "/signup_check/email", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> signUpCheckEmail(@Valid @ModelAttribute("dto") UserDto dto,
+                                                   BindingResult result) {
+        log.debug("Handle errors user entry: {}", result.hasErrors());
+        return getFieldError(result, EMAIL_FIELD);
+    }
+
+    private ResponseEntity<String> getFieldError(BindingResult result, String field) {
         if (result.hasErrors()) {
-            log.debug("Handle errors user entry: {}", result.hasErrors());
+            log.debug("Find {} message error", field);
             List<FieldError> errors = result.getFieldErrors();
             for (FieldError error : errors) {
                 System.out.println(error.getField() + " - " + error.getDefaultMessage());
-                if (error.getField().equals("name")) {
-                    return error.getDefaultMessage();
+                if (error.getField().equals(field)) {
+                    return new ResponseEntity<>(error.getDefaultMessage(), HttpStatus.ACCEPTED);
                 }
             }
-
         }
-        return Boolean.TRUE.toString();
+        return new ResponseEntity<>(Boolean.TRUE.toString(), HttpStatus.ACCEPTED);
     }
-
 }

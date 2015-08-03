@@ -106,7 +106,15 @@
                 },
                 email: {
                     required: true,
-                    email: true
+                    remote: {
+                        url: "<spring:url value='/signup_check/email' />",
+                        type: "post",
+                        data: {
+                            email: function () {
+                                return $("#email").val();
+                            }
+                        }
+                    }
                 },
                 password: {
                     required: true,
