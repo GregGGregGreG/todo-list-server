@@ -1,11 +1,6 @@
 <%@ include file="../layout/taglib.jsp" %>
 <style>
-    body {
-        /*background-color: #8a171a;*/
-    }
-
     .form-signin {
-        /*max-width: 330px;*/
         padding: 13px;
         margin: 0 auto;
     }
@@ -53,7 +48,6 @@
         -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     }
-
 
     .center {
         margin: 10% auto;
@@ -105,8 +99,6 @@
         line-height: 1;
         text-align: center;
     }
-
-
 </style>
 <div class="container">
     <div class="row center">
@@ -133,13 +125,12 @@
                         <p class="alert alert-danger">You have been logged out.</p>
                     </c:if>
                     <label for="name">
-                        <spring:message code="label.user.email"/>
+                        <spring:message code="label.user.login.input.name.text"/>
                     </label>
                     <input type="text"
                            id="name"
                            name="username"
                            class="form-control"
-                    <%--placeholder='<spring:message code="label.user.email"/>'--%>
                            required autofocus/>
                     <label for="password">
                         <spring:message code="label.user.password"/>
@@ -148,7 +139,6 @@
                            id="password"
                            name="password"
                            class="form-control"
-                    <%--placeholder='<spring:message code="label.user.password"/>'--%>
                            required>
                     <input type="hidden"
                            name="${_csrf.parameterName}"
@@ -179,6 +169,5 @@
             'bottom': '10px',
             'width': '100%'
         });
-
     })
 </script>
