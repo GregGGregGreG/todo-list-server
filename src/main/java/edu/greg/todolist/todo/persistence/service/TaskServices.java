@@ -3,6 +3,7 @@ package edu.greg.todolist.todo.persistence.service;
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
+import edu.greg.todolist.todo.persistence.model.User;
 
 import java.util.List;
 
@@ -12,13 +13,13 @@ import java.util.List;
 public interface TaskServices {
 
     /**
-     * Adds a new task entry.
+     * Adds a new task entry to user.
      *
      * @param added  The information of the added task entry.
-     * @param email The information of the email user.
+     * @param user The information of the user.
      * @return The added task entry.
      */
-    Task add(TaskDto added, String email);
+    Task addTaskToUser(TaskDto added, User user);
 
     /**
      * Updates the information of a task entry.
@@ -42,7 +43,7 @@ public interface TaskServices {
      * @param email The email of the creator entry.
      * @return Returns a list of task entries.
      */
-    List<Task> findAllByUserEmail(String email);
+    List<Task> findAllByUser(User found);
 
     /**
      * Finds a task entry.

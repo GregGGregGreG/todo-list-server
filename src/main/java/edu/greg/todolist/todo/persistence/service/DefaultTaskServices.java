@@ -31,9 +31,9 @@ public class DefaultTaskServices implements TaskServices {
     private UserRepository userRepository;
 
     @Override
-    public Task add(TaskDto taskDto, String email) {
+    public Task addTaskToUser(TaskDto taskDto, User user) {
         Task model = Task.getBuilder(taskDto.getText())
-                .user(userRepository.findByEmail(email))
+                .user(user)
                 .build();
 
         return taskRepository.save(model);
@@ -49,10 +49,10 @@ public class DefaultTaskServices implements TaskServices {
         taskRepository.delete(deleted);
         return deleted;
     }
+
     //Find all task from user and sort publishedDate
     @Override
-    public List<Task> findAllByUserEmail(String email) {
-        User user = userRepository.findByEmail(email);
+    public List<Task> findAllByUser(User user) {
 
         List<Task> models = taskRepository.findByUser(user, new PageRequest(0, 10, Sort.Direction.ASC, "publishedDate"));
 
@@ -87,7 +87,7 @@ public class DefaultTaskServices implements TaskServices {
             model.update(updated.getText());
         }
 
-        if(updated.getIsExecuted() != null){
+        if (updated.getIsExecuted() != null) {
             log.debug("Updating executed task with information: {}", updated.getIsExecuted());
             model.setIsExecuted(updated.getIsExecuted());
             model.setPublishedDate(new Date());

@@ -3,9 +3,14 @@ package edu.greg.todolist.todo.controller;
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
+import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.TaskServices;
+import edu.greg.todolist.todo.persistence.service.UserServices;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +29,16 @@ public class TodoAPI {
     @Resource
     private TaskServices taskServices;
 
+    @Autowired
+    private UserServices userService;
+
     @RequestMapping(value = "/api/todo", method = RequestMethod.GET)
     @ResponseBody
     public List<TaskDto> findAllTaskByEmail(Principal principal) {
-        String email = principal.getName();
-        log.debug("Finding task list entry with user email: {}", email);
+        User found = getCurrentUser();
+        log.debug("Finding task list entry with user: {}", found);
 
-        List<Task> models = taskServices.findAllByUserEmail(email);
+        List<Task> models = taskServices.findAllByUser(found);
 
         log.debug("Found task list entry :{} ", models);
 
@@ -40,12 +48,12 @@ public class TodoAPI {
     @RequestMapping(value = "/api/todo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public TaskDto add(@RequestBody TaskDto dto, Principal principal) throws IllegalAccessException {
-        String email = principal.getName();
-        log.debug("Finding user entry with email {}", email);
+        User user = getCurrentUser();
+        log.debug("Finding user entry {}", user);
 
         log.debug("Adding a new task entry with information: {}", dto);
 
-        Task added = taskServices.add(dto, email);
+        Task added = taskServices.addTaskToUser(dto, user);
 
         log.debug("Added a to-do user with information: {}", added);
 
@@ -82,6 +90,15 @@ public class TodoAPI {
         }
 
         return dtos;
+    }
+
+    private User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String name = ((UserDetails) principal).getUsername();
+            return userService.findByName(name);
+        }
+        return null;
     }
 
     private TaskDto createDtoTask(Task model) {
