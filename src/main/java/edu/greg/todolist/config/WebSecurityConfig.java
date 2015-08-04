@@ -27,19 +27,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
 
     @Autowired
+    CustomUserDetailsServiceFromFindByEmail findByEmail;
+
+    @Autowired
+    CustomUserDetailsServiceFromFindByName findByName;
+
+    @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         BCryptPasswordEncoder encoder = passwordEncoder();
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(encoder)
-                .usersByUsernameQuery(
-                        "select email,password,enabled from app_user where email = ?")
-                .authoritiesByUsernameQuery(
-                        "select app_user.email, role.name from app_user " +
-                                "join app_user_roles on app_user.id = app_user_roles.users " +
-                                "join role on app_user_roles.roles=role.id " +
-                                "where app_user.email = ?");
+//        auth.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .passwordEncoder(encoder)
+//                .usersByUsernameQuery(
+//                        "select email,password,enabled from app_user where email = ?")
+//                .authoritiesByUsernameQuery(
+//                        "select app_user.email, role.name from app_user " +
+//                                "join app_user_roles on app_user.id = app_user_roles.users " +
+//                                "join role on app_user_roles.roles=role.id " +
+//                                "where app_user.email = ?");
 
+        auth
+                .userDetailsService(findByEmail)
+                .passwordEncoder(encoder)
+                .and()
+                .userDetailsService(findByName)
+                .passwordEncoder(encoder);
     }
 
     @Bean
@@ -63,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/account").hasRole("USER")
                 .antMatchers("/join/**").permitAll()
-                .antMatchers("/api/todo/**","/signup_check/**").permitAll()
+                .antMatchers("/api/todo/**", "/signup_check/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
