@@ -26,12 +26,25 @@
         $(function () {
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-            $(document).ajaxSend(function(e, xhr, options) {
+            $(document).ajaxSend(function (e, xhr, options) {
                 xhr.setRequestHeader(header, token);
             });
         });
     </script>
+    <style>
+        @import url(http://fonts.googleapis.com/css?family=Montserrat);
 
+        body {
+            background-color: #f5f8f9;
+            /*font-family: montserrat, arial, verdana;*/
+            /*background: linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)),*/
+            /*url('http://thecodeplayer.com/uploads/media/gs.png');*/
+        }
+
+        .glyphicon.glyphicon-off {
+            font-size: 15px;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -46,40 +59,40 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<spring:url value="/" />"><spring:message
-                        code="spring.todo.list.title"/></a>
+                <a class="navbar-brand" href="<spring:url value="/" />">
+                    <spring:message code="spring.todo.list.title"/>
+                </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <security:authorize access="isAuthenticated()">
+                <security:authorize access="isAuthenticated()">
+                    <ul class="nav navbar-nav">
                         <li class="${current == 'account'?'active':''}">
                             <a href="<spring:url value="/account" />">
                                 <spring:message code="label.navigation.account.link"/>
                             </a>
                         </li>
-                    </security:authorize>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <security:authorize access="! isAuthenticated()">
-                        <li class="${current == 'join'?'active':''}">
-                            <a href="<spring:url value="/join" />">
-                                <spring:message code="label.navigation.sign.up.link"/>
-                            </a>
-                        </li>
-                        <li class="${current == 'login'?'active':''}">
-                            <a href="<spring:url value="/login" />">
-                                <spring:message code="label.navigation.log.in.link"/>
-                            </a>
-                        </li>
-                    </security:authorize>
-                    <security:authorize access="isAuthenticated()">
+                    </ul>
+                </security:authorize>
+                <security:authorize access="! isAuthenticated()">
+                    <ul class=" navbar-form navbar-right">
+                        <a href="<spring:url value="/join" />" class="btn btn-success">
+                            <spring:message code="label.navigation.sign.up.link"/>
+                        </a>
+                        <a href="<spring:url value="/login" />" type="button" class="btn btn-default">
+                            <spring:message code="label.navigation.log.in.link"/>
+                        </a>
+                    </ul>
+                </security:authorize>
+                <security:authorize access="isAuthenticated()">
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="<spring:url value="/logout"/>">
                                 <spring:message code="label.navigation.logout.link"/>
+                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                             </a>
                         </li>
-                    </security:authorize>
-                </ul>
+                    </ul>
+                </security:authorize>
             </div>
             <!--/.nav-collapse -->
         </div>
