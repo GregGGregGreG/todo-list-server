@@ -54,7 +54,7 @@ public class DefaultTaskServices implements TaskServices {
     @Override
     public List<Task> findAllByUser(User user) {
 
-        List<Task> models = taskRepository.findByUser(user, new PageRequest(0, 10, Sort.Direction.ASC, "publishedDate"));
+        List<Task> models = taskRepository.findAllByUser(user, new PageRequest(0, 10, Sort.Direction.ASC, "publishedDate"));
 
         return models;
     }
