@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-    List<Task> findByUser(User user, Pageable pageable);
+    List<Task> findAllByUser(User user, Pageable pageable);
 }
