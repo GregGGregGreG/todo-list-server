@@ -279,13 +279,14 @@
     $('span.input-text input')
             .focus(function () {
                 $(this).closest('span').find('.reset-input').slideDown();
-                $(this).closest('span').find('label').addClass('success');
+
+//                $(this).closest('span').find('label').addClass('success');
             }).blur(function () {
                 var $span = $(this).closest('span');
                 var $input = $span.find('input');
 
                 if ($input.val() == '') {
-                    $span.find('label').removeClass('success');
+//                    $span.find('label').removeClass('success');
                 }
 
                 $span.find('.reset-input').slideUp();
