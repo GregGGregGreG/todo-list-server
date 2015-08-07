@@ -130,7 +130,7 @@
         //Disabled add button
         this.getBtnAdd().prop('disabled', true);
         //Set aotosize input field
-        autosize(this.getInput());
+        autosize(this.getInput().focus());
         //Create request for filling tasks
         var query = {
             type: 'GET',
@@ -442,7 +442,7 @@
      * Find message from user and return jquery element
      * @returns {*|HTMLElement}
      */
-    function    getMessageUser() {
+    function getMessageUser() {
         return $('#' + this.config.messageUserId);
     }
 
@@ -464,11 +464,11 @@
 
     /**
      * Show message for users about that todo-list is Empty!
-     * Set focus input field
+     * Set focus input field if todo-list is empty.
      * If todo list is empty show message from user
      */
     function showMessage() {
-        this.getInput().focus();
+        if(this.todoIsEmpty()) ;
         this.todoIsEmpty() ? this.getMessageUser().slideDown(600) : this.getMessageUser().hide();
     }
 
