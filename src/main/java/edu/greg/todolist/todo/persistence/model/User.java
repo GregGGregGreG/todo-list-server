@@ -35,7 +35,7 @@ public class User extends AbstractEntity {
     @Column(name = "created_date", nullable = false)
     private Date createdDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
     private Set<Role> roles;
 
