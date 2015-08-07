@@ -378,7 +378,6 @@
 
         this.getTemplateCompletedTask(task).appendTo(this.getTodoList());
 
-        this.getInput().focus();
     }
 
     function unPerformTask(task) {
@@ -388,8 +387,6 @@
         this.getTemplateTask(task).prependTo(this.getTodoList());
 
         autosize($('#' + this.config.textAreaEditTaskId));
-
-        this.getInput().focus();
     }
 
     /**
