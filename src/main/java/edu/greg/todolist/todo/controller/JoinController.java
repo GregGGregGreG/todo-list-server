@@ -1,12 +1,11 @@
 package edu.greg.todolist.todo.controller;
 
 import edu.greg.todolist.todo.persistence.dto.UserDto;
+import edu.greg.todolist.todo.persistence.dto.ValidationResponse;
 import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.UserServices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -68,31 +67,31 @@ public class JoinController {
 
     @RequestMapping(value = "/signup_check/username", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> signUpCheckUserName(@Valid @ModelAttribute("dto") UserDto dto,
-                                                      BindingResult result) {
+    public ValidationResponse signUpCheckUserName(@Valid @ModelAttribute("dto") UserDto dto,
+                                                  BindingResult result) {
         log.debug("Handle errors user entry: {}", result.hasErrors());
         return getFieldError(result, NAME_FIELD);
     }
 
     @RequestMapping(value = "/signup_check/email", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> signUpCheckEmail(@Valid @ModelAttribute("dto") UserDto dto,
-                                                   BindingResult result) {
+    public ValidationResponse signUpCheckEmail(@Valid @ModelAttribute("dto") UserDto dto,
+                                               BindingResult result) {
         log.debug("Handle errors user entry: {}", result.hasErrors());
         return getFieldError(result, EMAIL_FIELD);
     }
 
-    private ResponseEntity<String> getFieldError(BindingResult result, String field) {
+    private ValidationResponse getFieldError(BindingResult result, String field) {
         if (result.hasErrors()) {
             log.debug("Find {} message error", field);
             List<FieldError> errors = result.getFieldErrors();
             for (FieldError error : errors) {
                 System.out.println(error.getField() + " - " + error.getDefaultMessage());
                 if (error.getField().equals(field)) {
-                    return new ResponseEntity<>(error.getDefaultMessage(), HttpStatus.ACCEPTED);
+                    return new ValidationResponse(Boolean.FALSE, error.getDefaultMessage());
                 }
             }
         }
-        return new ResponseEntity<>(Boolean.TRUE.toString(), HttpStatus.ACCEPTED);
+        return new ValidationResponse(Boolean.TRUE);
     }
 }
