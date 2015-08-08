@@ -1,4 +1,4 @@
-package edu.greg.todolist.config;
+package edu.greg.todolist.todo.security;
 
 import edu.greg.todolist.todo.persistence.model.Role;
 import edu.greg.todolist.todo.persistence.model.User;
