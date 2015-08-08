@@ -3,7 +3,9 @@ package edu.greg.todolist.config;
 import cz.jirutka.spring.exhandler.RestHandlerExceptionResolver;
 import cz.jirutka.spring.exhandler.support.HttpMessageConverterUtils;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
+import edu.greg.todolist.todo.persistence.exception.UserNotFoundException;
 import edu.greg.todolist.todo.persistence.exception.heandler.TaskNotFoundExceptionHandler;
+import edu.greg.todolist.todo.persistence.exception.heandler.UserNotFoundExceptionHandler;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,13 +31,13 @@ public class RestHandlerExceptionResolverConfig extends WebMvcConfigurerAdapter 
         resolvers.add(restExceptionResolver());
     }
 
-
     @Bean
     public RestHandlerExceptionResolver restExceptionResolver() {
         return RestHandlerExceptionResolver.builder()
                 .messageSource(httpErrorMessageSource())
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .addHandler(TaskNotFoundException.class, new TaskNotFoundExceptionHandler())
+                .addHandler(UserNotFoundException.class, new UserNotFoundExceptionHandler())
                 .build();
     }
 
