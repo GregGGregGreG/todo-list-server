@@ -1,5 +1,5 @@
 (function ($) {
-    var oneRowHeightTextArea = 34;
+    var minHeightOneRowInput = 32;
     var ENTER_KEY = 13;
     var removeFirstSpace = /^[ \t]*/gm;
     var removeDuplicateSpace = /[ \t]{2,}/gm;
@@ -129,14 +129,14 @@
         $.tmpl("inputGroup", this.config).appendTo(this.element);
         //Disabled add button
         this.getBtnAdd().prop('disabled', true);
-        //Set aotosize input field
+        //Set aotosize input field and focus
         autosize(this.getInput().focus());
         //Create request for filling tasks
         var query = {
             type: 'GET',
             success: this.addTaskList.bind(this)
         };
-        //Send new request and Set focus input field
+        //Send new request
         this.newTodoResource(query);
     }
 
@@ -339,7 +339,7 @@
             //Set empty input field
             .val('')
             //Set default height input field
-            .css('height', oneRowHeightTextArea);
+            .css('height', minHeightOneRowInput);
         //Disabled button add
         this.getBtnAdd().prop('disabled', true);
         //Show message from user
@@ -468,7 +468,7 @@
      * If todo list is empty show message from user
      */
     function showMessage() {
-        if(this.todoIsEmpty()) ;
+        if(this.todoIsEmpty()) this.getInput().focus();
         this.todoIsEmpty() ? this.getMessageUser().slideDown(600) : this.getMessageUser().hide();
     }
 
