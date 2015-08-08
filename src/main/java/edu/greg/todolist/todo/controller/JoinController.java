@@ -3,7 +3,7 @@ package edu.greg.todolist.todo.controller;
 import edu.greg.todolist.todo.persistence.dto.UserDto;
 import edu.greg.todolist.todo.persistence.dto.ValidationResponse;
 import edu.greg.todolist.todo.persistence.model.User;
-import edu.greg.todolist.todo.persistence.service.UserServices;
+import edu.greg.todolist.todo.persistence.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,7 @@ public class JoinController {
     private static final String EMAIL_FIELD = "email";
 
     @Autowired
-    private UserServices userServices;
+    private UserService userServices;
 
     @ModelAttribute("dto")
     public UserDto constructUser() {
