@@ -5,11 +5,9 @@ import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
 import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.repository.TaskRepository;
-import edu.greg.todolist.todo.persistence.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,17 +21,17 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional
-public class DefaultTaskServices implements TaskServices {
+public class DefaultTaskService implements TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
-    public Task addTaskToUser(TaskDto taskDto, User user) {
-        Task model = Task.getBuilder(taskDto.getText())
-                .user(user)
+    public Task addTaskToUser(TaskDto added, User creator) {
+        log.debug("Adding a new task entry with information: {} to user: {} ", added, creator);
+
+        Task model = Task.getBuilder(added.getText())
+                .user(creator)
                 .build();
 
         return taskRepository.save(model);
@@ -52,9 +50,9 @@ public class DefaultTaskServices implements TaskServices {
 
     //Find all task from user and sort publishedDate
     @Override
-    public List<Task> findAllByUser(User user) {
-
-        List<Task> models = taskRepository.findAllByUser(user, new PageRequest(0, 10, Sort.Direction.ASC, "publishedDate"));
+    public List<Task> findAllByUser(User creator, PageRequest filter) {
+        log.debug("Finding a task list from user: {}", creator);
+        List<Task> models = taskRepository.findAllByUser(creator, filter);
 
         return models;
     }

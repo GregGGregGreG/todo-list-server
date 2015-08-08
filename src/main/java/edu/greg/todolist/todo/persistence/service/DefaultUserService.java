@@ -2,6 +2,7 @@ package edu.greg.todolist.todo.persistence.service;
 
 
 import edu.greg.todolist.todo.persistence.dto.UserDto;
+import edu.greg.todolist.todo.persistence.exception.UserNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Role;
 import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.repository.RoleRepository;
@@ -13,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import static edu.greg.todolist.todo.util.TodoRole.USER;
 
 /**
  * Created by greg on 01.07.15.
@@ -22,7 +24,7 @@ import java.util.Set;
 @Slf4j
 @Service
 @Transactional
-public class UserServices {
+public class DefaultUserService implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -30,32 +32,55 @@ public class UserServices {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Override
     public User add(UserDto added) {
         log.debug("Adding a new user entry with information: {}", added);
 
-        Set<Role> userRole = new HashSet<>();
-        userRole.add(roleRepository.findByName("ROLE_USER"));
+        Set<Role> roles = new HashSet<>();
+        
+        log.debug("Finding a role entry with name: {}", USER);
+        Role userRole = roleRepository.findByName(USER);
+        log.debug("Found role entry: {}", userRole);
+
+        log.debug("Adding role : {} to new user entry", userRole);
+        roles.add(userRole);
 
         User model = User.getBuilder(added.getName())
                 .email(added.getEmail())
                 .password(bCrypt(added.getPassword()))
-                .roles(userRole)
+                .roles(roles)
                 .enabled(Boolean.TRUE)
                 .build();
 
         return userRepository.save(model);
     }
 
-    public User findByName(String name) {
-        return userRepository.findByName(name);
+    @Override
+    public User findByName(String name) throws UserNotFoundException {
+        log.debug("Finding a user entry with name: {}", name);
+
+        User found = userRepository.findByName(name);
+        log.debug("Found task entry: {}", found);
+
+        if (found == null) {
+            throw new UserNotFoundException("No user-entry found with name: " + name);
+        }
+
+        return found;
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+    @Override
+    public User findByEmail(String email) throws UserNotFoundException {
+        log.debug("Finding a user entry with email: {}", email);
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+        User found = userRepository.findByEmail(email);
+        log.debug("Found task entry: {}", found);
+
+        if (found == null) {
+            throw new UserNotFoundException("No user-entry found with email: " + email);
+        }
+
+        return found;
     }
 
     /**
@@ -66,7 +91,7 @@ public class UserServices {
      * @return The encoding password.
      */
     private static String bCrypt(String password) {
-        log.debug("Coding new password: {}", password);
+        log.debug("Coding a new password: {}", password);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
