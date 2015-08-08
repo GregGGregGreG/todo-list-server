@@ -2,11 +2,14 @@ package edu.greg.todolist.todo.controller;
 
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
+import edu.greg.todolist.todo.persistence.exception.UserNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
 import edu.greg.todolist.todo.persistence.model.User;
-import edu.greg.todolist.todo.persistence.service.TaskServices;
+import edu.greg.todolist.todo.persistence.service.TaskService;
 import edu.greg.todolist.todo.util.TodoUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,17 +24,23 @@ import java.util.List;
 @Controller
 public class TodoAPI {
 
+    private static final String PUBLISHED_DATE_FIELD = "publishedDate";
+    private static final int MAX_COUNT_FIELD_RETURNED = 10;
+
     @Resource
-    private TaskServices taskServices;
+    private TaskService taskService;
+
 
     @RequestMapping(value = "/api/todo", method = RequestMethod.GET)
     @ResponseBody
-    public List<TaskDto> findAllTaskByEmail() {
+    public List<TaskDto> findAllTaskByEmail() throws UserNotFoundException {
         User found = TodoUtils.getCurrentUser();
+
+        PageRequest filter = new PageRequest(0, MAX_COUNT_FIELD_RETURNED, Sort.Direction.ASC, PUBLISHED_DATE_FIELD);
+        log.debug("Created filter from list : {}", filter);
+
         log.debug("Finding task list entry with user: {}", found);
-
-        List<Task> models = taskServices.findAllByUser(found);
-
+        List<Task> models = taskService.findAllByUser(found, filter);
         log.debug("Found task list entry :{} ", models);
 
         return TodoUtils.createDtoTaskList(models);
@@ -39,14 +48,12 @@ public class TodoAPI {
 
     @RequestMapping(value = "/api/todo", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public TaskDto add(@RequestBody TaskDto dto) throws IllegalAccessException {
+    public TaskDto add(@RequestBody TaskDto dto) {
         User user = TodoUtils.getCurrentUser();
         log.debug("Finding user entry {}", user);
 
         log.debug("Adding a new task entry with information: {}", dto);
-
-        Task added = taskServices.addTaskToUser(dto, user);
-
+        Task added = taskService.addTaskToUser(dto, user);
         log.debug("Added a to-do user with information: {}", added);
 
         return TodoUtils.createDtoTask(added);
@@ -59,7 +66,7 @@ public class TodoAPI {
 
 //        validate(OBJECT_NAME_TODO, dto);
 
-        Task updated = taskServices.update(dto);
+        Task updated = taskService.update(dto);
         log.debug("Updated the information of a model to: {}", updated);
 
         return TodoUtils.createDtoTask(updated);
@@ -69,7 +76,7 @@ public class TodoAPI {
     @ResponseBody
     public TaskDto deleteById(@PathVariable Integer id) throws TaskNotFoundException {
         log.debug("Deleting a model entry with id: {}", id);
-        Task deleted = taskServices.deleteById(id);
+        Task deleted = taskService.deleteById(id);
         log.debug("Deleted model : {}", deleted);
         return TodoUtils.createDtoTask(deleted);
     }
