@@ -27,6 +27,9 @@
     /*/!*font-size: xx-small;*!/*/
     /*}*/
 
+    body{
+        background: url('../../static/images/gpp.png');
+    }
     .form-signin {
         padding: 11px;
         margin: 0 auto;
@@ -143,10 +146,6 @@
         display: block;
     }
 
-    .login-title.success {
-        color: #4074cf;
-    }
-
     .new-account {
         font-size: 15px;
         display: block;
@@ -155,6 +154,7 @@
 
     a.new-account {
         text-decoration: none;
+        outline-style: none;
     }
 
     /*///////////////*/
@@ -209,7 +209,9 @@
                            id="name"
                            name="username"
                            class="form-control"
-                           required autofocus>
+                           required
+                           autofocus
+                            tabindex="1">
 
                         <button type="button" class="close reset-input">
                             <span aria-hidden="true">&times;</span>
@@ -224,7 +226,8 @@
                            id="password"
                            name="password"
                            class="form-control"
-                           required/>
+                           required
+                            tabindex="2"/>
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>
@@ -236,7 +239,7 @@
 
                     <c:if test="${param.error != null}">
                         <div class="alert alert-warning alert-danger" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <p>Invalid username / password</p>
@@ -246,12 +249,18 @@
                         <p class="alert alert-danger">You have been logged out.</p>
                     </c:if>
 
-                    <button class="btn btn-lg btn-primary btn-block action-button" type="submit">
+                    <div class="checkbox">
+                        <label class="login-title">
+                            <input type="checkbox" id="remember-me" name="remember-me" tabindex="3"/> Remember Me?
+                        </label>
+                    </div>
+
+                    <button class="btn btn-lg btn-primary btn-block action-button" type="submit" tabindex="4">
                         <spring:message code="label.user.login.submit.button"/>
                     </button>
                 </form>
             </div>
-            <a href="/join" class="text-center new-account">Create an account </a>
+            <a href="/join" class="text-center new-account" tabindex="4">Create an account</a>
         </div>
     </div>
 </div>
@@ -279,15 +288,9 @@
     $('span.input-text input')
             .focus(function () {
                 $(this).closest('span').find('.reset-input').slideDown();
-
-//                $(this).closest('span').find('label').addClass('success');
             }).blur(function () {
                 var $span = $(this).closest('span');
                 var $input = $span.find('input');
-
-                if ($input.val() == '') {
-//                    $span.find('label').removeClass('success');
-                }
 
                 $span.find('.reset-input').slideUp();
             });

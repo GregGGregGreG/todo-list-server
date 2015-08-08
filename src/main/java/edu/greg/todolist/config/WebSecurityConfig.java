@@ -1,5 +1,7 @@
 package edu.greg.todolist.config;
 
+import edu.greg.todolist.todo.security.CustomUserDetailsServiceFromFindByEmail;
+import edu.greg.todolist.todo.security.CustomUserDetailsServiceFromFindByName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -87,6 +89,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .permitAll()
+                .and()
+                .rememberMe()
                 .and()
                 .sessionManagement()
                 .maximumSessions(1)
