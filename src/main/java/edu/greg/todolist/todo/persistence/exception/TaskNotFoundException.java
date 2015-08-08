@@ -6,7 +6,7 @@ package edu.greg.todolist.todo.persistence.exception;
 public class TaskNotFoundException extends RuntimeException {
 
     public TaskNotFoundException() {
-        super("task not found.");
+        super("Task not found.");
     }
 
     public TaskNotFoundException(String message) {

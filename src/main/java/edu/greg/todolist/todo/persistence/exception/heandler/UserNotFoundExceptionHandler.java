@@ -3,25 +3,25 @@ package edu.greg.todolist.todo.persistence.exception.heandler;
 import cz.jirutka.spring.exhandler.handlers.ErrorMessageRestExceptionHandler;
 import cz.jirutka.spring.exhandler.messages.ErrorMessage;
 import cz.jirutka.spring.exhandler.messages.ValidationErrorMessage;
-import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
+import edu.greg.todolist.todo.persistence.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by greg on 12.07.15.
+ * Created by greg on 07.08.15.
  */
-public class TaskNotFoundExceptionHandler extends ErrorMessageRestExceptionHandler<TaskNotFoundException> {
+public class UserNotFoundExceptionHandler extends ErrorMessageRestExceptionHandler<UserNotFoundException> {
 
-    public TaskNotFoundExceptionHandler() {
+    public UserNotFoundExceptionHandler() {
         super(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Override
-    public ErrorMessage createBody(TaskNotFoundException ex, HttpServletRequest req) {
+    public ErrorMessage createBody(UserNotFoundException ex, HttpServletRequest req) {
 
         ErrorMessage tmpl = super.createBody(ex, req);
-        tmpl.setTitle("Task not found");
+        tmpl.setTitle("User not found ");
 
         ValidationErrorMessage msg = new ValidationErrorMessage(tmpl);
 
@@ -29,5 +29,4 @@ public class TaskNotFoundExceptionHandler extends ErrorMessageRestExceptionHandl
 
         return msg;
     }
-
 }
