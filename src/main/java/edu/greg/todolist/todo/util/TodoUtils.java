@@ -2,9 +2,10 @@ package edu.greg.todolist.todo.util;
 
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
 import edu.greg.todolist.todo.persistence.dto.UserDto;
+import edu.greg.todolist.todo.persistence.exception.UserNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
 import edu.greg.todolist.todo.persistence.model.User;
-import edu.greg.todolist.todo.persistence.service.UserServices;
+import edu.greg.todolist.todo.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +26,7 @@ public class TodoUtils {
     }
 
     @Autowired
-    private UserServices userService;
+    private UserService userService;
 
     private static TodoUtils utils;
 
@@ -35,7 +36,7 @@ public class TodoUtils {
         utils.userService = this.userService;
     }
 
-    public static User getCurrentUser() {
+    public static User getCurrentUser() throws UserNotFoundException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String name = ((UserDetails) principal).getUsername();
@@ -74,4 +75,5 @@ public class TodoUtils {
 
         return dtos;
     }
+
 }
