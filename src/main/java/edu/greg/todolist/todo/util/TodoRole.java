@@ -17,4 +17,10 @@ public enum TodoRole {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return "TodoRole{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
