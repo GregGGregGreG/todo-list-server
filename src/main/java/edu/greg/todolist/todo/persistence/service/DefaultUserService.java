@@ -39,7 +39,7 @@ public class DefaultUserService implements UserService {
         Set<Role> roles = new HashSet<>();
         
         log.debug("Finding a role entry with name: {}", USER);
-        Role userRole = roleRepository.findByName(USER);
+        Role userRole = roleRepository.findByName(USER.getName());
         log.debug("Found role entry: {}", userRole);
 
         log.debug("Adding role : {} to new user entry", userRole);

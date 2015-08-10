@@ -1,7 +1,6 @@
 package edu.greg.todolist.todo.persistence.repository;
 
 import edu.greg.todolist.todo.persistence.model.Role;
-import edu.greg.todolist.todo.util.TodoRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    Role findByName(TodoRole name);
+    Role findByName(String name);
 }
