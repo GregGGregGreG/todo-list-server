@@ -1,35 +1,9 @@
 <%@ include file="../layout/taglib.jsp" %>
 <style>
-
-    /*custom font*/
-    /*body{*/
-    /*background: linear-gradient(#ebeff2 0%, #fff 100%);*/
-    /*background-image: linear-gradient(rgb(235, 239, 242) 0%, rgb(255, 255, 255) 100%);*/
-    /*background-position-x: initial;*/
-    /*background-position-y: initial;*/
-    /*background-size: initial;*/
-    /*background-repeat-x: initial;*/
-    /*background-repeat-y: initial;*/
-    /*background-attachment: initial;*/
-    /*background-origin: initial;*/
-    /*background-clip: initial;*/
-    /*background-color: initial;*/
-    /*}*/
-
-    /*body {*/
-    /*/!*height: 100%;*!/*/
-    /*/!*Image only BG fallback*!/*/
-    /*/!*background: url('http://thecodeplayer.com/uploads/media/gs.png');*!/*/
-    /*/!*background = gradient + image pattern combo*!/*/
-    /*/!*background: linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)),*!/*/
-    /*/!*url('http://thecodeplayer.com/uploads/media/gs.png');*!/*/
-    /*font-family: montserrat, arial, verdana;*/
-    /*/!*font-size: xx-small;*!/*/
-    /*}*/
-
     body{
         background: url('../../static/images/gpp.png');
     }
+
     .form-signin {
         padding: 11px;
         margin: 0 auto;
@@ -60,13 +34,10 @@
     .form-signin input[type="text"],
     .form-signin input[type="password"] {
         padding: 8px 25px 8px 8px;
-        /*border: 1px solid #ccc;*/
         border-radius: 3px;
         margin-bottom: 10px;
         width: 100%;
         box-sizing: border-box;
-        /*font-family: montserrat;*/
-        /*color: #2C3E50;*/
         font-size: 13px;
     }
 
@@ -102,19 +73,6 @@
         margin: 10% auto;
     }
 
-    .profile-img {
-        width: 96px;
-        height: 96px;
-        margin: 0 auto 10px;
-        display: block;
-        -moz-border-radius: 50%;
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
-    }
-
-    .need-help {
-        margin-top: 10px;
-    }
 
     /*headings*/
     .fs-title {
@@ -131,7 +89,7 @@
 
     .fs-subtitle {
         font-weight: normal;
-        font-size: 13px;
+        font-size: 12px;
         color: #666;
         margin-bottom: 20px;
         text-align: center;
@@ -141,7 +99,7 @@
 
     .login-title {
         color: #555;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 400;
         display: block;
     }
@@ -181,7 +139,6 @@
         outline-style: none;
     }
 
-
 </style>
 <div class="container">
     <div class="row center">
@@ -194,7 +151,6 @@
             </h4>
         </div>
         <div class="col-md-4 col-md-offset-4">
-
             <div class="account-wall">
                 <c:url var="loginUrl" value="/login"/>
                 <form action="${loginUrl}"
@@ -264,47 +220,3 @@
         </div>
     </div>
 </div>
-<script>
-    //Set footer style
-    $(function () {
-        $('html').css({
-            'position': 'relative',
-            'min-height': '100%'
-        });
-        /* Margin bottom by footer height */
-        $('body').css({
-            'margin-bottom': '60px'
-        });
-        $('footer').css({
-            'position': 'absolute',
-            'bottom': '10px',
-            'width': '100%'
-        });
-    });
-    // show area login
-    $(".account-wall").slideToggle("slow");
-
-    // show reset button imput
-    $('span.input-text input')
-            .focus(function () {
-                $(this).closest('span').find('.reset-input').slideDown();
-            }).blur(function () {
-                var $span = $(this).closest('span');
-                var $input = $span.find('input');
-
-                $span.find('.reset-input').slideUp();
-            });
-
-    //reset-input action
-    $('.reset-input').on('click', function () {
-        //find input
-        var $input = $(this).closest('span').find('input');
-
-        if ($input.val() == '') {
-            $input.blur();
-        } else {
-            $input.val('');
-            $input.focus();
-        }
-    })
-</script>

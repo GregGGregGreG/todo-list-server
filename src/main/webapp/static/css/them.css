@@ -1,129 +1,211 @@
-#todo-list {
-    /*width: 600px;*/
+#tasks {
     margin: 0 auto;
     padding: 0;
 }
 
+/*Input group*/
+#tasks .input-group {
+    width: 100%;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.1s linear;
+}
+
+#input {
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #8a9a9b;
+    resize: none;
+}
+
 #task-list {
-    /*width: 600px;*/
     margin: 20px auto;
     padding: 0;
 }
 
-#task-list > li:hover {
-    border-top: 1px solid #269abc;
-    border-right: 5px solid #ffaeac;
+#message-user {
+    color: #38393e;
 }
 
-.input-group {
-    width: 100%;
-    border: 1px solid #d8d8d8;
-    border-radius: 8px;
-    padding: 12px;
-    background: #f5f5f5;
-    border-left: 3px solid #c0a5d6;
+/*------------------------*/
+/*Task list item*/
+/*All items*/
+#task-list .list-group-item {
+    margin: 1px;
+    padding: 0;
 }
 
+#task-list .list-group-item:hover {
+    border: 1px solid #9bbbe1;
+    cursor: pointer;
+}
 
-
-#task {
+/*New Task*/
+#tasks-list-desc {
     overflow: auto;
     word-wrap: break-word;
     display: inline-block;
 }
 
-#task.task-done {
-    margin-bottom: 0;
-    text-decoration: line-through;
-}
-
-#edit-task {
+#tasks-list-edit-desc {
     display: none;
-    border-radius: 5px;
     border: none;
-
-    -webkit-transition: height 0.2s;
-    -moz-transition: height 0.2s;
-    transition: height 0.2s;
-
     resize: none;
 }
 
-#task,
-#edit-task {
-    padding: 0;
-    margin-left: 70px;
-    margin-bottom: 13px;
-    margin-top: 1px;
-    width: 80%;
+#tasks-list-desc,
+#tasks-list-edit-desc {
+    padding: 2px;
+    margin-top: 20px;
+    width: 82%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #8a9a9b;
 }
 
-#date {
-    position: absolute;
-    bottom: 2px;
-    left: 85px;
-    font-size: 12px;
+/*Date create*/
+#tasks-list-date {
+    font-size: 10px;
     color: #898989;
-    cursor: default;
-    z-index: 1000;
 }
 
-#input {
-    margin-bottom: 10px;
+#tasks-list-desc,
+#tasks-list-edit-desc,
+#tasks-list-date {
+    margin-left: 80px;
 }
 
-#btn-add {
-    font-size: 12px;
-    font-weight: 500;
-
-}
-
-#btn-add, #btn-done, #btn-update, #btn-remove {
+/*Task done*/
+#task-list .task-done {
+    margin-bottom: 0;
+    text-decoration: line-through;
+    font-weight: bold;
+    color: #34bf6e;
     cursor: pointer;
 }
 
-#btn-update {
-    display: none;
-    position: absolute;
-    top: 5px;
-    left: 35px;
-    border: none;
+/*Button*/
+/*button add new task */
+#btn-add {
+    font-size: 13px;
 }
 
+/*button done task*/
+/*Style cd*/
+.tasks-list-cb {
+    display: none;
+}
+
+.tasks-list-mark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #c4cbd2;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.tasks-list-mark:before {
+    content: '';
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -5px 0 0 -6px;
+    height: 8px;
+    width: 11px;
+    border: solid #39ca74;
+    border-width: 0 0 4px 4px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.tasks-list-cb:checked ~ .tasks-list-mark {
+    border-color: #39ca74;
+}
+
+.tasks-list-cb:checked ~ .tasks-list-mark:before {
+    display: block;
+}
+
+.tasks-list-desc {
+    font-weight: bold;
+    color: #8a9a9b;
+}
+
+.tasks-list-cb:checked ~ .tasks-list-desc {
+    color: #34bf6e;
+    text-decoration: line-through;
+}
+/*-----------------------*/
+/*button update task*/
+#btn-update {
+    border: none;
+    position: absolute;
+    top: 35px;
+    left: 5px;
+    padding: 0;
+    font-size: 20px;
+}
+
+/*button remove task*/
 #btn-remove {
     padding: 0;
     margin: 0;
-    width: 18px;
-    height: 17px;
-    border-radius: 20px;
-    border: none;
-    display: none;
     position: absolute;
-    top: 10px;
-    right: 25px;
-}
-
-.glyphicon.glyphicon-remove {
+    top: 2px;
+    right: 5px;
+    border: none;
+    font-size: 13px;
     color: #ffaeac;
-
 }
 
-.glyphicon.glyphicon-remove:hover {
+#btn-remove:hover {
     color: #ff464a;
 }
 
-#btn-done {
+/*hide task list item button */
+#btn-done, #btn-update, #btn-remove {
     display: none;
+}
+
+/*MINI AVATAR*/
+.mini-avatar-img{
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top:5px;
+    left: 34px;
+    height:35px;
+    width: 35px;
+    border-radius: 2px;
 }
 
-#message-user {
-    color: #38393e;
-
+.mini-avatar-user-name{
+    position: absolute;
+    top:-2px;
+    left: 80px;
+    height:35px;
+    width: 35px;
+    border-radius: 2px;
+    color: #116aff;
+    font-size: 13px;
 }
 
-.glyphicon {
-    font-size: 20px;
+/*HEADER*/
+.td-subtitle {
+    font-weight: normal;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
 }
