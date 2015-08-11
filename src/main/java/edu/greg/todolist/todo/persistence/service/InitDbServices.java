@@ -53,6 +53,19 @@ public class InitDbServices {
 
         userRepository.save(user);
 
+        User secondUser = new User();
+        secondUser.setName("grom");
+        secondUser.setEmail("2@mail.ru");
+
+        secondUser.setPassword(encoder.encode("123456"));
+        secondUser.setEnabled(true);
+
+        secondUser.setRoles(roles);
+
+        userRepository.save(secondUser);
+
+
+
         Task taskOne = new Task();
         taskOne.setPublishedDate(new Date());
         taskOne.setText("One");
