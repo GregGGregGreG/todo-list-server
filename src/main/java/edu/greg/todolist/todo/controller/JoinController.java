@@ -1,6 +1,6 @@
 package edu.greg.todolist.todo.controller;
 
-import edu.greg.todolist.todo.persistence.dto.UserDto;
+import edu.greg.todolist.todo.persistence.dto.RegistrationForm;
 import edu.greg.todolist.todo.persistence.dto.ValidationResponse;
 import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.UserService;
@@ -35,8 +35,8 @@ public class JoinController {
     private UserService userServices;
 
     @ModelAttribute("dto")
-    public UserDto constructUser() {
-        return new UserDto();
+    public RegistrationForm constructUser() {
+        return new RegistrationForm();
     }
 
     @RequestMapping("/join")
@@ -50,7 +50,7 @@ public class JoinController {
     }
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)
-    public ModelAndView doRegister(@Valid @ModelAttribute("dto") UserDto dto,
+    public ModelAndView doRegister(@Valid @ModelAttribute("dto") RegistrationForm dto,
                                    BindingResult result,
                                    ModelMap model) {
         log.debug("Adding a new user entry with information: {}", dto);
@@ -67,7 +67,7 @@ public class JoinController {
 
     @RequestMapping(value = "/signup_check/username", method = RequestMethod.POST)
     @ResponseBody
-    public ValidationResponse signUpCheckUserName(@Valid @ModelAttribute("dto") UserDto dto,
+    public ValidationResponse signUpCheckUserName(@Valid @ModelAttribute("dto") RegistrationForm dto,
                                                   BindingResult result) {
         log.debug("Handle errors user entry: {}", result.hasErrors());
         return getFieldError(result, NAME_FIELD);
@@ -75,7 +75,7 @@ public class JoinController {
 
     @RequestMapping(value = "/signup_check/email", method = RequestMethod.POST)
     @ResponseBody
-    public ValidationResponse signUpCheckEmail(@Valid @ModelAttribute("dto") UserDto dto,
+    public ValidationResponse signUpCheckEmail(@Valid @ModelAttribute("dto") RegistrationForm dto,
                                                BindingResult result) {
         log.debug("Handle errors user entry: {}", result.hasErrors());
         return getFieldError(result, EMAIL_FIELD);
