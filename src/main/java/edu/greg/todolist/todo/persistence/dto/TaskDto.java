@@ -18,6 +18,7 @@ public class TaskDto {
 
     private Integer id;
     private String text;
+    private String creater;
     private Date publishedDate;
     private Boolean isExecuted;
 
