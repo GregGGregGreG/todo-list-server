@@ -1,11 +1,13 @@
 package edu.greg.todolist.todo.controller;
 
 import edu.greg.todolist.todo.persistence.dto.TaskDto;
+import edu.greg.todolist.todo.persistence.dto.UserDto;
 import edu.greg.todolist.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.todolist.todo.persistence.exception.UserNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Task;
 import edu.greg.todolist.todo.persistence.model.User;
 import edu.greg.todolist.todo.persistence.service.TaskService;
+import edu.greg.todolist.todo.persistence.service.UserService;
 import edu.greg.todolist.todo.util.TodoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -26,18 +28,19 @@ public class TodoAPI {
 
     private static final String PUBLISHED_DATE_FIELD = "publishedDate";
     private static final int MAX_COUNT_FIELD_RETURNED = 10;
+    private static final PageRequest filter = new PageRequest(0, MAX_COUNT_FIELD_RETURNED, Sort.Direction.ASC, PUBLISHED_DATE_FIELD);
 
     @Resource
     private TaskService taskService;
 
+    @Resource
+    private UserService userService;
+
 
     @RequestMapping(value = "/api/todo", method = RequestMethod.GET)
     @ResponseBody
-    public List<TaskDto> findAllTaskByEmail() throws UserNotFoundException {
+    public List<TaskDto> findAllTaskByUser() throws UserNotFoundException {
         User found = TodoUtils.getCurrentUser();
-
-        PageRequest filter = new PageRequest(0, MAX_COUNT_FIELD_RETURNED, Sort.Direction.ASC, PUBLISHED_DATE_FIELD);
-        log.debug("Created filter from list : {}", filter);
 
         log.debug("Finding task list entry with user: {}", found);
         List<Task> models = taskService.findAllByUser(found, filter);
@@ -79,6 +82,15 @@ public class TodoAPI {
         Task deleted = taskService.deleteById(id);
         log.debug("Deleted model : {}", deleted);
         return TodoUtils.createDtoTask(deleted);
+    }
+
+    @RequestMapping(value = "/api/all_search", method = RequestMethod.POST)
+    @ResponseBody
+    public List<UserDto> all_search(@RequestBody UserDto dto) throws TaskNotFoundException {
+        log.debug("Find user begins with: {}", dto.getName());
+        List<User> found = userService.finByNameStartingWith(dto.getName());
+        log.debug("Found user-list entry: {}", found);
+        return TodoUtils.createDtoUserList(found);
     }
 
 }
