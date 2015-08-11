@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 public class CustomUserDetailsServiceFromFindByName implements UserDetailsService {
 
     @Autowired
-    private UserRepository userService;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String name)
             throws UsernameNotFoundException {
 
-        User user = userService.findByName(name);
+        User user = userRepository.findByName(name);
 
         if (user == null) {
             throw new UsernameNotFoundException("Not found user by name: " + name);
