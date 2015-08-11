@@ -1,7 +1,7 @@
 package edu.greg.todolist.todo.persistence.service;
 
 
-import edu.greg.todolist.todo.persistence.dto.UserDto;
+import edu.greg.todolist.todo.persistence.dto.RegistrationForm;
 import edu.greg.todolist.todo.persistence.exception.UserNotFoundException;
 import edu.greg.todolist.todo.persistence.model.Role;
 import edu.greg.todolist.todo.persistence.model.User;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static edu.greg.todolist.todo.util.TodoRole.USER;
@@ -33,7 +34,7 @@ public class DefaultUserService implements UserService {
     private RoleRepository roleRepository;
 
     @Override
-    public User add(UserDto added) {
+    public User add(RegistrationForm added) {
         log.debug("Adding a new user entry with information: {}", added);
 
         Set<Role> roles = new HashSet<>();
@@ -79,6 +80,15 @@ public class DefaultUserService implements UserService {
         if (found == null) {
             throw new UserNotFoundException("No user-entry found with email: " + email);
         }
+
+        return found;
+    }
+
+    @Override
+    public List<User> finByNameStartingWith(String symbols) {
+        log.debug("Find user begins with: {}", symbols);
+        List<User> found = userRepository.findByNameStartingWith(symbols);
+        log.debug("Found user-list entry: {}", found);
 
         return found;
     }
