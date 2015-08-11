@@ -11,6 +11,7 @@
         margin-bottom: 20px;
     }
 </style>
+
 <div>
     <div class="row">
         <div class="col-md-3 account-wall ">
@@ -19,8 +20,6 @@
             </a>
 
             <p class="td-subtitle">Name: ${user.name}</p>
-
-            <p class="td-subtitle">Email: ${user.email}</p>
 
             <p class="td-subtitle">Join date: ${user.createdDate}</p>
         </div>
@@ -57,14 +56,27 @@
             placeholder='<spring:message code="label.todo.input.placeholder"/>'
             rows='1'/>
         </textarea>
-        <button id='${'${'}btnAddItemId}'  class='btn btn-success btn-sm '>
-             <strong><spring:message code="label.todo.buttonAdd"/></strong>
-        </button>
-    </div>
-    <h3 id='${'${'}messageUserId}' class='text-center desc' style="display: none;"><spring:message
-        code="label.todo.messageFromUser"/><br>
-    <small><spring:message code="label.todo.messageFromUser.action"/> <strong class='text-primary'><spring:message
-        code="label.todo.messageFromUser.hotkey"/></strong></small></h3>
+        <div class="row">
+            <div class="col-md-5">
+                <button id='${'${'}btnAddItemId}'  class='btn btn-success btn-sm '>
+                    <strong><spring:message code="label.todo.buttonAdd"/></strong>
+                </button>
+                <p class="td-input-subtitle">From user:</p>
+            </div>
+            <div class="col-md-7 user-dropdown-menu">
+                 <input id="testAjax" class="form-control " placeholder="Search User">
+                 <ul class="dropdown-menu dropdown-menu-left"></ul>
+            </div>
+        </div>
+  </div>
+    <h3 id='${'${'}messageUserId}' class='text-center desc' style="display: none;">
+        <spring:message code="label.todo.messageFromUser"/><br>
+        <small><spring:message code="label.todo.messageFromUser.action"/>
+            <strong class='text-primary'>
+                <spring:message code="label.todo.messageFromUser.hotkey"/>
+            </strong>
+        </small>
+    </h3>
     <ul id='${'${'}taskListId}' class='${'${'}todoListClass}'></ul>
 </script>
 <script id="templateTaskListItem" type="text/x-jquery-tmpl">
@@ -103,4 +115,8 @@
 
         <span id='${'${'}btnRemoveTaskId}' class='glyphicon glyphicon-remove' data-toggle='tooltip' data-placement='top' title='Delete task'></span>
     </li>
+
+
+
+
 </script>
