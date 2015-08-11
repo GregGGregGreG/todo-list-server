@@ -49,10 +49,19 @@ public class TodoUtils {
         UserDto dto = new UserDto();
 
         dto.setName(model.getName());
-        dto.setEmail(model.getEmail());
         dto.setCreatedDate(model.getCreatedDate());
 
         return dto;
+    }
+
+    public static List<UserDto> createDtoUserList(List<User> models) {
+        List<UserDto> dtos = new ArrayList<>();
+
+        for (User user : models) {
+            dtos.add(createDtoUser(user));
+        }
+
+        return dtos;
     }
 
     public static TaskDto createDtoTask(Task model) {
@@ -60,6 +69,7 @@ public class TodoUtils {
 
         dto.setId(model.getId());
         dto.setText(model.getText());
+        dto.setCreater(model.getUser().getName());
         dto.setPublishedDate(model.getPublishedDate());
         dto.setIsExecuted(model.getIsExecuted());
 
@@ -75,5 +85,4 @@ public class TodoUtils {
 
         return dtos;
     }
-
 }
