@@ -10,25 +10,34 @@ $(document).ready(function () {
     //Config todo-list
     $('#tasks').todoList({
         templateTaskList: templateTaskList,
+        templateMessageUser: templateMessageUser,
         templateTaskListItem: templateTaskListItem,
         templateTaskListItemCompleted: templateTaskListItemCompleted,
         modalWindowDestroyTaskListItemId: 'destroyTaskModal',
-        modalWindowDestroyButtonDestroyId: 'delete'
+        modalWindowDestroyButtonDestroyId: 'delete',
+        btnShowAllTaskId: 'show-all-task',
+        btnShowAllAssignedTaskId: 'show-all-assigned-task',
+
+        todoApi:"http://localhost:8080/api/todo"
     });
 
     //Config add from user dropdown menu
     $(".user-dropdown-menu")
-        .delegate('#from-user', 'click', function () {
+        .delegate('#user-performer', 'click', function () {
             var value = $(this).text();
-            $(this).replaceWith('<input ' +
-                'id="testAjax" ' +
-                'type="text" ' +
-                'class="form-control" ' +
-                'placeholder="Search for..."' +
-                ' value=' + value + '>');
-        })
-        .delegate('#testAjax', 'keyup', function () {
-            var value = $('#testAjax').val();
+            if (value != '') {
+                $('#user-performer-label').remove();
+                $(this).replaceWith('<input ' +
+                    'id="user-performer" ' +
+                    'type="text" ' +
+                    'class="form-control" ' +
+                    'placeholder="Search User"' +
+                    'autofocus />');
+            }
+        }
+    )
+        .delegate('#user-performer', 'keyup', function () {
+            var value = $('#user-performer').val();
 
             if (value == '')value = ' ';
 
@@ -60,8 +69,8 @@ $(document).ready(function () {
         .delegate('.dropdown-menu li', 'click', function () {
             var value = $(this).text();
             //$('#testAjax').val(value);
-            $('#testAjax').replaceWith('<div id="from-user">' + value + '</div>');
-
+            $('#user-performer').replaceWith('<span id="user-performer-label">User performer : </span><span id="user-performer">' + value + '</span>');
+            $('#user-dropdown-menu').css('')
             $(".dropdown-menu").hide();
         });
 });
