@@ -44,6 +44,7 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE)
     private List<Task> tasks;
 
+    @Column(nullable = false)
     private Boolean enabled;
 
     public static Builder getBuilder(String name) {
