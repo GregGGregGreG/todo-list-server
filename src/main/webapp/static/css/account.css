@@ -1,0 +1,371 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /*background-color: #f5f8f9;*/
+    background: url("../images/bg.png") repeat;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+#tasks .footer {
+   margin-bottom: 10px;
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+.panel{
+    min-height: 565px;
+}
+#tasks {
+    margin: 0 auto;
+    padding: 0;
+}
+/*WALL*/
+.account-wall {
+    background: white;
+    border: 0 none;
+    border-radius: 4px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+/*Input group*/
+#tasks .input-group {
+    width: 100%;
+    padding: 12px;
+    /*background-image:url("../images/input-line.png");*/
+    /*background: #ffffff;*/
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 3px;*/
+    /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);*/
+    /*transition: box-shadow 0.1s linear;*/
+}
+
+#input {
+    margin-bottom: 10px;
+    /*font-size: 12px;*/
+    /*color: #8a9a9b;*/
+    resize: none;
+    border-radius: 2px;
+}
+
+/*.input-line {*/
+    /*background: url('../images/input-line.png') no-repeat 50% 0;*/
+    /*padding-bottom: 2px;*/
+/*}*/
+
+
+.colorgraph {
+    margin: 0;
+    height: 5px;
+    border-top: 0;
+    background: #c4e17f;
+    border-radius: 5px;
+    background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+}
+
+#task-list {
+    margin:0 auto;
+    padding: 0;
+}
+
+#message-user {
+    color: #38393e;
+}
+
+/*------------------------*/
+/*Task list item*/
+/*All items*/
+#task-list .list-group-item {
+    /*margin: 0;*/
+    padding: 0;
+    border-right: none;
+    border-left: none;
+}
+
+#task-list .list-group-item .input-group {
+    margin: 0;
+    padding: 0;
+}
+
+
+#task-list .list-group-item:hover {
+    /*border: 1px solid #9bbbe1;*/
+    /*cursor: pointer;*/
+}
+
+/*New Task*/
+#tasks-list-desc {
+    overflow: auto;
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+#tasks-list-edit-desc {
+    display: none;
+    border: none;
+    resize: none;
+}
+
+#tasks-list-desc,
+#tasks-list-edit-desc {
+    padding: 2px;
+    margin-top: 20px;
+    margin-bottom: -5px;
+    width: 100%;
+    font-size: 12px;
+    font-weight: bold;
+    /*color: #8a9a9b;*/
+    color: #4a4a4a;
+    cursor: text;
+}
+
+/*Date create*/
+#tasks-list-date {
+    font-size: 10px;
+    color: #898989;
+}
+
+#tasks-list-desc,
+#tasks-list-edit-desc,
+#tasks-list-date,
+.mini-avatar-user-name{
+    margin-left: 80px;
+}
+
+/*Task done*/
+#task-list .task-done {
+    margin-bottom: 0;
+    text-decoration: line-through;
+    font-weight: bold;
+    color: #34bf6e;
+    cursor: pointer;
+}
+
+/*Button*/
+/*button add new task */
+#btn-add {
+    font-size: 13px;
+    margin-bottom:10px;
+}
+
+/*button done task*/
+/*Style cd*/
+.tasks-list-cb {
+    display: none;
+}
+
+.tasks-list-mark {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #c4cbd2;
+    border-radius: 12px;
+    /*cursor: pointer;*/
+}
+
+.tasks-list-mark:before {
+    content: '';
+    display: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    margin: -5px 0 0 -6px;
+    height: 8px;
+    width: 11px;
+    border: solid #39ca74;
+    border-width: 0 0 4px 4px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.tasks-list-cb:checked ~ .tasks-list-mark {
+    border-color: #39ca74;
+}
+
+.tasks-list-cb:checked ~ .tasks-list-mark:before {
+    display: block;
+}
+
+.tasks-list-desc {
+    font-weight: bold;
+    color: #8a9a9b;
+}
+
+.tasks-list-cb:checked ~ .tasks-list-desc {
+    color: #34bf6e;
+    text-decoration: line-through;
+}
+/*-----------------------*/
+/*button update task*/
+#btn-update {
+    border: none;
+
+    position: absolute;
+    top: 35px;
+    left: 5px;
+
+    padding: 0;
+    font-size: 20px;
+    background:none;
+    margin-top: 2px;
+}
+
+/*button remove task*/
+#btn-remove {
+    padding: 0;
+    margin: 0;
+
+    position: absolute;
+    top: 2px;
+    right: 5px;
+
+    border: none;
+    font-size: 13px;
+    color: #ffaeac;
+}
+
+#btn-remove:hover {
+    color: #ff464a;
+}
+
+/*hide task list item button */
+#btn-done, #btn-update, #btn-remove {
+    display: none;
+}
+
+/*MINI AVATAR*/
+.mini-avatar-img{
+
+    position: absolute;
+    top:5px;
+    left: 34px;
+
+    margin-top: 5px;
+    height:35px;
+    width: 35px;
+    border-radius: 2px;
+}
+
+.mini-avatar-user-name{
+    position: absolute;
+    /*top:-2px;*/
+    /*left: 80px;*/
+    /*height:5px;*/
+    /*width: 35px;*/
+    border-radius: 2px;
+    color: #116aff;
+    font-size: 13px;
+}
+.user-perfomer-name{
+
+    position: absolute;
+    /*top:-2px;*/
+    left: 120px;
+    /*height:35px;*/
+    /*width: 35px;*/
+    border-radius: 2px;
+    color: #ffda81;
+    font-size: 13px;
+}
+
+
+
+/*HEADER*/
+.td-subtitle {
+    font-weight: normal;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+.td-input-subtitle {
+    display: inline;
+    font-weight: normal;
+    font-size: 14px;
+    color: #666;
+    text-align: left;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.modal-title{
+    font-size: 12px;
+}
+
+/*Dropdown menu from add user*/
+.user-dropdown-menu .dropdown-menu-left{
+
+    padding: 5px;
+}
+
+.user-dropdown-menu{
+    /*border-left: 2px solid silver;*/
+}
+
+span#user-performer{
+    padding: 5px;
+    border-radius: 7px;
+    background-color: #167fcf;
+    color: white;
+}
+#user-performer, #testAjax{
+    /*padding-left:0;*/
+    /*padding-top: 0;*/
+    /*color: #4a6bae;*/
+    /*font-size: 12px;*/
+    /*min-width: 162%;*/
+}
+
+/*SEARCH USER FIELD*/
+#custom-search-input{
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    /*background-color: #fff;*/
+    /*width: 70%;*/
+}
+
+#custom-search-input input{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    height: 5%;
+}
+
+#custom-search-input button{
+    margin: 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    /*font-size: 13px;*/
+}
