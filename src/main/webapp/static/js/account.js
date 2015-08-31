@@ -48,7 +48,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'post',
-                url: "http://localhost:8080/api/all_search",
+                url: window.location.origin+"/api/all_search",
                 headers: {
                     'Content-Type': 'application/json'
                 },
