@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.greg.spring</groupId>
     <artifactId>to-do-list</artifactId>
-    <version>1.0</version>
     <name>Spring To-Do List Server</name>
     <description>Spring To-Do List Server</description>
     <packaging>war</packaging>
+    <version>1.0.0-BUILD-SNAPSHOT</version>
     <properties>
         <!--Java Version-->
         <java-version>1.8</java-version>
@@ -33,7 +33,7 @@
         <!-- Spring Security -->
         <!-- Spring Data JPA -->
         <!-- Hibernate -->
-        <!-- JSR 303 VALIDATION -->
+        <!-- JSR 303 with Hibernate Validator -->
         <asm-version>3.3.1</asm-version>
         <!-- HSQL Database -->
         <!-- POSTGRESQL Database -->
@@ -103,10 +103,8 @@
             <version>${org.mortbay.jetty-util-version}</version>
         </dependency>
         <!-- Spring Core -->
-        <!--
-        Core utilities used by other modules.
-        Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)
-        -->
+        <!--Core utilities used by other modules.
+        Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -118,19 +116,15 @@
             </exclusions>
         </dependency>
         <!-- Spring MVC -->
-        <!--
-        Web application development utilities applicable to both Servlet and Portlet Environments
+        <!-- Web application development utilities applicable to both Servlet and Portlet Environments
         (depends on spring-core, spring-beans, spring-context)
-        Define this if you use Spring MVC, or wish to use Struts, JSF, or another web framework with Spring (org.springframework.web.*)
-        -->
+        Define this if you use Spring MVC, or wish to use Struts, JSF, or another web framework with Spring (org.springframework.web.*)-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
-        <!--
-        Spring MVC for Servlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
-        Define this if you use Spring MVC with a Servlet Container such as Apache Tomcat (org.springframework.web.servlet.*)
-        -->
+        <!-- Spring MVC for Servlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
+        Define this if you use Spring MVC with a Servlet Container such as Apache Tomcat (org.springframework.web.servlet.*)-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -171,7 +165,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
-        <!-- JSR 303 VALIDATION -->
+        <!-- JSR 303 with Hibernate Validator -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -229,10 +223,8 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--
-        Support for testing Spring applications with tools such as JUnit and TestNG
-        This artifact is generally always defined with a 'test' scope for the integration testing framework and unit testing stubs
-        -->
+        <!-- Support for testing Spring applications with tools such as JUnit and TestNG
+        This artifact is generally always defined with a 'test' scope for the integration testing framework and unit testing stubs -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -240,12 +232,8 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${org.eclipse.jetty-server-version}</version>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -296,6 +284,11 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${org.eclipse.jetty-server-version}</version>
             </plugin>
         </plugins>
     </build>
