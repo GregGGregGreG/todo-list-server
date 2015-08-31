@@ -1,5 +1,5 @@
 <%@include file="../layout/taglib.jsp" %>
-<div class="container">
+<div class="container main">
     <div class="row">
         <div class="col-md-3 account-wall ">
 
