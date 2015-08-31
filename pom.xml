@@ -3,76 +3,144 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>TodoListSpring</groupId>
-    <artifactId>TodoListSpring</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>todoListSpring</name>
+    <groupId>edu.greg.spring</groupId>
+    <artifactId>to-do-list</artifactId>
+    <version>1.0</version>
+    <name>Spring To-Do List Server</name>
+    <description>Spring To-Do List Server</description>
     <packaging>war</packaging>
-
     <properties>
-        <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
-        <maven.war.plugin.version>2.4</maven.war.plugin.version>
-
-        <junit.version>4.11</junit.version>
-
-        <tomcat7.maven.plugin.version>2.2</tomcat7.maven.plugin.version>
-        <jetty.maven.plugin>9.1.3.v20140225</jetty.maven.plugin>
-
-        <appache.tiles>3.0.3</appache.tiles>
-
-        <org.apache.cxf.version>2.2.3</org.apache.cxf.version>
-        <jstl.version>1.2</jstl.version>
-        <servlet.version>3.1.0</servlet.version>
-
-        <!--<jackson.version>2.4.5</jackson.version>-->
-
-        <hibernate.entitymanager>4.3.6.Final</hibernate.entitymanager>
-        <hibernate.core>4.3.1.Final</hibernate.core>
-        <hibernate.validator>5.2.0.Final</hibernate.validator>
-        <asm.version>3.3.1</asm.version>
-
-        <hsqldb>2.3.2</hsqldb>
-
-        <slf4j.version>1.7.7</slf4j.version>
-        <lombok.version>1.16.4</lombok.version>
-        <io.spring.platform.version>1.1.2.RELEASE</io.spring.platform.version>
+        <!--Java Version-->
+        <java-version>1.8</java-version>
+        <!--Maven Plugin-->
+        <maven-compiler-plugin-version>3.3</maven-compiler-plugin-version>
+        <maven-war-plugin-version>2.6</maven-war-plugin-version>
+        <maven-dependency-plugin-version>2.10</maven-dependency-plugin-version>
+        <!--Jetty Server-->
+        <org.eclipse.jetty-server-version>9.3.2.v20150730</org.eclipse.jetty-server-version>
+        <!-- Io Spring platform -->
+        <io.spring.platform-version>1.1.3.RELEASE</io.spring.platform-version>
+        <!-- Lombok -->
+        <!-- Apache Tiles -->
+        <!-- Spring REST Exception Handler -->
+        <jirutka.spring-rest-exception-handler-version>1.1.0</jirutka.spring-rest-exception-handler-version>
+        <!-- Jackson JSON Processor -->
+        <!-- Gzip filter -->
+        <org.mortbay.jetty-util-version>6.1.25</org.mortbay.jetty-util-version>
+        <!-- Spring Core -->
+        <!-- Spring MVC -->
+        <cglib-version>2.2.2</cglib-version>
+        <!-- Spring Security -->
+        <!-- Spring Data JPA -->
+        <!-- Hibernate -->
+        <!-- JSR 303 VALIDATION -->
+        <asm-version>3.3.1</asm-version>
+        <!-- HSQL Database -->
+        <!-- POSTGRESQL Database -->
+        <org.postgresql-version>9.4-1201-jdbc4</org.postgresql-version>
+        <!-- Servlet API 3.0 -->
+        <!-- Logging Dependencies -->
+        <!-- Testing Dependencies -->
+        <!-- Project Build Source Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencyManagement>
         <dependencies>
+            <!--The table below provides details of all of the artifacts that are part of Spring IO Platform.-->
+            <!--When you declare a dependency on one of these artifacts without declaring a version,-->
+            <!--the version that is listed in the table will be used.-->
+            <!--http://docs.spring.io/platform/docs/current/reference/htmlsingle/#appendix-dependency-versions-->
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>
-                <version>${io.spring.platform.version}</version>
+                <version>${io.spring.platform-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
-        <!--SPRING-->
+        <!-- Lombok -->
+        <!--Automatic Resource Management, automatic generation of getters, setters, equals, hashCode and toString, and more!-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Apache Tiles -->
+        <!--Templating framework for Java applications.-->
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-jsp</artifactId>
+        </dependency>
+        <!-- Spring REST Exception Handler -->
+        <dependency>
+            <groupId>cz.jirutka.spring</groupId>
+            <artifactId>spring-rest-exception-handler</artifactId>
+            <version>${jirutka.spring-rest-exception-handler-version}</version>
+        </dependency>
+        <!-- Jackson JSON Processor -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+        <!-- Gzip filter -->
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>${org.mortbay.jetty-util-version}</version>
+        </dependency>
+        <!-- Spring Core -->
+        <!--
+        Core utilities used by other modules.
+        Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)
+        -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <!-- Spring MVC -->
+        <!--
+        Web application development utilities applicable to both Servlet and Portlet Environments
+        (depends on spring-core, spring-beans, spring-context)
+        Define this if you use Spring MVC, or wish to use Struts, JSF, or another web framework with Spring (org.springframework.web.*)
+        -->
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
         </dependency>
+        <!--
+        Spring MVC for Servlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
+        Define this if you use Spring MVC with a Servlet Container such as Apache Tomcat (org.springframework.web.servlet.*)
+        -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib-version}</version>
         </dependency>
-
-        <!--SPRING SECURITY-->
+        <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
@@ -89,207 +157,149 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
         </dependency>
-
-        <!--COMON  LOGGING-->
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <!--COMMONS DCBP-->
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
-        </dependency>
-
-        <!--SPRING DATA-->
+        <!-- Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
-        <!--SPRING EXPRESSION-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-            <version>4.1.4.RELEASE</version>
-        </dependency>
-
-        <!--HIBERNATE-->
+        <!-- Hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.core}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.entitymanager}</version>
+        </dependency>
+        <!-- JSR 303 VALIDATION -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
         <!-- asm allows hibernate validator to retrieve method parameter names when reporting method validation
         without this you just get arg0 instead of argument name -->
         <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
-            <version>${asm.version}</version>
+            <version>${asm-version}</version>
         </dependency>
-        <!-- jsr303 validation -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator-cdi</artifactId>
-            <version>${hibernate.validator}</version>
-        </dependency>
-        <!--EL API-->
-        <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>javax.el-api</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>2.2.5</version>
-        </dependency>
-
-        <!--HSQLDB-->
+        <!-- HSQL Database -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>${hsqldb}</version>
         </dependency>
-
-        <!-- BoneCP -->
+        <!-- POSTGRESQL Database -->
         <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-            <version>0.7.1.RELEASE</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${org.postgresql-version}</version>
         </dependency>
-
-
-        <!--APACHE TILES-->
+        <!-- Servlet API 3.0 -->
         <dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-core</artifactId>
-            <version>${appache.tiles}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-jsp</artifactId>
-            <version>${appache.tiles}</version>
-        </dependency>
-
-        <!--LOGGER-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <!--WEB-->
-        <dependency>
-            <groupId>jstl</groupId>
+            <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <scope>provided</scope>
         </dependency>
+        <!-- Logging Dependencies -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.4.1</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.4.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.3.2</version>
-        </dependency>
-
-        <!--TEST-->
+        <!-- Testing Dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!--REST-->
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>${org.apache.cxf.version}</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
         </dependency>
-
-        <!--LOMBOK-->
+        <!--
+        Support for testing Spring applications with tools such as JUnit and TestNG
+        This artifact is generally always defined with a 'test' scope for the integration testing framework and unit testing stubs
+        -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>cz.jirutka.spring</groupId>
-            <artifactId>spring-rest-exception-handler</artifactId>
-            <version>1.1.0</version>
-        </dependency>
-
-
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.maven.plugin}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>${tomcat7.maven.plugin.version}</version>
+                <version>${org.eclipse.jetty-server-version}</version>
+                <configuration>
+                    <webAppSourceDirectory>${project.basedir}/src/target/TodoListSpring-1.0-SNAPSHOT.war
+                    </webAppSourceDirectory>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
+                <version>${maven-compiler-plugin-version}</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.plugin.version}</version>
+                <version>${maven-war-plugin-version}</version>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/src/main/webapp/static/node_modules/fonts</directory>
+                            <targetPath/>
+                            <filtering>true</filtering>
+                            <excludes>
+                                <exclude>**/*.woff</exclude>
+                                <exclude>**/*.woff2</exclude>
+                                <exclude>**/*.ttf</exclude>
+                            </excludes>
+                        </resource>
+                    </webResources>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin-version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.jetty</groupId>
+                                    <artifactId>jetty-runner</artifactId>
+                                    <version>${org.eclipse.jetty-server-version}</version>
+                                    <destFileName>jetty-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
