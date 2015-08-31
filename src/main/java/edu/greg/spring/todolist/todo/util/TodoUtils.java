@@ -21,14 +21,15 @@ import java.util.List;
 @Component
 public class TodoUtils {
 
-    private TodoUtils() {
-
-    }
-
     @Autowired
     private UserService userService;
 
     private static TodoUtils utils;
+
+
+    private TodoUtils() {
+
+    }
 
     @PostConstruct
     public void init() {
