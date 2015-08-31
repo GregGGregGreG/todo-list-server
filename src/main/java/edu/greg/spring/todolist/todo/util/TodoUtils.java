@@ -26,7 +26,6 @@ public class TodoUtils {
 
     private static TodoUtils utils;
 
-
     private TodoUtils() {
 
     }
