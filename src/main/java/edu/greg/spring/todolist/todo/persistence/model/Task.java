@@ -23,7 +23,7 @@ public class Task extends AbstractEntity {
     @Column(nullable = false, length = TEXT_MAX_LENGTH)
     private String text;
 
-    @Column(name = "published_date", nullable = false)
+    @Column(name = "published_date", unique = true, nullable = false)
     private Date publishedDate;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
@@ -33,6 +33,7 @@ public class Task extends AbstractEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User creator;
 
+    @Column(nullable = false)
     private String performer;
 
     public static Builder getBuilder(String text) {
