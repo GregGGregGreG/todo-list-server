@@ -18,7 +18,8 @@ $(document).ready(function () {
         btnShowAllTaskId: 'show-all-task',
         btnShowAllAssignedTaskId: 'show-all-assigned-task',
 
-        todoApi:"http://localhost:8080/api/todo"
+        todoApi: window.location.origin + "/api/todo",
+        todoApiShowAssignedTask: window.location.origin + '/api/todo_assigned',
     });
 
     //Config add from user dropdown menu
