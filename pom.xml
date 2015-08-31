@@ -245,10 +245,6 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${org.eclipse.jetty-server-version}</version>
-                <configuration>
-                    <webAppSourceDirectory>${project.basedir}/src/target/TodoListSpring-1.0-SNAPSHOT.war
-                    </webAppSourceDirectory>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
