@@ -18,7 +18,7 @@ import java.util.List;
 @ToString(exclude = "users")
 public class Role extends AbstractEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
