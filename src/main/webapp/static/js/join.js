@@ -8,12 +8,11 @@ $(document).ready(function () {
         });
     });
 
-    var validator = $('.registraionForm').validate({
+    $('.form-signin').validate({
         onkeyup: false,
         onfocusOut: true,
         focusInvalid: false,
         errorClass: "text-warning error-validation",
-//            errorElement: 'strong',
         rules: {
             name: {
                 required: true,
@@ -65,77 +64,65 @@ $(document).ready(function () {
             }
         },
         highlight: function (element) {
-            $(element).closest('.form-group').find(':first-child').addClass('text-danger');
+            var $form = $(element).closest('.form-group');
 
-            $(element).closest('.form-group')
+            $form
                 .removeClass('has-success')
                 .addClass('has-error');
 
-            $(element).closest('.form-group')
-                .find(' span .glyphicon.form-control-feedback')
+            $form.find(':first-child').addClass('text-danger');
+
+            $form
+                .find('span.glyphicon.form-control-feedback')
                 .removeClass('glyphicon-ok')
                 .addClass('glyphicon-exclamation-sign');
 
-            $(element).closest('.form-group').find('.fs-subtitle ').addClass('hide');
+            $form.find('.fs-subtitle ').addClass('hide');
         },
         success: function (element) {
-            $(element).closest('.form-group').find(':first-child').removeClass('text-danger');
+            var $form = $(element).closest('.form-group');
 
-            $(element).closest('.form-group')
+            $form
                 .removeClass('has-error')
                 .addClass('has-success');
 
-            $(element).closest('.form-group')
-                .find('span .glyphicon.form-control-feedback')
+            $form.find(':first-child').removeClass('text-danger');
+
+            $form
+                .find('span.glyphicon.form-control-feedback')
                 .addClass('glyphicon-ok')
                 .removeClass('glyphicon-exclamation-sign');
 
-            $(element).closest('.form-group').find('.fs-subtitle').removeClass('hide');
-            $(element).closest('.form-group').find('.error-validation').remove();
+            $form.find('.fs-subtitle').removeClass('hide');
+            $form.find('.error-validation').remove();
         }
     });
 
-    //Set footer style
-    $(function () {
-        $('html').css({
-            'position': 'relative',
-            'min-height': '100%'
-        });
-        /* Margin bottom by footer height */
-        $('body').css({
-            'margin-bottom': '60px'
-        });
-        $('footer').css({
-            'position': 'absolute',
-            'bottom': '10px',
-            'width': '100%'
-        });
-    });
     // show reset button imput
-    $('span.input-text input')
+    var animateTimeResetButton = 300;
+    $('.form-group input')
         .focus(function () {
+            var $form = $(this).closest('.form-group');
             //set position info-glyphicon
-            $(this).closest('span').find('.info-glyphicon').animate({
+            $form.find('.info-glyphicon').animate({
                 right: "+20px"
-            }, 300);
+            }, animateTimeResetButton);
 
-            $(this).closest('span').find('.reset-input').slideDown();
+            $form.find('.reset-input').slideDown();
         }).blur(function () {
+            var $form = $(this).closest('.form-group');
             //set position info-glyphicon
-            $(this).closest('span').find('.info-glyphicon').animate({
+            $form.find('.info-glyphicon').animate({
                 right: "5px"
-            }, 300);
+            }, animateTimeResetButton);
 
-            var $span = $(this).closest('span');
-
-            $span.find('.reset-input').slideUp();
+            $form.find('.reset-input').slideUp();
         });
-
 
     //reset-input action
     $('.reset-input').on('click', function () {
         //find input
-        var $input = $(this).closest('span').find('input');
+        var $input = $(this).closest('.form-group').find('input');
 
         if ($input.val() == '') {
             $input.blur();
@@ -146,23 +133,16 @@ $(document).ready(function () {
     });
 
     // bind key CTRL+ENTER from valid filed
-    $(".registraionForm").keydown(function (event) {
+    $(".form-signin").keydown(function (event) {
         if (event.ctrlKey && event.keyCode == 13) {
             (event.target).blur();
             (event.target).focus();
         }
     });
 
-
-
     // input field color
     $(function () {
         var $elements = $("input[type!='submit'], textarea, select");
-        $elements.each(function () {
-            if ($(this).val().trim() == '') {
-                $(this).css('background-color', '#fbfbfb ');
-            }
-        });
 
         $elements.focus(function () {
             $(this).css('background-color', '#fff');
