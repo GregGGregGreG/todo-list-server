@@ -6,10 +6,10 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/error/404.html</location>
+        <location>/error/404</location>
     </error-page>
 
     <error-page>
-        <location>/error.html</location>
+        <location>/error</location>
     </error-page>
 </web-app>
