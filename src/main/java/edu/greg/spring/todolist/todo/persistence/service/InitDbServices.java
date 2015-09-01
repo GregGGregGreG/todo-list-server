@@ -35,51 +35,51 @@ public class InitDbServices {
 
     @PostConstruct
     public void init() {
-        User user = new User();
-        user.setName("greg");
-        user.setEmail("1@mail.ru");
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
-        user.setPassword(encoder.encode("123456"));
-        user.setEnabled(true);
+        if (userRepository.findByName("greg") == null) {
+            User user = new User();
+            user.setName("greg");
+            user.setEmail("1@mail.ru");
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+            user.setPassword(encoder.encode("123456"));
+            user.setEnabled(true);
 
-        Role roleTest = new Role();
-        roleTest.setName("ROLE_USER");
-        roleRepository.save(roleTest);
+            Role roleTest = new Role();
+            roleTest.setName("ROLE_USER");
+            roleRepository.save(roleTest);
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleTest);
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleTest);
 
-        user.setRoles(roles);
+            user.setRoles(roles);
 
-        userRepository.save(user);
+            userRepository.save(user);
 
-        User secondUser = new User();
-        secondUser.setName("grom");
-        secondUser.setEmail("2@mail.ru");
+            User secondUser = new User();
+            secondUser.setName("grom");
+            secondUser.setEmail("2@mail.ru");
 
-        secondUser.setPassword(encoder.encode("123456"));
-        secondUser.setEnabled(true);
+            secondUser.setPassword(encoder.encode("123456"));
+            secondUser.setEnabled(true);
 
-        secondUser.setRoles(roles);
+            secondUser.setRoles(roles);
 
-        userRepository.save(secondUser);
+            userRepository.save(secondUser);
 
 
+            Task taskOne = new Task();
+            taskOne.setPublishedDate(new Date());
+            taskOne.setText("One");
+            taskOne.setIsExecuted(true);
+            taskOne.setCreator(user);
+            taskOne.setPerformer(user.getName());
+            taskRepository.save(taskOne);
 
-        Task taskOne = new Task();
-        taskOne.setPublishedDate(new Date());
-        taskOne.setText("One");
-        taskOne.setIsExecuted(true);
-        taskOne.setCreator(user);
-        taskOne.setPerformer(user.getName());
-        taskRepository.save(taskOne);
-
-        Task taskTwo = new Task();
-        taskTwo.setPublishedDate(new Date());
-        taskTwo.setText("Two");
-        taskTwo.setCreator(user);
-        taskTwo.setPerformer(user.getName());
-        taskRepository.save(taskTwo);
-
+            Task taskTwo = new Task();
+            taskTwo.setPublishedDate(new Date());
+            taskTwo.setText("Two");
+            taskTwo.setCreator(user);
+            taskTwo.setPerformer(user.getName());
+            taskRepository.save(taskTwo);
+        }
     }
 }
