@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by greg on 04.08.15.
@@ -55,15 +55,17 @@ public class TodoUtils {
     }
 
     public static List<UserDto> createDtoUserList(List<User> models) {
-        List<UserDto> dtos = new ArrayList<>();
-
-        for (User user : models) {
-            dtos.add(createDtoUser(user));
-        }
-
-        return dtos;
+        return models
+                .stream()
+                .map(TodoUtils::createDtoUser)
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Create task dto from task model.
+     * @param model The information of the task entry.
+     * @return The taskDto.
+     */
     public static TaskDto createDtoTask(Task model) {
         TaskDto dto = new TaskDto();
 
@@ -77,13 +79,15 @@ public class TodoUtils {
         return dto;
     }
 
+    /**
+     * Convert list taskModel to list taskDto
+     * @param models The information of the task list entry.
+     * @return The list with taskDto.
+     */
     public static List<TaskDto> createDtoTaskList(List<Task> models) {
-        List<TaskDto> dtos = new ArrayList<>();
-
-        for (Task task : models) {
-            dtos.add(createDtoTask(task));
-        }
-
-        return dtos;
+        return models
+                .stream()
+                .map(TodoUtils::createDtoTask)
+                .collect(Collectors.toList());
     }
 }
