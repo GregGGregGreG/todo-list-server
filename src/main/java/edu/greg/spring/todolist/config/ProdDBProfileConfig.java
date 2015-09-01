@@ -27,6 +27,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories("edu.greg.spring.todolist.todo.persistence.repository")
 @PropertySource("classpath:/profile/prod/dbConfig.properties")
+@PropertySource("classpath:application.properties")
 public class ProdDBProfileConfig {
 
     @Value("#{environment['hibernate.dialect']}")
