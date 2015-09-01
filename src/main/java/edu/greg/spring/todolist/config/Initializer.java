@@ -11,7 +11,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.*;
 import java.util.EnumSet;
 
-
 /**
  * Created by greg on 26.06.15.
  */
@@ -20,6 +19,7 @@ public class Initializer implements WebApplicationInitializer {
 
     private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
     private static final String DISPATCHER_SERVLET_MAPPING = "/";
+    private static final String DEFAULT_PROFILE = "prod";
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -36,7 +36,7 @@ public class Initializer implements WebApplicationInitializer {
         ctx.register(RestHandlerExceptionResolverConfig.class);
         ctx.register(WebSecurityConfig.class);
 //        Set Profile
-        ctx.getEnvironment().setActiveProfiles("dbManager");
+        ctx.getEnvironment().setActiveProfiles(DEFAULT_PROFILE);
 
         // Manage the lifecycle of the root appcontext
         servletContext.addListener(new ContextLoaderListener(ctx));
