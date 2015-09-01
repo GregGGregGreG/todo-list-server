@@ -57,19 +57,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         return configurer;
     }
 
-
-//    @Bean
-//    public WebContentInterceptor webContentInterceptor() {
-//        WebContentInterceptor interceptor = new WebContentInterceptor();
-//        interceptor.setCacheSeconds(345600);
-//        interceptor.setUseExpiresHeader(true);
-//        interceptor.setUseCacheControlHeader(true);
-//        interceptor.setUseCacheControlNoStore(true);
-////        interceptor.setAlwaysMustRevalidate();
-//
-//        return interceptor;
-//    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
@@ -77,12 +64,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("/static/")
                 .setCachePeriod(345600);
     }
-
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(webContentInterceptor());
-//    }
-
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
@@ -95,7 +76,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
                 mediaType("xml", MediaType.APPLICATION_XML).
                 mediaType("json", MediaType.APPLICATION_JSON);
     }
-
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
