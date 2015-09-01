@@ -283,8 +283,11 @@
                                 <artifactItem>
                                     <groupId>org.eclipse.jetty</groupId>
                                     <artifactId>jetty-runner</artifactId>
-                                    <version>${org.eclipse.jetty-server-version}</version>
                                     <destFileName>jetty-runner.jar</destFileName>
+                                    <configuration>
+                                        <jvmArgs>-Xmx128m -Xms200m -XX:PermSize=128m -XX:MaxPermSize=200m</jvmArgs>
+                                    </configuration>
+                                    <version>${org.eclipse.jetty-server-version}</version>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -294,6 +297,9 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArgs>-Xmx128m -Xms200m -XX:PermSize=128m -XX:MaxPermSize=200m</jvmArgs>
+                </configuration>
                 <version>${org.eclipse.jetty-server-version}</version>
             </plugin>
         </plugins>
