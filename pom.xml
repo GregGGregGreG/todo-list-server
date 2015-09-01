@@ -35,6 +35,7 @@
         <!-- Hibernate -->
         <!-- JSR 303 with Hibernate Validator -->
         <asm-version>3.3.1</asm-version>
+        <!-- Commons Database Connection Pool-->
         <!-- HSQL Database -->
         <!-- POSTGRESQL Database -->
         <org.postgresql-version>9.4-1201-jdbc4</org.postgresql-version>
@@ -180,6 +181,11 @@
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
             <version>${asm-version}</version>
+        </dependency>
+        <!-- Commons Database Connection Pool-->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
         </dependency>
         <!-- HSQL Database -->
         <dependency>
