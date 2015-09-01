@@ -1,7 +1,6 @@
 package edu.greg.spring.todolist.config;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.net.URISyntaxException;
 import java.util.Properties;
@@ -59,16 +57,6 @@ public class DevDBProfileConfig {
                 .setName(PROPERTY_NAME_DATABASE)
                 .setType(EmbeddedDatabaseType.HSQL)
                 .build();
-    }
-
-    @Profile("dbManager")
-    @PostConstruct
-    public void getDbManager() {
-        DatabaseManagerSwing.main(
-                new String[]{
-                        "--url", PROPERTY_NAME_DATABASE_URL,
-                        "--user", PROPERTY_NAME_DATABASE_USERNAME,
-                        "--password", PROPERTY_NAME_DATABASE_PASSWORD});
     }
 
     @Bean
