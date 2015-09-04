@@ -34,7 +34,7 @@ import java.util.Locale;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(value = "edu.greg.spring.todolist.todo")
+@ComponentScan(value = "edu.greg.spring.todo")
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     private static final String TILES_DEFINITION = "/WEB-INF/defs/general.xml";

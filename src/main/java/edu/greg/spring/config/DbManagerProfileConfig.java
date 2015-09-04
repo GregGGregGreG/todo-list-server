@@ -25,7 +25,7 @@ import java.util.Properties;
 @Configuration
 @Profile("dbManager")
 @EnableTransactionManagement
-@EnableJpaRepositories("edu.greg.spring.todolist.todo.persistence.repository")
+@EnableJpaRepositories("edu.greg.spring.todo.persistence.repository")
 @PropertySource("classpath:/profile/dev/dbConfig.properties")
 @PropertySource("classpath:application.properties")
 public class DbManagerProfileConfig {
