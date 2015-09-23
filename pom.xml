@@ -39,7 +39,7 @@
         <!-- HSQL Database -->
         <!-- POSTGRESQL Database -->
         <org.postgresql-version>9.4-1201-jdbc4</org.postgresql-version>
-        <!-- Servlet API 3.0 -->
+        <!-- Servlet API 3.0.1 -->
         <!-- Logging Dependencies -->
         <!-- Testing Dependencies -->
         <!-- Project Build Source Encoding -->
@@ -204,14 +204,11 @@
             <artifactId>postgresql</artifactId>
             <version>${org.postgresql-version}</version>
         </dependency>
-        <!-- Servlet API 3.0 -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
+        <!-- Servlet API 3.1 -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
