@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by greg on 01.07.15.
+ * @author greg
+ * @since 01.07.15
  */
 @Slf4j
 @Service
@@ -60,7 +61,7 @@ public class DefaultUserService implements UserService {
         log.debug("Finding a user entry with name: {}", name);
 
         User found = userRepository.findByName(name);
-        log.debug("Found task entry: {}", found);
+        log.debug("Found user entry: {}", found);
 
         if (found == null) {
             throw new UserNotFoundException("No user-entry found with name: " + name);
