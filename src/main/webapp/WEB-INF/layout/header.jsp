@@ -10,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="header-logo navbar-brand" href="<spring:url value="/" />"><spring:message code="spring.todo.list.title"/></a>
+                <a class="header-logo navbar-brand" href="<spring:url value="/" />"><span class="header-logo-img"></span><spring:message code="spring.todo.list.title"/></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse"><security:authorize access="! isAuthenticated()">
                 <ul class=" navbar-form navbar-right">
