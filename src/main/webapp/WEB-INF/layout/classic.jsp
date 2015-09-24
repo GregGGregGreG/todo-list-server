@@ -10,6 +10,7 @@
     <title><spring:message code="${titleKey}"/></title><c:forEach var="css" items="${stylesheets}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="<c:url value="${css}"/>"></c:forEach>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
 </head>
 <body><tiles:insertAttribute name="header"/>
 <tiles:insertAttribute name="body"/>

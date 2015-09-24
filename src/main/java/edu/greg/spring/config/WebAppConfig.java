@@ -35,12 +35,15 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @ComponentScan(value = "edu.greg.spring.todo")
+
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     private static final String TILES_DEFINITION = "/WEB-INF/defs/general.xml";
     private static final String MESSAGE_CONVERTS_DATE_FORMAT = "d MMMM yyyy | HH:mm:ss";
     private static final String MESSAGE_SOURCE_BASE_NAME = "i18n/messages";
     private static final String VALIDATION_MESSAGE_SOURCE_BASE_NAME = "i18n/ValidationMessages";
+    private static final String RESOURCES_LOCATION = "/static/";
+    private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
 
     @Bean
     public ViewResolver viewResolver() {
@@ -60,9 +63,10 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/static/**")
-                .addResourceLocations("/static/")
+                .addResourceHandler(RESOURCES_HANDLER)
+                .addResourceLocations(RESOURCES_LOCATION)
                 .setCachePeriod(345600);
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("/static/images/favicon.ico");
     }
 
     @Override

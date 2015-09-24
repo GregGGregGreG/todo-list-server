@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cacheControl()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/join/**", "/signup_check/**", "/static/**").permitAll()
+                .antMatchers("/join/**", "/signup_check/**", "/static/**","/favicon.ico").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
