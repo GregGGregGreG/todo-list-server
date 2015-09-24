@@ -1,12 +1,12 @@
 package edu.greg.spring.todo.persistence.service;
 
 import edu.greg.spring.todo.persistence.dto.TaskDto;
+import edu.greg.spring.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.spring.todo.persistence.exception.UserNotFoundException;
 import edu.greg.spring.todo.persistence.model.Task;
 import edu.greg.spring.todo.persistence.model.User;
 import edu.greg.spring.todo.persistence.repository.TaskRepository;
-import edu.greg.spring.todo.persistence.repository.UserRepository;
-import edu.greg.spring.todo.persistence.exception.TaskNotFoundException;
+import edu.greg.spring.todo.util.TodoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,31 +29,23 @@ public class DefaultTaskService implements TaskService {
     private TaskRepository taskRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Override
     public Task addTaskToUser(TaskDto added, User creator) throws UserNotFoundException {
         log.debug("Adding a new task entry with information: {} to user: {} ", added, creator);
-        User performer = new User();
+        String userPerformerName = validPerformer(added);
 
-        String userPerformerName = added.getPerformer();
-        if (userPerformerName.trim().equals("")) {
-            performer = creator;
-            log.debug("Make maker performer : {}", performer);
-        }else {
-            log.debug("Finding a user performer entry with name: {}", userPerformerName);
-            performer = userRepository.findByName(userPerformerName);
-            if (performer == null) {
-                throw new UserNotFoundException("User performer not found: " + userPerformerName);
-            }
-            log.debug("Found user performer entry: {}", performer);
-        }
+        log.debug("Finding a user performer entry with name: {}", userPerformerName);
+        User performer = userService.findByName(userPerformerName);
+        log.debug("Found user performer entry: {}", performer);
 
         Task model = Task.getBuilder(added.getText())
                 .creator(creator)
                 .performer(performer.getName())
                 .build();
 
+        log.debug("Save task model: {}", model);
         return taskRepository.save(model);
     }
 
@@ -121,5 +113,11 @@ public class DefaultTaskService implements TaskService {
         }
 
         return model;
+    }
+
+    private String validPerformer(TaskDto added) {
+        return added.getPerformer().trim().equals("")
+                ? TodoUtils.getCurrentUser().getName()
+                : added.getPerformer().trim();
     }
 }
