@@ -2,13 +2,13 @@ package edu.greg.spring.todo.controller;
 
 import edu.greg.spring.todo.persistence.dto.TaskDto;
 import edu.greg.spring.todo.persistence.dto.UserDto;
+import edu.greg.spring.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.spring.todo.persistence.exception.UserNotFoundException;
 import edu.greg.spring.todo.persistence.model.Task;
 import edu.greg.spring.todo.persistence.model.User;
 import edu.greg.spring.todo.persistence.service.TaskService;
-import edu.greg.spring.todo.util.TodoUtils;
-import edu.greg.spring.todo.persistence.exception.TaskNotFoundException;
 import edu.greg.spring.todo.persistence.service.UserService;
+import edu.greg.spring.todo.util.TodoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
