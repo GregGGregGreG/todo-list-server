@@ -20,7 +20,7 @@ import java.util.Set;
 public class User extends AbstractEntity {
 
     public static final int MIN_LENGTH_NAME = 3;
-    public static final int MAX_LENGTH_NAME = 5;
+    public static final int MAX_LENGTH_NAME = 50;
 
     public static final int MIN_LENGTH_PASSWORD = 5;
     public static final int MAX_LENGTH_PASSWORD = 1000;
