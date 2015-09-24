@@ -9,6 +9,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 80px;
 }
+
 .footer {
     position: absolute;
     bottom: 10px;
@@ -33,13 +34,14 @@ body {
 .form-signin input[type="text"],
 .form-signin input[type="password"] {
     padding: 18px 50px 18px 8px;
-    margin-bottom:10px;
+    /*margin-bottom:10px;/*/
     border-radius: 3px;
     width: 100%;
     box-sizing: border-box;
     font-size: 13px;
     background-color:#fbfbfb;
 }
+
 
 /*buttons*/
 .form-group .action-button {
@@ -98,3 +100,5 @@ body {
 .info-glyphicon {
     position: absolute;
 }
+
+
